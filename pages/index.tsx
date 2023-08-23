@@ -9,7 +9,7 @@ export default function Web() {
   return (
     <>
       <Head>
-        <title>Maple Boss</title>
+        <title>Maple Boss Web</title>
       </Head>
       <section className="flex flex-col gap-y-12 bg-main">
         <div className="flex h-40 w-80 items-center justify-center rounded-8 bg-white">
