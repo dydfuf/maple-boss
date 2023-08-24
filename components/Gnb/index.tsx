@@ -1,5 +1,7 @@
+import * as Popover from "@radix-ui/react-popover";
 import Image from "next/image";
 import Link from "next/link";
+import AlarmPopover from "./AlarmPopover";
 import Alarm from "@/public/images/Alarm.png";
 import MainLogo from "@/public/images/MainLogo.png";
 import Setting from "@/public/images/Setting.png";
@@ -32,14 +34,28 @@ export default function Gnb({ hideGnb }: Props) {
             </div>
             <div className="my-auto ml-auto flex gap-x-40">
               {SUB_MENU_LIST.map((submenu) => (
-                <Image
-                  key={submenu.src}
-                  src={submenu.src}
-                  width={32}
-                  height={32}
-                  alt={submenu.alt}
-                  className="cursor-pointer"
-                />
+                <Popover.Root key={submenu.src}>
+                  <Popover.Trigger asChild>
+                    <button>
+                      <Image
+                        key={submenu.src}
+                        src={submenu.src}
+                        width={32}
+                        height={32}
+                        alt={submenu.alt}
+                        className="cursor-pointer"
+                      />
+                    </button>
+                  </Popover.Trigger>
+                  <Popover.Portal>
+                    <Popover.Content
+                      className="rounded-16 py-30 px-20 w-320 bg-white shadow-md focus:shadow-lg"
+                      sideOffset={5}
+                    >
+                      {submenu.type === "alarm" && <AlarmPopover />}
+                    </Popover.Content>
+                  </Popover.Portal>
+                </Popover.Root>
               ))}
             </div>
           </div>
@@ -61,6 +77,6 @@ const MENU_LINK_LIST = [
 ];
 
 const SUB_MENU_LIST = [
-  { src: Setting.src, alt: "setting" },
-  { src: Alarm.src, alt: "alarm" },
+  { src: Setting.src, alt: "setting", type: "setting" },
+  { src: Alarm.src, alt: "alarm", type: "alarm" },
 ];
