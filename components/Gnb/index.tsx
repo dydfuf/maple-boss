@@ -12,19 +12,22 @@ interface Props {
 }
 
 export default function Gnb({ hideGnb }: Props) {
+
   return (
     <>
       {!hideGnb && (
         <header className="flex h-100 w-full border-b-1 border-main-2">
           <div className="mx-auto mt-10 flex w-full max-w-[1440px]">
-            <Image
-              src={MainLogo.src}
-              width={150}
-              height={65}
-              alt="MainLogo"
-              className="h-65 w-150"
-            />
-            <div className="ml-100 flex items-center gap-x-40">
+            <Link href="/">
+              <Image
+                src={MainLogo.src}
+                width={150}
+                height={65}
+                alt="MainLogo"
+                className="h-65 w-150"
+              />
+            </Link>
+            <div className="flex items-center ml-100 gap-x-40">
               {MENU_LINK_LIST.map((menu) => (
                 <Link key={menu.href} href={menu.href}>
                   <span className="text-22 font-bold text-white">
