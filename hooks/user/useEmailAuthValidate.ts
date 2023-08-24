@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { API_HOST } from "constants/common";
+import { CommonResponse } from "types/common";
 
 export default function useEmailAuthValidate() {
   const { mutateAsync, isLoading } = useMutation(
@@ -22,16 +23,11 @@ interface EmailAuthValidateParams {
 }
 
 interface EmailAuthValidateResponse {
-  error?: {
-    message: string;
-  };
-  emailAuth?: {
-    valid: boolean;
-  };
+  valid: boolean;
 }
 
 const emailAuthValidate = ({ email, code }: EmailAuthValidateParams) => {
-  return axios.post<EmailAuthValidateResponse>(
+  return axios.post<CommonResponse<EmailAuthValidateResponse>>(
     `${API_HOST}/api/email-auth/validate`,
     { email, code }
   );

@@ -65,20 +65,27 @@ export default function RegisterVerificationForm() {
           });
 
           // 인증 횟수 초과시 로그인 페이지로 이동한다.
-          if (data.error?.message) {
-            alert(data.error.message);
+          if (data.code === "F001") {
+            alert(data.message);
             router.push("/login");
             return;
           }
 
-          if (!data.emailAuth?.valid) {
+          // 인증 시간 만료
+          if (data.code === "F003") {
+            alert(data.message);
+            return;
+          }
+
+          if (!data.data.valid) {
             alert("인증 코드가 틀렸습니다.");
             return;
           }
 
-          if (data.emailAuth?.valid) {
+          if (data.data.valid) {
             const { data } = await createUser({ email: email as string });
-            if (data.user) {
+            if (data.data) {
+              console.log("hello");
               setIsUserCreated(true);
               setDialogOpen(true);
             }
