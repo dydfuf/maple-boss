@@ -75,25 +75,23 @@ export default function InvitedPartyMember() {
             })}
           </div>
         </div>
-        <div className="absolute">
-          {dialogType === "INVITE_MEMBER" && (
-            <InviteMemberDialog
-              onSubmit={async (email: string) => {
-                await inviteMember({ email });
-                setDialogOpen(false);
-                refetch();
-              }}
-            />
-          )}
-          {dialogType === "CANCEL_INVITE" && (
-            <CancelInvitePartyDialog
-              onConfirm={async () => {
-                await cancelInviteParty({ partyInviteId: cancelInvitePartyId });
-                refetch();
-              }}
-            />
-          )}
-        </div>
+        {dialogType === "INVITE_MEMBER" && (
+          <InviteMemberDialog
+            onSubmit={async (email: string) => {
+              await inviteMember({ email });
+              setDialogOpen(false);
+              refetch();
+            }}
+          />
+        )}
+        {dialogType === "CANCEL_INVITE" && (
+          <CancelInvitePartyDialog
+            onConfirm={async () => {
+              await cancelInviteParty({ partyInviteId: cancelInvitePartyId });
+              refetch();
+            }}
+          />
+        )}
       </div>
     </Dialog.Root>
   );

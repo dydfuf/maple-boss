@@ -6,7 +6,7 @@ interface Props {
 
 export default function CancelInvitePartyDialog({ onConfirm }: Props) {
   return (
-    <>
+    <Dialog.Portal>
       <Dialog.Overlay className="fixed inset-0 data-[state=open]:bg-black/[0.3]" />
       <Dialog.Content className="fixed left-1/2 top-1/2 max-h-[85vh] w-400 max-w-[450px] -translate-x-1/2 -translate-y-1/2 rounded-8 bg-white p-30 shadow-lg focus:outline-none">
         <div className="flex w-full flex-col items-center justify-center">
@@ -32,6 +32,6 @@ export default function CancelInvitePartyDialog({ onConfirm }: Props) {
           </div>
         </div>
       </Dialog.Content>
-    </>
+    </Dialog.Portal>
   );
 }

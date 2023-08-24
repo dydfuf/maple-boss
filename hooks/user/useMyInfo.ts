@@ -9,7 +9,7 @@ export default function useMyInfo() {
 
   const accessToken = sessionData?.accessToken || "";
 
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, refetch } = useQuery(
     ["my-info", accessToken],
     () => getMyInfo({ accessToken }),
     {
@@ -17,7 +17,7 @@ export default function useMyInfo() {
     }
   );
 
-  return { info: data?.data.data, isLoading };
+  return { info: data?.data.data, isLoading, refetch };
 }
 
 interface APIParams {

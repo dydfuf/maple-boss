@@ -2,6 +2,7 @@ import * as Popover from "@radix-ui/react-popover";
 import Image from "next/image";
 import Link from "next/link";
 import AlarmPopover from "./AlarmPopover";
+import UserInfoPopover from "./UserInfoPopover";
 import Alarm from "@/public/images/Alarm.png";
 import MainLogo from "@/public/images/MainLogo.png";
 import Setting from "@/public/images/Setting.png";
@@ -53,6 +54,7 @@ export default function Gnb({ hideGnb }: Props) {
                       sideOffset={5}
                     >
                       {submenu.type === "alarm" && <AlarmPopover />}
+                      {submenu.type === "user-info" && <UserInfoPopover />}
                     </Popover.Content>
                   </Popover.Portal>
                 </Popover.Root>
@@ -77,6 +79,6 @@ const MENU_LINK_LIST = [
 ];
 
 const SUB_MENU_LIST = [
-  { src: Setting.src, alt: "setting", type: "setting" },
+  { src: Setting.src, alt: "setting", type: "user-info" },
   { src: Alarm.src, alt: "alarm", type: "alarm" },
 ];
