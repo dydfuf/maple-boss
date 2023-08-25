@@ -35,17 +35,17 @@ export default function UserInfoPopover() {
         <div className="flex items-center justify-between">
           <span className="font-bold text-gray-900">{`${nickname} 님`}</span>
           <button className="p-8" onClick={handleSignOutClick}>
-            <span className="text-14 text-gray-400 font-semibold">
+            <span className="text-14 font-semibold text-gray-400">
               로그아웃
             </span>
           </button>
         </div>
-        <div className="mt-15 w-full flex flex-col gap-y-8">
+        <div className="mt-15 flex w-full flex-col gap-y-8">
           <button
             className="w-full rounded-4 bg-gray-200 px-16 py-8"
             onClick={handleNicknameChangeClick}
           >
-            <span className="text-14 text-gray-900 font-semibold">
+            <span className="text-14 font-semibold text-gray-900">
               닉네임 변경
             </span>
           </button>
@@ -53,7 +53,7 @@ export default function UserInfoPopover() {
             className="w-full rounded-4 bg-gray-200 px-16 py-8"
             onClick={handlePasswordChangeClick}
           >
-            <span className="text-14 text-gray-900 font-semibold">
+            <span className="text-14 font-semibold text-gray-900">
               비밀번호 변경
             </span>
           </button>

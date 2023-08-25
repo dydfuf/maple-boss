@@ -61,7 +61,7 @@ export default function PartyController() {
             </button>
           </>
         )}
-        <button className="flex shrink-0 h-26 w-60 items-center justify-center rounded-4 bg-purple-100 px-16 py-6">
+        <button className="flex h-26 w-60 shrink-0 items-center justify-center rounded-4 bg-purple-100 px-16 py-6">
           탈퇴
         </button>
       </div>

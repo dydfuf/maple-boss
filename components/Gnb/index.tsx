@@ -12,7 +12,6 @@ interface Props {
 }
 
 export default function Gnb({ hideGnb }: Props) {
-
   return (
     <>
       {!hideGnb && (
@@ -27,7 +26,7 @@ export default function Gnb({ hideGnb }: Props) {
                 className="h-65 w-150"
               />
             </Link>
-            <div className="flex items-center ml-100 gap-x-40">
+            <div className="ml-100 flex items-center gap-x-40">
               {MENU_LINK_LIST.map((menu) => (
                 <Link key={menu.href} href={menu.href}>
                   <span className="text-22 font-bold text-white">
@@ -53,7 +52,7 @@ export default function Gnb({ hideGnb }: Props) {
                   </Popover.Trigger>
                   <Popover.Portal>
                     <Popover.Content
-                      className="rounded-16 py-30 px-20 w-320 bg-white shadow-md focus:shadow-lg"
+                      className="w-320 rounded-16 bg-white px-20 py-30 shadow-md focus:shadow-lg"
                       sideOffset={5}
                     >
                       {submenu.type === "alarm" && <AlarmPopover />}
