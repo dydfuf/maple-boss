@@ -1,6 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
-import { API_HOST } from "constants/common";
+import { customedAxios } from "hooks/api/customedAxios";
 
 export default function useEmailAuth() {
   const { mutateAsync, isLoading } = useMutation(
@@ -20,5 +19,5 @@ interface SendEmailParams {
 }
 
 const sendEmail = ({ email }: SendEmailParams) => {
-  return axios.post(`${API_HOST}/api/email-auth`, { email });
+  return customedAxios.post('/api/email-auth', { email });
 };

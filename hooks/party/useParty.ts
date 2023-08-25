@@ -1,8 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { customedAxios } from "hooks/api/customedAxios";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
-import { API_HOST } from "constants/common";
 import { CommonResponse } from "types/common";
 
 export default function useParty() {
@@ -47,8 +46,8 @@ interface Party {
 }
 
 const getPartyList = ({ accessToken }: GetPartyListParams) => {
-  return axios.get<CommonResponse<GetPartyListResponse>>(
-    `${API_HOST}/api/party?page=0&size=100`,
+  return customedAxios.get<CommonResponse<GetPartyListResponse>>(
+    '/api/party?page=0&size=100',
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,

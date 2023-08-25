@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { customedAxios } from "hooks/api/customedAxios";
 import { useSession } from "next-auth/react";
-import { API_HOST } from "constants/common";
 import { CommonResponse } from "types/common";
 
 interface Params {
@@ -42,8 +41,8 @@ interface GetPArtyDetailResponse {
 }
 
 const getPartyDetail = ({ accessToken, partyId }: GetPartyDetailParams) => {
-  return axios.get<CommonResponse<GetPArtyDetailResponse>>(
-    `${API_HOST}/api/party/get-party?partyId=${partyId}`,
+  return customedAxios.get<CommonResponse<GetPArtyDetailResponse>>(
+    `/api/party/get-party?partyId=${partyId}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,

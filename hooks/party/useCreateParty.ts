@@ -1,8 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import { useSession } from "next-auth/react";
-import { API_HOST } from "constants/common";
 import { CommonResponse } from "types/common";
+import { customedAxios } from "hooks/api/customedAxios";
 
 export default function useCreateParty() {
   const { data: sessionData } = useSession({ required: true });
@@ -45,8 +44,8 @@ interface APIParams {
 }
 
 const sendCreateParty = ({ name, description, accessToken }: APIParams) => {
-  return axios.post<CommonResponse<APIResponse>>(
-    `${API_HOST}/api/party`,
+  return customedAxios.post<CommonResponse<APIResponse>>(
+    '/api/party',
     { name, description },
     {
       headers: {

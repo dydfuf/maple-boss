@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { customedAxios } from "hooks/api/customedAxios";
 import { useSession } from "next-auth/react";
-import { API_HOST } from "constants/common";
 import { CommonResponse } from "types/common";
 
 export default function useMyInfo() {
@@ -32,8 +31,8 @@ interface APIResponse {
 }
 
 const getMyInfo = ({ accessToken }: APIParams) => {
-  return axios.get<CommonResponse<APIResponse>>(
-    `${API_HOST}/api/user/my-info`,
+  return customedAxios.get<CommonResponse<APIResponse>>(
+    '/api/user/my-info',
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,

@@ -1,6 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
-import { API_HOST } from "constants/common";
+import { customedAxios } from "hooks/api/customedAxios";
 import { CommonResponse } from "types/common";
 
 export default function useCreateUser() {
@@ -32,8 +31,8 @@ interface SendCreateUserParams {
 }
 
 const sendCreateUser = ({ email }: SendCreateUserParams) => {
-  return axios.post<CommonResponse<SendCreateUserResponse>>(
-    `${API_HOST}/api/user`,
+  return customedAxios.post<CommonResponse<SendCreateUserResponse>>(
+    '/api/user',
     { email }
   );
 };

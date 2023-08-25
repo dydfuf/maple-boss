@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { API_HOST } from "constants/common";
+import { customedAxios } from "hooks/api/customedAxios";
 import { useSession } from "next-auth/react";
 import { CommonResponse } from "types/common";
 
@@ -37,8 +36,8 @@ const getSettlementCount = ({
   accessToken,
   partyId,
 }: GetSettlementCountParams) => {
-  return axios.get<CommonResponse<GetSettlementCountResponse>>(
-    `${API_HOST}/api/party-settlement/get-count?partyId=${partyId}`,
+  return customedAxios.get<CommonResponse<GetSettlementCountResponse>>(
+    `/api/party-settlement/get-count?partyId=${partyId}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,

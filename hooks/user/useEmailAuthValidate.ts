@@ -1,6 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
-import { API_HOST } from "constants/common";
+import { customedAxios } from "hooks/api/customedAxios";
 import { CommonResponse } from "types/common";
 
 export default function useEmailAuthValidate() {
@@ -27,8 +26,8 @@ interface EmailAuthValidateResponse {
 }
 
 const emailAuthValidate = ({ email, code }: EmailAuthValidateParams) => {
-  return axios.post<CommonResponse<EmailAuthValidateResponse>>(
-    `${API_HOST}/api/email-auth/validate`,
+  return customedAxios.post<CommonResponse<EmailAuthValidateResponse>>(
+    '/api/email-auth/validate',
     { email, code }
   );
 };

@@ -1,9 +1,8 @@
-import axios from "axios";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { API_HOST } from "constants/common";
 import { env } from "env.mjs";
 import { CommonResponse } from "types/common";
+import { customedAxios } from "hooks/api/customedAxios";
 
 export default NextAuth({
   // https://next-auth.js.org/configuration/providers
@@ -94,8 +93,8 @@ interface LoginResponse {
 }
 
 const sendLogin = ({ email, password }: LoginParams) => {
-  return axios.post<CommonResponse<LoginResponse>>(
-    `${API_HOST}/api/auth/login`,
+  return customedAxios.post<CommonResponse<LoginResponse>>(
+    '/api/auth/login',
     { email, password }
   );
 };
@@ -113,8 +112,8 @@ const rotateRefreshToken = ({
   accessToken,
   refreshToken,
 }: RotateRefreshTokenParams) => {
-  return axios.post<CommonResponse<RotateRefreshTokenResponse>>(
-    `${API_HOST}/api/auth/refresh-access-token`,
+  return customedAxios.post<CommonResponse<RotateRefreshTokenResponse>>(
+    '/api/auth/refresh-access-token',
     {
       accessToken,
       refreshToken,

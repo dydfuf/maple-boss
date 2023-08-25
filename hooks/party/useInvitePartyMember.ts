@@ -1,7 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import { customedAxios } from "hooks/api/customedAxios";
 import { useSession } from "next-auth/react";
-import { API_HOST } from "constants/common";
 import { CommonResponse } from "types/common";
 
 interface Params {
@@ -39,8 +38,8 @@ interface APIParams {
 }
 
 const sendCreateParty = ({ email, partyId, accessToken }: APIParams) => {
-  return axios.post<CommonResponse<null>>(
-    `${API_HOST}/api/party-invite`,
+  return customedAxios.post<CommonResponse<null>>(
+    '/api/party-invite',
     { email, partyId },
     {
       headers: {
