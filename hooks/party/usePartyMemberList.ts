@@ -12,7 +12,7 @@ export default function usePartyMemberList({ partyId }: Params) {
 
   const accessToken = sessionData?.accessToken || "";
 
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, refetch } = useQuery(
     ["party-member-list", partyId],
     () => getPartyMemberList({ accessToken, partyId }),
     {
@@ -20,7 +20,7 @@ export default function usePartyMemberList({ partyId }: Params) {
     }
   );
 
-  return { members: data?.data.data.members || [], isLoading: isLoading };
+  return { members: data?.data.data.members || [], isLoading: isLoading, refetch, };
 }
 
 interface APIParams {
