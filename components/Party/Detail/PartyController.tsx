@@ -1,6 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import useChangeLeader from "hooks/party/useChangeLeader";
 import usePartyDetail from "hooks/party/usePartyDetail";
 import useUpdatePartyDetail from "hooks/party/useUpdatePartyDetail";
 import ChangeLeaderDialog from "./ChangeLeaderDialog";
@@ -16,6 +17,7 @@ export default function PartyController() {
     description: "",
   };
 
+  const { changeLeader } = useChangeLeader({ partyId: Number(partyId) });
   const { updateParty } = useUpdatePartyDetail({ partyId: Number(partyId) });
 
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -48,7 +50,13 @@ export default function PartyController() {
             initialPartyDescription={description}
           />
         )}
-        {dialogType === "CHANGE_LEADER" && <ChangeLeaderDialog />}
+        {dialogType === "CHANGE_LEADER" && (
+          <ChangeLeaderDialog
+            onSubmit={async (memberId: number) => {
+              await changeLeader({ memberId });
+            }}
+          />
+        )}
       </div>
       <div className="flex items-center gap-x-20 text-14 font-semibold text-white">
         {isLeader && (
