@@ -57,6 +57,15 @@ module.exports = {
         "red-100": {
           DEFAULT: "#C13E31",
         },
+        "yellow-100": {
+          DEFAULT: "#EEB524",
+        },
+        "blue-100": {
+          DEFAULT: "#4398EC",
+        },
+        "green-100": {
+          DEFAULT: "#12AC79",
+        },
       },
       spacing,
       borderWidth,
