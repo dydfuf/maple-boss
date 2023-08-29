@@ -76,7 +76,7 @@ const MENU_LINK_LIST = [
   },
   {
     label: "정산",
-    href: "#정산",
+    href: "/settlement",
   },
 ];
 

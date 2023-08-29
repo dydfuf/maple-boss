@@ -26,7 +26,7 @@ export default function PartyListContent() {
     <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
       <div className="mt-40 grid grid-cols-1 gap-16 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
         <div
-          className="flex h-158 w-full cursor-pointer items-center justify-center border-1 border-white-100 bg-gray-200"
+          className="flex h-158 w-full cursor-pointer items-center justify-center rounded-8 border-1 border-white-100 bg-gray-200"
           onClick={() => setDialogOpen(true)}
         >
           <div className="flex items-center gap-x-8">
