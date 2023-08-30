@@ -105,7 +105,7 @@ export default function RegisterVerificationForm() {
           <div className="flex h-50 w-full items-center gap-x-4 rounded-8 border-1 border-white-100 bg-white px-16 text-14 font-normal text-gray-500">
             <Form.Control asChild>
               <input
-                className="flex h-full w-full items-center"
+                className="flex h-full w-full items-center focus:outline-none"
                 type="email"
                 required
                 placeholder="이메일을 입력해주세요"
@@ -117,8 +117,9 @@ export default function RegisterVerificationForm() {
               <button
                 className="text-14 font-semibold text-gray-900"
                 onClick={async () => {
-                  if (!isValidEmail(email)) {
-                    alert("유효한 이메일을 입력해주세요");
+                  const errorMsg = getErrorMsg(email);
+                  if (errorMsg) {
+                    alert(errorMsg);
                     return;
                   }
                   sendEmailAuth({ email });
@@ -146,7 +147,7 @@ export default function RegisterVerificationForm() {
           <div className="flex h-50 w-full items-center gap-x-4 rounded-8 border-1 border-white-100 bg-white px-16 text-14 font-normal text-gray-500">
             <Form.Control asChild>
               <input
-                className="flex h-full w-full items-center"
+                className="flex h-full w-full items-center focus:outline-none"
                 required
                 placeholder="인증코드를 입력해주세요"
               />
@@ -178,7 +179,13 @@ export default function RegisterVerificationForm() {
   );
 }
 
-const isValidEmail = (email: string) => {
+const getErrorMsg = (email: string) => {
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-  return emailRegex.test(email);
+  if (email.length > 30) {
+    return '이메일은 30자 이내로 입력해주세요';
+  } else if (!emailRegex.test(email)) {
+    return '유효한 이메일을 입력해주세요';
+  } else {
+    return '';
+  }
 };
