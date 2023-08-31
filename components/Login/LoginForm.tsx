@@ -1,18 +1,15 @@
 import * as Form from "@radix-ui/react-form";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
-import { RefObject, useRef, useState } from "react";
+import { useState } from "react";
 
 export default function LoginForm() {
   const router = useRouter();
   const [isError, setIsError] = useState(false);
 
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-
   const { callbackUrl } = router.query;
   const _callbackUrl = (callbackUrl as string) || "/";
-  
+
   return (
     <Form.Root
       className="mt-30 flex w-full flex-col gap-y-8"
@@ -34,7 +31,7 @@ export default function LoginForm() {
           password,
           redirect: false,
         });
-        
+
         if (response?.ok) {
           router.push(_callbackUrl);
         }
@@ -114,6 +111,5 @@ const getErrorMsg = (
     return "패스워드는 100자 이내로 입력해주세요";
   } else {
     return "";
-
   }
 };

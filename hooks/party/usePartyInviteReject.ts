@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { customedAxios } from "hooks/api/customedAxios";
 import { useSession } from "next-auth/react";
+import { customedAxios } from "hooks/api/customedAxios";
 import { CommonResponse } from "types/common";
 
 export default function usePartyInviteReject() {
@@ -34,7 +34,7 @@ interface APIParams {
 
 const sendPartyInviteReject = ({ partyInviteId, accessToken }: APIParams) => {
   return customedAxios.post<CommonResponse<null>>(
-    '/api/party-invite/reject',
+    "/api/party-invite/reject",
     { partyInviteId },
     {
       headers: {

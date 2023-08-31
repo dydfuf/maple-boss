@@ -182,10 +182,10 @@ export default function RegisterVerificationForm() {
 const getErrorMsg = (email: string) => {
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   if (email.length > 30) {
-    return '이메일은 30자 이내로 입력해주세요';
+    return "이메일은 30자 이내로 입력해주세요";
   } else if (!emailRegex.test(email)) {
-    return '유효한 이메일을 입력해주세요';
+    return "유효한 이메일을 입력해주세요";
   } else {
-    return '';
+    return "";
   }
 };

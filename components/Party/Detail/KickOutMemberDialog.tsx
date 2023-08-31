@@ -3,12 +3,15 @@ import * as Form from "@radix-ui/react-form";
 import { useState } from "react";
 
 interface Props {
-  onSubmit: (email: string, memberEmail:string) => void;
+  onSubmit: (email: string, memberEmail: string) => void;
   kickOutMemberEmail: string;
 }
 
-export default function KickOutMemberDialog({ onSubmit, kickOutMemberEmail }: Props) {
-    const [isMismatch, setIsMismatch] = useState<boolean>(true);
+export default function KickOutMemberDialog({
+  onSubmit,
+  kickOutMemberEmail,
+}: Props) {
+  const [isMismatch, setIsMismatch] = useState<boolean>(true);
 
   return (
     <Dialog.Portal>
@@ -33,7 +36,9 @@ export default function KickOutMemberDialog({ onSubmit, kickOutMemberEmail }: Pr
               <div className="flex items-baseline justify-between">
                 <Form.Label className="mb-2 flex h-24 items-center px-8 text-13 font-normal leading-13 text-gray-500">
                   <span>강퇴를 원하시면</span>
-                  <span className="text-purple-100 font-semibold">&nbsp;이메일</span>
+                  <span className="font-semibold text-purple-100">
+                    &nbsp;이메일
+                  </span>
                   <span>을 입력하세요</span>
                 </Form.Label>
                 <Form.Message className="text-10" match="valueMissing">
@@ -46,7 +51,9 @@ export default function KickOutMemberDialog({ onSubmit, kickOutMemberEmail }: Pr
                   type="email"
                   required
                   placeholder="이메일을 입력해주세요"
-                  onChange={(e) => setIsMismatch((e.target.value !== kickOutMemberEmail))}
+                  onChange={(e) =>
+                    setIsMismatch(e.target.value !== kickOutMemberEmail)
+                  }
                 />
               </Form.Control>
             </Form.Field>
@@ -59,7 +66,10 @@ export default function KickOutMemberDialog({ onSubmit, kickOutMemberEmail }: Pr
                 </button>
               </Dialog.Close>
               <Form.Submit asChild>
-                <button className="flex h-44 w-full items-center justify-center rounded-8 bg-purple-100 focus:outline-none disabled:opacity-50" disabled={isMismatch}>
+                <button
+                  className="flex h-44 w-full items-center justify-center rounded-8 bg-purple-100 focus:outline-none disabled:opacity-50"
+                  disabled={isMismatch}
+                >
                   <span className="text-14 font-semibold text-white">강퇴</span>
                 </button>
               </Form.Submit>

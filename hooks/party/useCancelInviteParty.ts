@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
-import { CommonResponse } from "types/common";
 import { customedAxios } from "hooks/api/customedAxios";
+import { CommonResponse } from "types/common";
 
 export default function useCancelInviteParty() {
   const { data: sessionData } = useSession({ required: true });
@@ -34,7 +34,7 @@ interface APIParams {
 
 const sendCancelInviteParty = ({ partyInviteId, accessToken }: APIParams) => {
   return customedAxios.post<CommonResponse<null>>(
-    '/api/party-invite/cancel',
+    "/api/party-invite/cancel",
     { partyInviteId },
     {
       headers: {

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { customedAxios } from "hooks/api/customedAxios";
 import { useSession } from "next-auth/react";
+import { customedAxios } from "hooks/api/customedAxios";
 import { CommonResponse } from "types/common";
 
 interface Params {
@@ -20,7 +20,11 @@ export default function usePartyMemberList({ partyId }: Params) {
     }
   );
 
-  return { members: data?.data.data.members || [], isLoading: isLoading, refetch, };
+  return {
+    members: data?.data.data.members || [],
+    isLoading: isLoading,
+    refetch,
+  };
 }
 
 interface APIParams {

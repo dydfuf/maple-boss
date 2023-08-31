@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { customedAxios } from "hooks/api/customedAxios";
 import { useSession } from "next-auth/react";
+import { customedAxios } from "hooks/api/customedAxios";
 import { CommonResponse } from "types/common";
 
 export default function useChangeNickname() {
@@ -34,7 +34,7 @@ interface APIParams {
 
 const snedChangeNickname = ({ nickname, accessToken }: APIParams) => {
   return customedAxios.post<CommonResponse<null>>(
-    '/api/user/change-nickname',
+    "/api/user/change-nickname",
     { nickname },
     {
       headers: {

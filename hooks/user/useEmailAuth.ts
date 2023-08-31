@@ -19,5 +19,5 @@ interface SendEmailParams {
 }
 
 const sendEmail = ({ email }: SendEmailParams) => {
-  return customedAxios.post('/api/email-auth', { email });
+  return customedAxios.post("/api/email-auth", { email });
 };

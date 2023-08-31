@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { customedAxios } from "hooks/api/customedAxios";
 import { useSession } from "next-auth/react";
+import { customedAxios } from "hooks/api/customedAxios";
 import { CommonResponse } from "types/common";
 
 interface Params {
@@ -45,7 +45,7 @@ const sendUpdatePartyDetail = ({
   accessToken,
 }: APIParams) => {
   return customedAxios.post<CommonResponse<null>>(
-    '/api/party/update',
+    "/api/party/update",
     { name, description, partyId },
     {
       headers: {

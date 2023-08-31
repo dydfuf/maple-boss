@@ -32,7 +32,7 @@ interface SendCreateUserParams {
 
 const sendCreateUser = ({ email }: SendCreateUserParams) => {
   return customedAxios.post<CommonResponse<SendCreateUserResponse>>(
-    '/api/user',
+    "/api/user",
     { email }
   );
 };

@@ -1,4 +1,4 @@
-name: Build and Test Next.js PR
+name: Validation
 
 on: pull_request
 
@@ -19,7 +19,13 @@ jobs:
         run: npm install -g yarn
 
       - name: Install dependencies
-        run: yarn install
+        run: yarn --immutable --immutable-cache --check-caches
+
+      - name: tsc
+        run: yarn tsc
+
+      - name: lint
+        run: yarn lint
 
       - name: Build Next.js project
         run: yarn build

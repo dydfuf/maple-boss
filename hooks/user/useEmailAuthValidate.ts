@@ -27,7 +27,7 @@ interface EmailAuthValidateResponse {
 
 const emailAuthValidate = ({ email, code }: EmailAuthValidateParams) => {
   return customedAxios.post<CommonResponse<EmailAuthValidateResponse>>(
-    '/api/email-auth/validate',
+    "/api/email-auth/validate",
     { email, code }
   );
 };

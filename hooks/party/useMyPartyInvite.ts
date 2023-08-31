@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { customedAxios } from "hooks/api/customedAxios";
 import { useSession } from "next-auth/react";
+import { customedAxios } from "hooks/api/customedAxios";
 import { CommonResponse } from "types/common";
 
 export default function useMyPartyInvite() {
@@ -41,7 +41,7 @@ type Status = "INVITED";
 
 const getMyPartyInvite = ({ accessToken }: APIParams) => {
   return customedAxios.get<CommonResponse<APIResponse>>(
-    '/api/party-invite/my-invites',
+    "/api/party-invite/my-invites",
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,

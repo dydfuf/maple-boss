@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { customedAxios } from "hooks/api/customedAxios";
 import { useSession } from "next-auth/react";
+import { customedAxios } from "hooks/api/customedAxios";
 import { CommonResponse } from "types/common";
 
 interface Params {
@@ -14,8 +14,8 @@ export default function useKickOutMember({ partyId }: Params) {
 
   const { mutateAsync, isLoading } = useMutation(
     ["kick-out-member", partyId],
-    ({ memberId }: Omit<APIParams, "accessToken" | "partyId">) => 
-    sendKickOutMember({ memberId, partyId, accessToken }),
+    ({ memberId }: Omit<APIParams, "accessToken" | "partyId">) =>
+      sendKickOutMember({ memberId, partyId, accessToken }),
     {
       onSuccess: (data) => {
         if (data?.data.code !== "S000") {
@@ -24,8 +24,6 @@ export default function useKickOutMember({ partyId }: Params) {
       },
     }
   );
-
-
 
   return {
     kickOutMember: mutateAsync,
@@ -41,7 +39,7 @@ interface APIParams {
 
 const sendKickOutMember = ({ memberId, partyId, accessToken }: APIParams) => {
   return customedAxios.post<CommonResponse<null>>(
-    '/api/party/kick-member',
+    "/api/party/kick-member",
     { memberId, partyId },
     {
       headers: {

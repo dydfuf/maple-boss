@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { customedAxios } from "hooks/api/customedAxios";
 import { signOut, useSession } from "next-auth/react";
+import { customedAxios } from "hooks/api/customedAxios";
 import { CommonResponse } from "types/common";
 
 export default function useChangePassword() {
@@ -37,7 +37,7 @@ interface APIParams {
 
 const sendChangePassword = ({ password, accessToken }: APIParams) => {
   return customedAxios.post<CommonResponse<null>>(
-    '/api/user/change-password',
+    "/api/user/change-password",
     { password },
     {
       headers: {
