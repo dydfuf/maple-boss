@@ -39,6 +39,9 @@ module.exports = {
         "gray-200": {
           DEFAULT: "#F7F8FA",
         },
+        "gray-300": {
+          DEFAULT: "#E5E8EB",
+        },
         "gray-400": {
           DEFAULT: "#ADB5BD",
         },

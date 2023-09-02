@@ -1,8 +1,13 @@
 import { format } from "date-fns";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import usePartySettlementSummary from "hooks/settlement/usePartySettlementSummary";
 import { cn } from "utils/common";
 
 export default function SettlementPartyDetailContent() {
-  //   const { summary } = usePartySettlementSummary({ partyId: Number(partyId) });
+  // const { summary } = usePartySettlementSummary({ partyId: Number(partyId) });
+  const router = useRouter();
+  const { partyId } = router.query;
 
   return (
     <div className="mt-40 flex w-full flex-col gap-32 lg:flex-row">
@@ -32,9 +37,10 @@ export default function SettlementPartyDetailContent() {
       </div>
       <div className="grid w-full grid-cols-1 gap-16 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
         {SUMMARY.map((summary) => (
-          <div
+          <Link
             key={`summary-${summary.id}`}
             className="h-full w-full rounded-8 bg-gray-200 p-20"
+            href={`/settlement/${partyId}/detail/${summary.id}`}
           >
             <div className="flex gap-x-6">
               <div
@@ -79,7 +85,7 @@ export default function SettlementPartyDetailContent() {
                 </p>
               )}
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
