@@ -1,37 +1,56 @@
 import { format } from "date-fns";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import usePartySettlementSummary from "hooks/settlement/usePartySettlementSummary";
+import usePartySettlementPay from "hooks/settlement/usePartySettlementPay";
+import usePartySettlementPayInfo from "hooks/settlement/usePartySettlementPayInfo";
 import { cn } from "utils/common";
 
 export default function SettlementPartyDetailContent() {
-  // const { summary } = usePartySettlementSummary({ partyId: Number(partyId) });
   const router = useRouter();
   const { partyId } = router.query;
+
+  // const { summary } = usePartySettlementSummary({ partyId: Number(partyId) });
+  const { payInfo } = usePartySettlementPayInfo({ partyId: Number(partyId) });
+  const { count, totalMeso, userPayInfo } = payInfo || {
+    count: 0,
+    totalMeso: 0,
+    userPayInfo: {},
+  };
+  const { partySettlementPay } = usePartySettlementPay({
+    partyId: Number(partyId),
+  });
 
   return (
     <div className="mt-40 flex w-full flex-col gap-32 lg:flex-row">
       <div className="h-full w-full lg:order-last lg:w-600">
         <div className="flex items-center justify-between">
           <span className="text-22 font-bold text-gray-900">지급 예정</span>
-          <span className="text-14 text-purple-100">{`확정된 정산 수 : ${WILL_BE_PAYMENT_COUNT}`}</span>
+          <span className="text-14 text-purple-100">{`확정된 정산 수 : ${count}`}</span>
         </div>
         <div className="mt-20 flex flex-col gap-y-8 rounded-8 border-1 border-white-100 px-20 py-12">
-          {WILL_BE_PAYMENT_USERS.map((user) => (
+          {Object.entries(userPayInfo).map(([username, amount]) => (
             <div
-              key={`payment-user-${user.username}`}
+              key={`payment-user-${username}`}
               className="flex justify-between text-12 font-normal"
             >
-              <span className="text-gray-600">{user.username}</span>
-              <span className="text-gray-900">{user.amount}</span>
+              <span className="text-gray-600">{username}</span>
+              <span className="text-gray-900">{amount}</span>
             </div>
           ))}
+          {Object.keys(userPayInfo).length === 0 && (
+            <div>지급 예정이 없습니다.</div>
+          )}
         </div>
         <div className="mt-18 flex items-center justify-between font-bold text-gray-900">
           <span>총 메소</span>
-          <span>{TOTAL_WILL_BE_PAYMANT_AMOUNT}</span>
+          <span>{totalMeso}</span>
         </div>
-        <button className="mt-24 flex h-44 w-full items-center justify-center rounded-8 bg-purple-100">
+        <button
+          className="mt-24 flex h-44 w-full items-center justify-center rounded-8 bg-purple-100"
+          onClick={async () => {
+            await partySettlementPay();
+          }}
+        >
           <span className="text-14  font-semibold text-white">지급</span>
         </button>
       </div>
@@ -176,14 +195,3 @@ const SUMMARY = [
     confirmedAt: "2023-08-18T03:53:09.937757Z",
   },
 ];
-
-const WILL_BE_PAYMENT_COUNT = 5;
-
-const WILL_BE_PAYMENT_USERS = [
-  { username: "첫 번째 유저", amount: "100,000,000" },
-  { username: "두 번째 유저", amount: "100,000,000" },
-  { username: "세 번째 유저", amount: "100,000,000" },
-  { username: "네 번째 유저", amount: "100,000,000" },
-];
-
-const TOTAL_WILL_BE_PAYMANT_AMOUNT = "600,000,000";
