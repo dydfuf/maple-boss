@@ -11,7 +11,7 @@ export default function UserInfoPopover() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState<DialogType>();
 
-  const { info, refetch } = useMyInfo();
+  const { info } = useMyInfo();
   const { changeNickname } = useChangeNickname();
   const { changePassword } = useChangePassword();
 
@@ -63,7 +63,6 @@ export default function UserInfoPopover() {
         <NicknameChangeDialog
           onSubmit={async (nickname: string) => {
             await changeNickname({ nickname });
-            refetch();
             setDialogOpen(false);
           }}
         />
