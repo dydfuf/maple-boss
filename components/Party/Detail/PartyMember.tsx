@@ -12,7 +12,6 @@ export default function PartyMember() {
 
   const { members, refetch } = usePartyMemberList({ partyId: Number(partyId) });
   const { partyDetail } = usePartyDetail({ partyId: Number(partyId) });
-
   const { kickOutMember } = useKickOutMember({ partyId: Number(partyId) });
 
   const [dialogOpen, setDialogOpen] = useState(false);
