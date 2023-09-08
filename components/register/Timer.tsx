@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
 export default function Timer() {
-  console.log("hello");
   const [min, setMin] = useState(5);
   const [sec, setSec] = useState(0);
   const time = useRef(300);

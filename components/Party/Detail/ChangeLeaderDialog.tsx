@@ -38,7 +38,7 @@ export default function ChangeLeaderDialog({ onSubmit }: Props) {
           >
             <Select.Trigger className="inline-flex h-50 w-full items-center justify-center rounded-8 border-1 border-white-100 bg-white outline-none">
               <div className="flex w-full items-center justify-between px-16">
-                <Select.Value className="" placeholder="Select a fruit…" />
+                <Select.Value />
                 <Select.Icon>
                   <Image
                     src={ArrowDown.src}

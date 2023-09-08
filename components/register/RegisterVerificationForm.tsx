@@ -85,7 +85,6 @@ export default function RegisterVerificationForm() {
           if (data.data.valid) {
             const { data } = await createUser({ email: email as string });
             if (data.data) {
-              console.log("hello");
               setIsUserCreated(true);
               setDialogOpen(true);
             }

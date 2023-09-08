@@ -3,13 +3,14 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import usePartySettlementPay from "hooks/settlement/usePartySettlementPay";
 import usePartySettlementPayInfo from "hooks/settlement/usePartySettlementPayInfo";
+import usePartySettlementSummary from "hooks/settlement/usePartySettlementSummary";
 import { cn } from "utils/common";
 
 export default function SettlementPartyDetailContent() {
   const router = useRouter();
   const { partyId } = router.query;
 
-  // const { summary } = usePartySettlementSummary({ partyId: Number(partyId) });
+  const { summaries } = usePartySettlementSummary({ partyId: Number(partyId) });
   const { payInfo } = usePartySettlementPayInfo({ partyId: Number(partyId) });
   const { count, totalMeso, userPayInfo } = payInfo || {
     count: 0,
@@ -55,7 +56,7 @@ export default function SettlementPartyDetailContent() {
         </button>
       </div>
       <div className="grid w-full grid-cols-1 gap-16 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-        {SUMMARY.map((summary) => (
+        {summaries.map((summary) => (
           <Link
             key={`summary-${summary.id}`}
             className="h-full w-full rounded-8 bg-gray-200 p-20"
@@ -106,6 +107,7 @@ export default function SettlementPartyDetailContent() {
             </div>
           </Link>
         ))}
+        {summaries.length === 0 && <p>아직 정산이 없습니다.</p>}
       </div>
     </div>
   );
@@ -123,75 +125,3 @@ const STATUS_MAP = {
   CONFIRMED: "CONFIRMED",
   IN_PROGRESS: "IN-PROGRESS",
 };
-
-// @TODO: 아래의 상수값들은 모킹값으로 제거 필요.
-const SUMMARY = [
-  {
-    id: 15,
-    bossName: "루시드",
-    bossClazz: "HARD",
-    type: "MANUAL",
-    status: "IN_PROGRESS",
-    createdAt: "2023-08-18T03:53:09.937757Z",
-  },
-  {
-    id: 16,
-    bossName: "윌",
-    bossClazz: "EASY",
-    type: "AUTO",
-    status: "CONFIRMED",
-    createdAt: "2023-08-18T03:53:09.941471Z",
-    confirmedAt: "2023-08-18T03:53:09.937757Z",
-  },
-  {
-    id: 17,
-    bossName: "윌",
-    bossClazz: "EASY",
-    type: "MANUAL",
-    status: "IN_PROGRESS",
-    createdAt: "2023-08-18T03:53:09.937757Z",
-  },
-  {
-    id: 18,
-    bossName: "윌",
-    bossClazz: "EASY",
-    type: "AUTO",
-    status: "CONFIRMED",
-    createdAt: "2023-08-18T03:53:09.941471Z",
-    confirmedAt: "2023-08-18T03:53:09.937757Z",
-  },
-  {
-    id: 25,
-    bossName: "윌",
-    bossClazz: "EASY",
-    type: "MANUAL",
-    status: "IN_PROGRESS",
-    createdAt: "2023-08-18T03:53:09.937757Z",
-  },
-  {
-    id: 26,
-    bossName: "윌",
-    bossClazz: "EASY",
-    type: "AUTO",
-    status: "CONFIRMED",
-    createdAt: "2023-08-18T03:53:09.941471Z",
-    confirmedAt: "2023-08-18T03:53:09.937757Z",
-  },
-  {
-    id: 27,
-    bossName: "윌",
-    bossClazz: "EASY",
-    type: "MANUAL",
-    status: "IN_PROGRESS",
-    createdAt: "2023-08-18T03:53:09.937757Z",
-  },
-  {
-    id: 28,
-    bossName: "윌",
-    bossClazz: "EASY",
-    type: "AUTO",
-    status: "CONFIRMED",
-    createdAt: "2023-08-18T03:53:09.941471Z",
-    confirmedAt: "2023-08-18T03:53:09.937757Z",
-  },
-];

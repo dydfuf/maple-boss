@@ -21,7 +21,7 @@ export default function usePartySettlementSummary({ partyId }: Params) {
   );
 
   return {
-    summary: data?.data.data.summary || [],
+    summaries: data?.data.data.summary || [],
     isLoading,
     refetch,
   };
@@ -45,10 +45,12 @@ interface Summary {
   bossClazz: BossClazz;
   type: Type;
   status: Status;
+  createdAt: string;
+  confirmedAt?: string;
 }
 
 type BossClazz = "EASY" | "HARD" | "NORMAL";
-type Type = "MANUL" | "AUTO";
+type Type = "MANUAL" | "AUTO";
 type Status = "IN_PROGRESS" | "CONFIRMED";
 
 const sendPartySettlementSummary = ({ partyId, accessToken }: APIParams) => {

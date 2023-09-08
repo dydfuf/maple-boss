@@ -60,6 +60,9 @@ module.exports = {
         "red-100": {
           DEFAULT: "#C13E31",
         },
+        "red-200": {
+          DEFAULT: "#FB0000",
+        },
         "yellow-100": {
           DEFAULT: "#EEB524",
         },
