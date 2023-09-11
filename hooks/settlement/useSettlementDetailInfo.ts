@@ -2,12 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { customedAxios } from "hooks/api/customedAxios";
 import { CommonResponse } from "types/common";
+import { useRouter } from "next/router";
 
 interface Params {
   settlementId: number;
 }
 
 export default function useSettlementDetailInfo({ settlementId }: Params) {
+  const router = useRouter();
   const { data: sessionData } = useSession({ required: true });
 
   const accessToken = sessionData?.accessToken || "";
@@ -19,9 +21,9 @@ export default function useSettlementDetailInfo({ settlementId }: Params) {
       enabled: Boolean(accessToken) && Boolean(settlementId),
       onSuccess: (data) => {
         if (data.data.code !== "S000") {
-          let currentUrlArr = window.location.href.split("/");
+          const currentUrlArr = window.location.href.split("/");
           currentUrlArr.length = 5;
-          location.replace(currentUrlArr.join("/"));
+          router.push(currentUrlArr.join("/"));
         }
       },
     }

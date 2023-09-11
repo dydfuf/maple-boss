@@ -6,6 +6,8 @@ import usePartyDetail from "hooks/party/usePartyDetail";
 import useUpdatePartyDetail from "hooks/party/useUpdatePartyDetail";
 import ChangeLeaderDialog from "./ChangeLeaderDialog";
 import UpdatePartyDialog from "./UpdatePartyDialog";
+import LeavePartyDialog from "./LeavePartyDialog";
+import useLeaveParty from "hooks/party/useLeaveParty";
 
 export default function PartyController() {
   const router = useRouter();
@@ -19,6 +21,7 @@ export default function PartyController() {
 
   const { changeLeader } = useChangeLeader({ partyId: Number(partyId) });
   const { updateParty } = useUpdatePartyDetail({ partyId: Number(partyId) });
+  const { leaveParty } = useLeaveParty({ partyId: Number(partyId) });
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState<DialogType>(undefined);
@@ -29,6 +32,10 @@ export default function PartyController() {
   };
   const handleChangeLeaderClick = () => {
     setDialogType("CHANGE_LEADER");
+    setDialogOpen(true);
+  };
+  const handleLeavePartyClick = () => {
+    setDialogType("LEAVE_PARTY");
     setDialogOpen(true);
   };
 
@@ -57,6 +64,15 @@ export default function PartyController() {
             }}
           />
         )}
+        {dialogType === "LEAVE_PARTY" && (
+          <LeavePartyDialog
+            onSubmit={async () => {
+              await leaveParty();
+            }}
+            partyName={name}
+            isLeader={isLeader}
+          />
+        )}
       </div>
       <div className="flex items-center gap-x-20 text-14 font-semibold text-white">
         {isLeader && (
@@ -69,7 +85,10 @@ export default function PartyController() {
             </button>
           </>
         )}
-        <button className="flex h-26 w-60 shrink-0 items-center justify-center rounded-4 bg-purple-100 px-16 py-6">
+        <button
+          className="flex h-26 w-60 shrink-0 items-center justify-center rounded-4 bg-purple-100 px-16 py-6"
+          onClick={handleLeavePartyClick}
+        >
           탈퇴
         </button>
       </div>
@@ -77,4 +96,8 @@ export default function PartyController() {
   );
 }
 
-type DialogType = "UPDATE_PARTY_DETAIL" | "CHANGE_LEADER" | undefined;
+type DialogType =
+  | "UPDATE_PARTY_DETAIL"
+  | "CHANGE_LEADER"
+  | "LEAVE_PARTY"
+  | undefined;
