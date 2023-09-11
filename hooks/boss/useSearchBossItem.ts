@@ -50,7 +50,7 @@ const sendSearchBossItem = ({
   accessToken,
 }: APIParams) => {
   return customedAxios.get<CommonResponse<APIResponse>>(
-    `/api/search/item?keyword=${searchValue}&bossId=${bossId}`,
+    `/api/search/item?keyword=${searchValue}&bossId=${bossId}&type=RANDOM`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,
