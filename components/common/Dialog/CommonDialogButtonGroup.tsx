@@ -5,6 +5,7 @@ interface Props {
   confirmLabel?: string;
   showCancel?: boolean;
   showConfirm?: boolean;
+  confirmDisabled?: boolean;
   onClickCancel?: () => void;
   onClickConfirm?: () => void;
 }
@@ -14,6 +15,7 @@ export default function CommonDialogButtonGroup({
   confirmLabel = "확인",
   showCancel = true,
   showConfirm = true,
+  confirmDisabled = false,
   onClickCancel,
   onClickConfirm,
 }: Props) {
@@ -33,7 +35,8 @@ export default function CommonDialogButtonGroup({
       )}
       {showConfirm && (
         <button
-          className="flex h-44 w-180 items-center justify-center rounded-8 bg-purple-100 focus:outline-none"
+          disabled={confirmDisabled}
+          className="flex h-44 w-180 items-center justify-center rounded-8 bg-purple-100 focus:outline-none disabled:opacity-50"
           onClick={onClickConfirm}
         >
           <span className="text-14 font-semibold text-white">

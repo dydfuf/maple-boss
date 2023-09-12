@@ -20,8 +20,12 @@ export default function usePartySettlementSummary({ partyId }: Params) {
     }
   );
 
+  const summaries =
+    data?.data.data.summary.filter((summary) => summary.status !== "DELETED") ||
+    [];
+
   return {
-    summaries: data?.data.data.summary || [],
+    summaries,
     isLoading,
     refetch,
   };
@@ -51,7 +55,7 @@ interface Summary {
 
 type BossClazz = "EASY" | "HARD" | "NORMAL";
 type Type = "MANUAL" | "AUTO";
-type Status = "IN_PROGRESS" | "CONFIRMED";
+type Status = "IN_PROGRESS" | "CONFIRMED" | "DELETED";
 
 const sendPartySettlementSummary = ({ partyId, accessToken }: APIParams) => {
   return customedAxios.get<CommonResponse<APIResponse>>(
