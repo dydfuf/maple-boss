@@ -2,12 +2,12 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import useChangeLeader from "hooks/party/useChangeLeader";
+import useLeaveParty from "hooks/party/useLeaveParty";
 import usePartyDetail from "hooks/party/usePartyDetail";
 import useUpdatePartyDetail from "hooks/party/useUpdatePartyDetail";
 import ChangeLeaderDialog from "./ChangeLeaderDialog";
-import UpdatePartyDialog from "./UpdatePartyDialog";
 import LeavePartyDialog from "./LeavePartyDialog";
-import useLeaveParty from "hooks/party/useLeaveParty";
+import UpdatePartyDialog from "./UpdatePartyDialog";
 
 export default function PartyController() {
   const router = useRouter();

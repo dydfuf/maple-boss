@@ -1,6 +1,6 @@
-import useSettlementDetailInfo from "hooks/settlement/useSettlementDetailInfo";
 import { useRouter } from "next/router";
 import React from "react";
+import useSettlementDetailInfo from "hooks/settlement/useSettlementDetailInfo";
 
 export const SettlementRate = () => {
   const router = useRouter();

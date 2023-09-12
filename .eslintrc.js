@@ -19,7 +19,7 @@ module.exports = {
     "testing-library/prefer-screen-queries": "off",
     "@next/next/no-html-link-for-pages": "off",
     "@typescript-eslint/no-unused-vars": [
-      "warn",
+      "error",
       {
         argsIgnorePattern: "^_",
         varsIgnorePattern: "^_",
@@ -34,7 +34,7 @@ module.exports = {
     ],
     "tailwindcss/classnames-order": "off",
     "import/order": [
-      1,
+      "error",
       {
         groups: [
           "external",

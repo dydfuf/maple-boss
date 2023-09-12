@@ -1,9 +1,9 @@
 import { format } from "date-fns";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import useSettlementDetailInfo from "hooks/settlement/useSettlementDetailInfo";
 import { cn } from "utils/common";
 import Crown from "@/public/images/Crown.png";
-import useSettlementDetailInfo from "hooks/settlement/useSettlementDetailInfo";
-import { useRouter } from "next/router";
 
 export const DetailInfo = () => {
   const router = useRouter();
@@ -13,11 +13,9 @@ export const DetailInfo = () => {
   });
   const { mainData } = partySettlement || {};
   const {
-    partyId,
     partyName,
     bossName,
     bossClazz,
-    userName,
     isLeader,
     createdAt,
     status,
