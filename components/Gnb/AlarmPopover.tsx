@@ -1,20 +1,22 @@
+import { useRouter } from "next/router";
 import useMyPartyInvite from "hooks/party/useMyPartyInvite";
 import usePartyInviteApprove from "hooks/party/usePartyInviteApprove";
 import usePartyInviteReject from "hooks/party/usePartyInviteReject";
 
 export default function AlarmPopover() {
-  const { partyInvites, refetch } = useMyPartyInvite();
+  const router = useRouter();
+
+  const { partyInvites } = useMyPartyInvite();
   const { partyInviteApprove } = usePartyInviteApprove();
   const { partyInviteReject } = usePartyInviteReject();
 
   const handleApproveClick = async (partyInviteId: number) => {
     await partyInviteApprove({ partyInviteId });
-    refetch();
+    router.push("/party");
   };
 
   const handleRejectClick = async (partyInviteId: number) => {
     await partyInviteReject({ partyInviteId });
-    refetch();
   };
 
   return (

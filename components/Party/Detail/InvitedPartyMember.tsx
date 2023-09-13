@@ -55,12 +55,12 @@ export default function InvitedPartyMember() {
                   key={`invited-${member.id}`}
                   className="flex items-center border-b-1 border-white-100 pb-16"
                 >
-                  <div className="flex h-full w-full flex-col gap-y-6 text-gray-300">
+                  <div className="flex h-full w-full flex-col gap-y-6 break-all text-gray-300">
                     <p className="text-16 font-semibold">{member.email}</p>
                   </div>
                   {member.status === "INVITED" && (
                     <button
-                      className="flex h-20 w-60 items-center justify-center rounded-full border-1 border-purple-100 bg-white"
+                      className="flex h-20 w-60 shrink-0 items-center justify-center rounded-full border-1 border-purple-100 bg-white"
                       onClick={() => {
                         handleCancelInviteClick(member.id);
                       }}
