@@ -35,7 +35,7 @@ export default function SettlementPartyDetailContent() {
               className="flex justify-between text-12 font-normal"
             >
               <span className="text-gray-600">{username}</span>
-              <span className="text-gray-900">{amount}</span>
+              <span className="text-gray-900">{amount.toLocaleString()}</span>
             </div>
           ))}
           {Object.keys(userPayInfo).length === 0 && (
@@ -44,12 +44,16 @@ export default function SettlementPartyDetailContent() {
         </div>
         <div className="mt-18 flex items-center justify-between font-bold text-gray-900">
           <span>총 메소</span>
-          <span>{totalMeso}</span>
+          <span>{totalMeso.toLocaleString()}</span>
         </div>
         <button
           className="mt-24 flex h-44 w-full items-center justify-center rounded-8 bg-purple-100"
-          onClick={async () => {
-            await partySettlementPay();
+          onClick={() => {
+            if (summaries.length === 0) {
+              alert("지급 예정 정산이 없습니다.");
+              return;
+            }
+            partySettlementPay();
           }}
         >
           <span className="text-14  font-semibold text-white">지급</span>
