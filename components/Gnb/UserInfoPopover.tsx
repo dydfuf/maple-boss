@@ -1,4 +1,4 @@
-import * as Dialog from "@radix-ui/react-dialog";
+import * as Dialog from "@radix-ui/react-alert-dialog";
 import { signOut } from "next-auth/react";
 import { useState } from "react";
 import useChangeNickname from "hooks/user/useChangeNickname";
