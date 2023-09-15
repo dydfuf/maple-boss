@@ -1,4 +1,4 @@
-import * as Dialog from "@radix-ui/react-dialog";
+import * as Dialog from "@radix-ui/react-alert-dialog";
 import * as Form from "@radix-ui/react-form";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
@@ -27,6 +27,8 @@ export default function RegisterVerificationForm() {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const [isUserCreated, setIsUserCreated] = useState(false);
+
+  const [createdUserEmail, setCreatedUserEmail] = useState("");
 
   useEffect(() => {
     timerId.current = setInterval(() => {
@@ -87,6 +89,7 @@ export default function RegisterVerificationForm() {
             if (data.data) {
               setIsUserCreated(true);
               setDialogOpen(true);
+              setCreatedUserEmail(data.data.email);
             }
           }
         }}
@@ -172,7 +175,9 @@ export default function RegisterVerificationForm() {
       </Form.Root>
       <Dialog.Portal>
         {!isUserCreated && <EmailSendedDialog />}
-        {isUserCreated && <UserCreatedDialog />}
+        {isUserCreated && (
+          <UserCreatedDialog createdUserEmail={createdUserEmail} />
+        )}
       </Dialog.Portal>
     </Dialog.Root>
   );

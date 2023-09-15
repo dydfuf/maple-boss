@@ -34,15 +34,17 @@ export default function CommonDialogButtonGroup({
         </Dialog.Cancel>
       )}
       {showConfirm && (
-        <button
-          disabled={confirmDisabled}
-          className="flex h-44 w-180 items-center justify-center rounded-8 bg-purple-100 focus:outline-none disabled:opacity-50"
-          onClick={onClickConfirm}
-        >
-          <span className="text-14 font-semibold text-white">
-            {confirmLabel}
-          </span>
-        </button>
+        <Dialog.Action asChild>
+          <button
+            disabled={confirmDisabled}
+            className="flex h-44 w-180 items-center justify-center rounded-8 bg-purple-100 focus:outline-none disabled:opacity-50"
+            onClick={onClickConfirm}
+          >
+            <span className="text-14 font-semibold text-white">
+              {confirmLabel}
+            </span>
+          </button>
+        </Dialog.Action>
       )}
     </div>
   );

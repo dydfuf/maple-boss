@@ -1,36 +1,33 @@
-import * as Dialog from "@radix-ui/react-dialog";
 import { useRouter } from "next/router";
+import CommonDialogButtonGroup from "components/common/Dialog/CommonDialogButtonGroup";
+import CommonDialogContent from "components/common/Dialog/CommonDialogContent";
+import CommonDialogTitle from "components/common/Dialog/CommonDialogTitle";
 
-export default function UserCreatedDialog() {
+interface Props {
+  createdUserEmail: string;
+}
+
+export default function UserCreatedDialog({ createdUserEmail }: Props) {
   const router = useRouter();
 
+  const routeToLogin = () => {
+    router.push("/login");
+  };
+
   return (
-    <>
-      <Dialog.Overlay className="fixed inset-0 data-[state=open]:bg-black/[0.3]" />
-      <Dialog.Content
-        className="fixed left-1/2 top-1/2 max-h-[85vh] w-400 max-w-[450px] -translate-x-1/2 -translate-y-1/2 rounded-8 bg-white p-30 shadow-lg focus:outline-none"
-        onInteractOutside={() => {
-          router.push("/login");
-        }}
-      >
-        <Dialog.Title className="text-center font-bold text-gray-900">
-          회원가입이 완료 되었습니다.
-        </Dialog.Title>
-        <div className="mt-[25px] flex justify-center">
-          <Dialog.Close asChild>
-            <button
-              className="flex h-44 w-130 items-center justify-center rounded-8 bg-purple-100 focus:outline-none"
-              onClick={() => {
-                router.push("/login");
-              }}
-            >
-              <span className="text-14 font-semibold text-white">
-                로그인 하러 가기
-              </span>
-            </button>
-          </Dialog.Close>
-        </div>
-      </Dialog.Content>
-    </>
+    <CommonDialogContent>
+      <CommonDialogTitle title="회원가입이 완료 되었습니다." />
+      <p className="mt-20">
+        <span className="font-semibold text-purple-100">
+          {createdUserEmail}
+        </span>
+        에서 임시 비밀번호를 확인해주세요.
+      </p>
+      <CommonDialogButtonGroup
+        showCancel={false}
+        confirmLabel="로그인 하러 가기"
+        onClickConfirm={routeToLogin}
+      />
+    </CommonDialogContent>
   );
 }
