@@ -26,12 +26,14 @@ interface ChooseBossAndSettlementTypeProps {
   setSelectedSettlementType: (settlementType: SettlementType) => void;
   setSelectedBossId: (id: number) => void;
   onClickNext: () => void;
+  isValid: boolean;
 }
 
 function ChooseBossAndSettlementType({
   setSelectedSettlementType,
   setSelectedBossId,
   onClickNext,
+  isValid,
 }: ChooseBossAndSettlementTypeProps) {
   const [isSearchListOpen, setIsSearchListOpen] = useState(false);
   const [searchBossNameValue, setSearchBossNameValue] = useState("");
@@ -121,7 +123,7 @@ function ChooseBossAndSettlementType({
           </Select.Trigger>
           <Select.Portal>
             <Select.Content
-              className="w-full rounded-8 bg-white"
+              className="w-full rounded-8 bg-white text-gray-500"
               position="popper"
               sideOffset={2}
             >
@@ -145,8 +147,14 @@ function ChooseBossAndSettlementType({
         </Select.Root>
       </div>
       <CommonDialogButtonGroup
-        confirmLabel="다음"
-        onClickConfirm={onClickNext}
+        confirmLabel={isValid ? "다음" : "기본정보를 선택해주세요"}
+        confirmDisabled={!isValid}
+        onClickConfirm={() => {
+          if (!isValid) {
+            return;
+          }
+          onClickNext();
+        }}
       />
     </CommonDialogContent>
   );
@@ -157,6 +165,7 @@ interface ChooseItemsProps {
   setChoosedBossItemList: Dispatch<SetStateAction<ChoosedBossItem[]>>;
   selectedBossId: number;
   onClickNext: () => void;
+  isValid: boolean;
 }
 
 function ChooseItems({
@@ -164,12 +173,15 @@ function ChooseItems({
   setChoosedBossItemList,
   selectedBossId,
   onClickNext,
+  isValid,
 }: ChooseItemsProps) {
   const [isSearchListOpen, setIsSearchListOpen] = useState(false);
   const [searchBossItemValue, setSearchBossItemValue] = useState("");
   const [bossItemId, setBossItemId] = useState(0);
   const [amount, setAmount] = useState(1);
   const [meso, setMeso] = useState(0);
+
+  const [showErrorMessage, setShowMessage] = useState(false);
 
   const { searchedBossItemList } = useSearchBossItem({
     searchValue: searchBossItemValue,
@@ -196,14 +208,16 @@ function ChooseItems({
     if (searchBossItemValue === "") return false;
     if (bossItemId === 0) return false;
     if (amount < 0) return false;
-    if (meso < 1) return false;
+    if (meso < 0) return false;
     return true;
   };
 
   const handleAddItemClick = () => {
     if (!isValidItem()) {
+      setShowMessage(true);
       return;
     }
+    setShowMessage(false);
     setChoosedBossItemList((prev) => [
       ...prev,
       { bossItem: { id: bossItemId, name: searchBossItemValue }, amount, meso },
@@ -301,6 +315,14 @@ function ChooseItems({
             className="flex h-50 w-150 items-center justify-center rounded-8 border-1 border-gray-300 px-16 text-center text-14 font-normal text-gray-500"
           />
         </div>
+        {showErrorMessage && (
+          <p className="mt-4 pl-4 text-12 font-normal text-red-100">
+            아이템이 선택되지 않았거나, 수량이 1개 또는 메소가 0원 미만 입니다.
+          </p>
+        )}
+        <p className="mt-12 px-8 pb-4 text-13 font-normal text-gray-900">
+          선택된 아이템
+        </p>
         {choosedBossItemList.map((choosedBossItem, idx) => (
           <div className="mt-2 flex gap-x-10" key={`choosed-boss-item-${idx}`}>
             <input
@@ -324,8 +346,14 @@ function ChooseItems({
           {`총 메소 : ${totalMeso.toLocaleString()}`}
         </p>
         <CommonDialogButtonGroup
-          confirmLabel="다음"
-          onClickConfirm={onClickNext}
+          confirmLabel={isValid ? "다음" : "아이템을 추가해주세요"}
+          confirmDisabled={!isValid}
+          onClickConfirm={() => {
+            if (!isValid) {
+              return;
+            }
+            onClickNext();
+          }}
         />
       </CommonDialogContent>
     </>
@@ -351,10 +379,13 @@ function ChooseDividends({
     () => Array.from(Array(101)).map((_, i) => String(i)),
     []
   );
+
   const totalDividens = useMemo(
     () => choosedDividends.reduce((acc, cur) => acc + cur.rate, 0),
     [choosedDividends]
   );
+
+  const isValid = totalDividens === 100;
 
   useEffect(() => {
     setChoosedDividens(
@@ -362,92 +393,89 @@ function ChooseDividends({
     );
   }, [members, setChoosedDividens]);
 
-  const handleSubmit = () => {
-    if (totalDividens < 100) {
-      return;
-    }
-
-    onSubmit();
-  };
-
   return (
-    <>
-      <CommonDialogContent>
-        <CommonDialogTitle title="정산 생성" subTitle="분배율 선택" />
-        <div className="mt-24 flex gap-x-10 text-13 font-normal text-gray-900">
-          <p className="flex h-24 w-200 items-center px-8">이름</p>
-          <p className="flex h-24 w-200 items-center px-8">분배율</p>
-        </div>
-        {members.map((member) => (
-          <div
-            key={`memeber-${member.id}`}
-            className="my-10 flex gap-x-10 text-14 font-normal text-gray-900"
-          >
-            <div className="flex h-50 w-200 items-center rounded-8 border-1 border-white-100 px-16">
-              {member.nickName}
-            </div>
-            <Select.Root
-              defaultValue="0"
-              onValueChange={(value) => {
-                setChoosedDividens((prev) => {
-                  const idx = prev.findIndex(
-                    (dividen) => dividen.memberId === member.id
-                  );
-                  const result = [...prev];
-                  result[idx].rate = Number(value);
-                  return result;
-                });
-              }}
-            >
-              <Select.Trigger className="inline-flex h-50 w-200 items-center justify-center rounded-8 border-1 border-white-100 bg-white outline-none">
-                <div className="flex w-full items-center justify-between px-16">
-                  <Select.Value />
-                  <Select.Icon>
-                    <Image
-                      src={ArrowDown.src}
-                      width={16}
-                      height={16}
-                      alt="arrow-down"
-                      className="h-16 w-16"
-                    />
-                  </Select.Icon>
-                </div>
-              </Select.Trigger>
-              <Select.Portal>
-                <Select.Content
-                  className="h-200 w-200 overflow-auto rounded-8 bg-white"
-                  position="popper"
-                  sideOffset={2}
-                >
-                  <Select.Viewport className="h-200 w-200 overflow-auto rounded-8 border-1">
-                    {arrayOf1To100.map((value) => (
-                      <Select.Item
-                        key={value}
-                        className={cn(
-                          "relative flex h-50 w-full cursor-pointer items-center px-16"
-                        )}
-                        value={value}
-                      >
-                        <Select.ItemText>{`${value} %`}</Select.ItemText>
-                      </Select.Item>
-                    ))}
-                  </Select.Viewport>
-                </Select.Content>
-              </Select.Portal>
-            </Select.Root>
+    <CommonDialogContent>
+      <CommonDialogTitle title="정산 생성" subTitle="분배율 선택" />
+      <div className="mt-24 flex gap-x-10 text-13 font-normal text-gray-900">
+        <p className="flex h-24 w-200 items-center px-8">이름</p>
+        <p className="flex h-24 w-200 items-center px-8">분배율</p>
+      </div>
+      {members.map((member) => (
+        <div
+          key={`memeber-${member.id}`}
+          className="my-10 flex gap-x-10 text-14 font-normal text-gray-900"
+        >
+          <div className="flex h-50 w-200 items-center rounded-8 border-1 border-white-100 px-16">
+            {member.nickName}
           </div>
-        ))}
-        <div className="mt-40 flex w-full flex-col items-center gap-y-8 font-bold">
-          <p className="text-gray-900">{`총 분배율 ${totalDividens}%`}</p>
-          {totalDividens !== 100 && (
-            <p className="text-red-200">{"100% 맞춰주세요"}</p>
-          )}
+          <Select.Root
+            defaultValue="0"
+            onValueChange={(value) => {
+              setChoosedDividens((prev) => {
+                const idx = prev.findIndex(
+                  (dividen) => dividen.memberId === member.id
+                );
+                const result = [...prev];
+                result[idx].rate = Number(value);
+                return result;
+              });
+            }}
+          >
+            <Select.Trigger className="inline-flex h-50 w-200 items-center justify-center rounded-8 border-1 border-white-100 bg-white outline-none">
+              <div className="flex w-full items-center justify-between px-16">
+                <Select.Value />
+                <Select.Icon>
+                  <Image
+                    src={ArrowDown.src}
+                    width={16}
+                    height={16}
+                    alt="arrow-down"
+                    className="h-16 w-16"
+                  />
+                </Select.Icon>
+              </div>
+            </Select.Trigger>
+            <Select.Portal>
+              <Select.Content
+                className="h-200 w-200 overflow-auto rounded-8 bg-white"
+                position="popper"
+                sideOffset={2}
+              >
+                <Select.Viewport className="h-200 w-200 overflow-auto rounded-8 border-1">
+                  {arrayOf1To100.map((value) => (
+                    <Select.Item
+                      key={value}
+                      className={cn(
+                        "relative flex h-50 w-full cursor-pointer items-center px-16"
+                      )}
+                      value={value}
+                    >
+                      <Select.ItemText>{`${value} %`}</Select.ItemText>
+                    </Select.Item>
+                  ))}
+                </Select.Viewport>
+              </Select.Content>
+            </Select.Portal>
+          </Select.Root>
         </div>
-        <CommonDialogButtonGroup
-          confirmLabel="생성"
-          onClickConfirm={handleSubmit}
-        />
-      </CommonDialogContent>
-    </>
+      ))}
+      <div className="mt-40 flex w-full flex-col items-center gap-y-8 font-bold">
+        <p className="text-gray-900">{`총 분배율 ${totalDividens}%`}</p>
+        {totalDividens !== 100 && (
+          <p className="text-red-200">{"100% 맞춰주세요"}</p>
+        )}
+      </div>
+      <CommonDialogButtonGroup
+        confirmLabel="생성"
+        confirmDisabled={!isValid}
+        onClickConfirm={() => {
+          if (!isValid) {
+            return;
+          }
+
+          onSubmit();
+        }}
+      />
+    </CommonDialogContent>
   );
 }

@@ -42,10 +42,8 @@ export default function CreateSettlementDialogRoot({ open, setOpen }: Props) {
         <Contents.ChooseBossAndSettlementType
           setSelectedSettlementType={setSelectedSettlementType}
           setSelectedBossId={setSelectedBossId}
-          onClickNext={() => {
-            if (Boolean(selectedBossId) && Boolean(selectedSettlementType))
-              next();
-          }}
+          isValid={Boolean(selectedBossId) && Boolean(selectedSettlementType)}
+          onClickNext={next}
         />
       )}
       {currentStepValue === "ChooseItems" && (
@@ -53,11 +51,8 @@ export default function CreateSettlementDialogRoot({ open, setOpen }: Props) {
           choosedBossItemList={choosedBossItemList}
           setChoosedBossItemList={setChoosedBossItemList}
           selectedBossId={selectedBossId}
-          onClickNext={() => {
-            if (choosedBossItemList.length > 0) {
-              next();
-            }
-          }}
+          isValid={choosedBossItemList.length > 0}
+          onClickNext={next}
         />
       )}
       {currentStepValue === "ChooseDividends" && (
