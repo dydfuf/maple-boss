@@ -14,15 +14,22 @@ export default function PartyDetailContent() {
     partyId: Number(partyId),
   });
 
-  const { name, description, leaderNickname, memberCount, accumulatedMeso } =
-    partyDetail || {
-      isLeader: false,
-      name: "",
-      description: "",
-      leaderNickname: "",
-      memberCount: 0,
-      accumulatedMeso: 0,
-    };
+  const {
+    name,
+    description,
+    leaderNickname,
+    memberCount,
+    accumulatedMeso,
+    settlementCount,
+  } = partyDetail || {
+    isLeader: false,
+    name: "",
+    description: "",
+    leaderNickname: "",
+    memberCount: 0,
+    accumulatedMeso: 0,
+    settlementCount: 0,
+  };
 
   if (isLoading) {
     return <></>;
@@ -48,8 +55,9 @@ export default function PartyDetailContent() {
           </div>
           <div className="flex h-118 w-full flex-col items-center justify-center gap-y-10 rounded-16 border-1 border-white-100 bg-gray-200">
             <p className="font-semibold text-gray-500">정산수</p>
-            {/** TODO: 수정 해야 한다. */}
-            <p className="text-32 font-bold text-purple-100">{0}</p>
+            <p className="text-32 font-bold text-purple-100">
+              {settlementCount}
+            </p>
           </div>
         </div>
       </div>
@@ -70,7 +78,7 @@ export default function PartyDetailContent() {
             <p className="ml-auto text-14 text-gray-500">파티의 총 누적 금액</p>
             <div className="ml-auto flex items-center">
               <p className="text-28 font-bold text-gray-900">
-                {accumulatedMeso}
+                {accumulatedMeso.toLocaleString()}
               </p>
               <Image
                 src={Meso.src}

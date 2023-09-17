@@ -37,6 +37,7 @@ interface GetPArtyDetailResponse {
     memberCount: number;
     description: string;
     accumulatedMeso: number;
+    settlementCount: number;
   };
 }
 
