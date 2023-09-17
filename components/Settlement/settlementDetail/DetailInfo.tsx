@@ -1,6 +1,8 @@
+import * as RadioGroup from "@radix-ui/react-radio-group";
 import { format } from "date-fns";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import useSettlementDetailInfo from "hooks/settlement/useSettlementDetailInfo";
 import { cn } from "utils/common";
 import Crown from "@/public/images/Crown.png";
@@ -11,6 +13,7 @@ export const DetailInfo = () => {
   const { partySettlement } = useSettlementDetailInfo({
     settlementId: Number(settlementId),
   });
+
   const { mainData } = partySettlement || {};
   const {
     partyName,
@@ -19,6 +22,7 @@ export const DetailInfo = () => {
     isLeader,
     createdAt,
     status,
+    percentage,
     type,
     confirmDate,
     previousSettlementId,
@@ -31,10 +35,14 @@ export const DetailInfo = () => {
     isLeader: false,
     createdAt: "",
     status: "",
+    percentage: 0,
     type: "",
     confirmDate: "",
     previousSettlementId: 0,
   };
+
+  // 추후에 context로 묶거나 상위컴포넌트로 이동하여 데이터를 저장할 때 fee라는 이름으로 사용 예정
+  const [_, setFee] = useState<string>("3%");
 
   return (
     <div className="h-486 w-334 rounded-8 bg-gray-200 p-30">
@@ -47,7 +55,7 @@ export const DetailInfo = () => {
           )}
         </div>
       </div>
-      <ul className="mt-30 flex h-486 w-334 flex-col gap-10 [&_li]:flex [&_li]:h-54 [&_li]:w-274 [&_li]:items-center [&_li]:rounded-8 [&_li]:bg-white [&_li]:px-20">
+      <ul className="mt-30 flex h-486 w-334 flex-col gap-10 [&_li]:flex [&_li]:h-44 [&_li]:w-274 [&_li]:items-center [&_li]:rounded-8 [&_li]:bg-white [&_li]:px-20">
         <li className="justify-center gap-6">
           <span className="text-18 font-bold">{bossName}</span>
           <div
@@ -91,13 +99,48 @@ export const DetailInfo = () => {
         <li className="justify-between">
           <span className="text-14 font-bold">확정일시</span>
           <span className="text-14">
-            {confirmDate !== "" &&
-              format(new Date(confirmDate), "yyyy.MM.dd HH:mm:ss")}
+            {Boolean(confirmDate)
+              ? format(new Date(confirmDate), "yyyy.MM.dd HH:mm:ss")
+              : ""}
           </span>
         </li>
         <li className="justify-between">
           <span className="text-14 font-bold">이전 정산</span>
           <span className="text-14">{previousSettlementId}</span>
+        </li>
+        <li className="justify-between">
+          <span className="text-14 font-bold">수수료</span>
+          <RadioGroup.Root
+            className="flex gap-20"
+            defaultValue={String(percentage)}
+          >
+            <div className="flex items-center">
+              <RadioGroup.Item
+                className="mt-2 h-20 w-20 rounded-full border-1 border-purple-100"
+                value="3"
+                id="r1"
+                onClick={() => setFee("3%")}
+              >
+                <RadioGroup.Indicator className="relative flex h-full w-full items-center justify-center after:block after:h-10 after:w-10 after:rounded-5 after:bg-purple-100 after:content-['']" />
+              </RadioGroup.Item>
+              <label className="pl-10 text-15 leading-1" htmlFor="r1">
+                3%
+              </label>
+            </div>
+            <div className="flex items-center">
+              <RadioGroup.Item
+                className=" mt-2 h-20 w-20 rounded-full border-1 border-purple-100"
+                value="5"
+                id="r2"
+                onClick={() => setFee("5%")}
+              >
+                <RadioGroup.Indicator className="relative flex h-full w-full items-center justify-center after:block after:h-10 after:w-10 after:rounded-5 after:bg-purple-100 after:content-['']" />
+              </RadioGroup.Item>
+              <label className="pl-10 text-15 leading-1" htmlFor="r2">
+                5%
+              </label>
+            </div>
+          </RadioGroup.Root>
         </li>
       </ul>
     </div>

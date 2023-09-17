@@ -61,6 +61,7 @@ interface MainData {
   isLeader: boolean;
   createdAt: string;
   status: Status;
+  percentage: number;
   type: Type;
   confirmDate: string;
   previousSettlementId: number;
