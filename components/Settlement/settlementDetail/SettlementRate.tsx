@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
-import React from "react";
-import useSettlementDetailInfo from "hooks/settlement/useSettlementDetailInfo";
+import React, { useEffect, useState } from "react";
+import useSettlementDetailInfo, {
+  Dividends,
+} from "hooks/settlement/useSettlementDetailInfo";
 
 export const SettlementRate = () => {
   const router = useRouter();
@@ -8,9 +10,13 @@ export const SettlementRate = () => {
   const { partySettlement } = useSettlementDetailInfo({
     settlementId: Number(settlementId),
   });
-  const dividends = (partySettlement && partySettlement.dividends) || [
-    { userName: "", rate: 0 },
-  ];
+  const [dividends, setDividends] = useState<Array<Dividends>>(
+    (partySettlement && partySettlement.dividends) || []
+  );
+
+  useEffect(() => {
+    partySettlement && setDividends(partySettlement.dividends);
+  }, [partySettlement]);
 
   return (
     <div className="h-486 w-504 overflow-auto rounded-8 bg-gray-200 p-30">

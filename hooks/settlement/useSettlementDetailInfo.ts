@@ -66,13 +66,13 @@ interface MainData {
   previousSettlementId: number;
 }
 
-interface Item {
+export interface Item {
   name: string;
   amount: number;
   meso: number;
 }
 
-interface Dividends {
+export interface Dividends {
   userName: string;
   rate: number;
 }
