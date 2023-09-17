@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import useSettlementCount from "hooks/party/settlement/useSettlementCount";
 import usePartyDetail from "hooks/party/usePartyDetail";
 import InvitedPartyMember from "./Detail/InvitedPartyMember";
 import PartyMember from "./Detail/PartyMember";
@@ -11,8 +10,9 @@ export default function PartyDetailContent() {
   const router = useRouter();
   const { partyId } = router.query;
 
-  const { partyDetail } = usePartyDetail({ partyId: Number(partyId) });
-  const { count } = useSettlementCount({ partyId: Number(partyId) });
+  const { partyDetail, isLoading } = usePartyDetail({
+    partyId: Number(partyId),
+  });
 
   const { name, description, leaderNickname, memberCount, accumulatedMeso } =
     partyDetail || {
@@ -23,6 +23,10 @@ export default function PartyDetailContent() {
       memberCount: 0,
       accumulatedMeso: 0,
     };
+
+  if (isLoading) {
+    return <></>;
+  }
 
   return (
     <div className="mt-40">
@@ -44,7 +48,8 @@ export default function PartyDetailContent() {
           </div>
           <div className="flex h-118 w-full flex-col items-center justify-center gap-y-10 rounded-16 border-1 border-white-100 bg-gray-200">
             <p className="font-semibold text-gray-500">정산수</p>
-            <p className="text-32 font-bold text-purple-100">{count || 0}</p>
+            {/** TODO: 수정 해야 한다. */}
+            <p className="text-32 font-bold text-purple-100">{0}</p>
           </div>
         </div>
       </div>

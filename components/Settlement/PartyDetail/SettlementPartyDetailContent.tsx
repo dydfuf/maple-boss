@@ -10,16 +10,29 @@ export default function SettlementPartyDetailContent() {
   const router = useRouter();
   const { partyId } = router.query;
 
-  const { summaries } = usePartySettlementSummary({ partyId: Number(partyId) });
-  const { payInfo } = usePartySettlementPayInfo({ partyId: Number(partyId) });
+  const { summaries, isLoading: isLoadingPartySettlementSummary } =
+    usePartySettlementSummary({ partyId: Number(partyId) });
+  const { payInfo, isLoading: isLoadingPartySettlementPayInfo } =
+    usePartySettlementPayInfo({ partyId: Number(partyId) });
   const { count, totalMeso, userPayInfo } = payInfo || {
     count: 0,
     totalMeso: 0,
     userPayInfo: {},
   };
-  const { partySettlementPay } = usePartySettlementPay({
-    partyId: Number(partyId),
-  });
+  const { partySettlementPay, isLoading: isLoadingPartySettlementPay } =
+    usePartySettlementPay({
+      partyId: Number(partyId),
+    });
+
+  const isLoading = [
+    isLoadingPartySettlementPay,
+    isLoadingPartySettlementPayInfo,
+    isLoadingPartySettlementSummary,
+  ].some(Boolean);
+
+  if (isLoading) {
+    return <></>;
+  }
 
   return (
     <div className="mt-40 flex w-full flex-col gap-32 lg:flex-row">

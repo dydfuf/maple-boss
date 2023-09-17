@@ -13,7 +13,9 @@ export default function PartyController() {
   const router = useRouter();
   const { partyId } = router.query;
 
-  const { partyDetail, refetch } = usePartyDetail({ partyId: Number(partyId) });
+  const { partyDetail, refetch, isLoading } = usePartyDetail({
+    partyId: Number(partyId),
+  });
   const { isLeader, name, description } = partyDetail || {
     name: "",
     description: "",
@@ -38,6 +40,10 @@ export default function PartyController() {
     setDialogType("LEAVE_PARTY");
     setDialogOpen(true);
   };
+
+  if (isLoading) {
+    return <></>;
+  }
 
   return (
     <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
