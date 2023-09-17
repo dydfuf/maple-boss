@@ -14,9 +14,9 @@ export default function SettlementPartyDetailContent() {
     usePartySettlementSummary({ partyId: Number(partyId) });
   const { payInfo, isLoading: isLoadingPartySettlementPayInfo } =
     usePartySettlementPayInfo({ partyId: Number(partyId) });
-  const { count, totalMeso, userPayInfo } = payInfo || {
+  const { count, sumMeso, userPayInfo } = payInfo || {
     count: 0,
-    totalMeso: 0,
+    sumMeso: 0,
     userPayInfo: {},
   };
   const { partySettlementPay, isLoading: isLoadingPartySettlementPay } =
@@ -57,7 +57,7 @@ export default function SettlementPartyDetailContent() {
         </div>
         <div className="mt-18 flex items-center justify-between font-bold text-gray-900">
           <span>총 메소</span>
-          <span>{totalMeso.toLocaleString()}</span>
+          <span>{sumMeso.toLocaleString()}</span>
         </div>
         <button
           className="mt-24 flex h-44 w-full items-center justify-center rounded-8 bg-purple-100"

@@ -34,6 +34,7 @@ interface APIParams {
 interface APIResponse {
   count: number;
   totalMeso: number;
+  sumMeso: number;
   userPayInfo: Record<string, number>;
 }
 
