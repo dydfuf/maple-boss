@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
+import { API_STATUS_CODE } from "constants/common";
 import { customedAxios } from "hooks/api/customedAxios";
 import { CommonResponse } from "types/common";
 
@@ -20,7 +21,14 @@ export default function usePartyDetail({ partyId }: Params) {
     }
   );
 
-  return { partyDetail: data?.data.data.party, isLoading, refetch };
+  const isNotFound = data?.data.code === API_STATUS_CODE.NOT_FOUND;
+
+  return {
+    partyDetail: data?.data.data?.party,
+    isLoading,
+    refetch,
+    isNotFound,
+  };
 }
 
 interface GetPartyDetailParams {
@@ -42,7 +50,7 @@ interface GetPArtyDetailResponse {
 }
 
 const getPartyDetail = ({ accessToken, partyId }: GetPartyDetailParams) => {
-  return customedAxios.get<CommonResponse<GetPArtyDetailResponse>>(
+  return customedAxios.get<CommonResponse<GetPArtyDetailResponse | null>>(
     `/api/party/get-party?partyId=${partyId}`,
     {
       headers: {

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import usePartyDetail from "hooks/party/usePartyDetail";
 import InvitedPartyMember from "./Detail/InvitedPartyMember";
 import PartyMember from "./Detail/PartyMember";
@@ -10,7 +11,7 @@ export default function PartyDetailContent() {
   const router = useRouter();
   const { partyId } = router.query;
 
-  const { partyDetail, isLoading } = usePartyDetail({
+  const { partyDetail, isLoading, isNotFound } = usePartyDetail({
     partyId: Number(partyId),
   });
 
@@ -30,6 +31,13 @@ export default function PartyDetailContent() {
     accumulatedMeso: 0,
     settlementCount: 0,
   };
+
+  useEffect(() => {
+    if (isNotFound) {
+      alert("해당 파티를 찾을 수 없습니다.");
+      router.back();
+    }
+  }, [isNotFound, router]);
 
   if (isLoading) {
     return <></>;

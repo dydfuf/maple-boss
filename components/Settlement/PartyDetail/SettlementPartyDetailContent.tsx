@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import usePartySettlementPay from "hooks/settlement/usePartySettlementPay";
 import usePartySettlementPayInfo from "hooks/settlement/usePartySettlementPayInfo";
 import usePartySettlementSummary from "hooks/settlement/usePartySettlementSummary";
@@ -10,10 +11,16 @@ export default function SettlementPartyDetailContent() {
   const router = useRouter();
   const { partyId } = router.query;
 
-  const { summaries, isLoading: isLoadingPartySettlementSummary } =
-    usePartySettlementSummary({ partyId: Number(partyId) });
-  const { payInfo, isLoading: isLoadingPartySettlementPayInfo } =
-    usePartySettlementPayInfo({ partyId: Number(partyId) });
+  const {
+    summaries,
+    isLoading: isLoadingPartySettlementSummary,
+    isNotFound: isNotFoundPartySettlementSummary,
+  } = usePartySettlementSummary({ partyId: Number(partyId) });
+  const {
+    payInfo,
+    isLoading: isLoadingPartySettlementPayInfo,
+    isNotFound: isNotFoundPartySettlementPayInfo,
+  } = usePartySettlementPayInfo({ partyId: Number(partyId) });
   const { count, sumMeso, userPayInfo } = payInfo || {
     count: 0,
     sumMeso: 0,
@@ -29,6 +36,17 @@ export default function SettlementPartyDetailContent() {
     isLoadingPartySettlementPayInfo,
     isLoadingPartySettlementSummary,
   ].some(Boolean);
+
+  useEffect(() => {
+    if (isNotFoundPartySettlementSummary && isNotFoundPartySettlementPayInfo) {
+      alert("해당 정산을 찾을 수 없습니다.");
+      router.back();
+    }
+  }, [
+    isNotFoundPartySettlementPayInfo,
+    isNotFoundPartySettlementSummary,
+    router,
+  ]);
 
   if (isLoading) {
     return <></>;

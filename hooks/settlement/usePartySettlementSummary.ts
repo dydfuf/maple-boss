@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
+import { API_STATUS_CODE } from "constants/common";
 import { customedAxios } from "hooks/api/customedAxios";
 import { CommonResponse } from "types/common";
 
@@ -21,13 +22,17 @@ export default function usePartySettlementSummary({ partyId }: Params) {
   );
 
   const summaries =
-    data?.data.data.summary.filter((summary) => summary.status !== "DELETED") ||
-    [];
+    data?.data.data?.summary.filter(
+      (summary) => summary.status !== "DELETED"
+    ) || [];
+
+  const isNotFound = data?.data.code === API_STATUS_CODE.NOT_FOUND;
 
   return {
     summaries,
     isLoading,
     refetch,
+    isNotFound,
   };
 }
 
@@ -58,7 +63,7 @@ type Type = "MANUAL" | "AUTO";
 type Status = "IN_PROGRESS" | "CONFIRMED" | "DELETED";
 
 const sendPartySettlementSummary = ({ partyId, accessToken }: APIParams) => {
-  return customedAxios.get<CommonResponse<APIResponse>>(
+  return customedAxios.get<CommonResponse<APIResponse | null>>(
     `/api/party-settlement/get-summary?partyId=${partyId}`,
     {
       headers: {
