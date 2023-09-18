@@ -6,6 +6,7 @@ interface Props {
   showCancel?: boolean;
   showConfirm?: boolean;
   confirmDisabled?: boolean;
+  preventConfirm?: boolean;
   onClickCancel?: () => void;
   onClickConfirm?: () => void;
 }
@@ -16,6 +17,7 @@ export default function CommonDialogButtonGroup({
   showCancel = true,
   showConfirm = true,
   confirmDisabled = false,
+  preventConfirm = false,
   onClickCancel,
   onClickConfirm,
 }: Props) {
@@ -33,7 +35,7 @@ export default function CommonDialogButtonGroup({
           </button>
         </Dialog.Cancel>
       )}
-      {showConfirm && (
+      {showConfirm && !preventConfirm && (
         <Dialog.Action asChild>
           <button
             disabled={confirmDisabled}
@@ -45,6 +47,17 @@ export default function CommonDialogButtonGroup({
             </span>
           </button>
         </Dialog.Action>
+      )}
+      {showConfirm && preventConfirm && (
+        <button
+          disabled={confirmDisabled}
+          className="flex h-44 w-180 items-center justify-center rounded-8 bg-purple-100 focus:outline-none disabled:opacity-50"
+          onClick={onClickConfirm}
+        >
+          <span className="text-14 font-semibold text-white">
+            {confirmLabel}
+          </span>
+        </button>
       )}
     </div>
   );

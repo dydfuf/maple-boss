@@ -20,7 +20,12 @@ export default function CreateSettlementDialogRoot({ open, setOpen }: Props) {
   });
 
   const { currentStepValue, next } = useStep({
-    steps: ["ChooseBossAndSettlementType", "ChooseItems", "ChooseDividends"],
+    steps: [
+      "ChooseBossAndSettlementType",
+      "ChooseItems",
+      "ChooseDividends",
+      "ChoosePercentage",
+    ],
   });
 
   // ChooseBossAndSettlementType
@@ -35,6 +40,9 @@ export default function CreateSettlementDialogRoot({ open, setOpen }: Props) {
 
   // ChooseDividends
   const [choosedDividends, setChoosedDividens] = useState<Array<Dividens>>([]);
+
+  // ChoosePercentage
+  const [choosedPercentage, setChoosedPercentage] = useState<Percentage>();
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
@@ -59,8 +67,16 @@ export default function CreateSettlementDialogRoot({ open, setOpen }: Props) {
         <Contents.ChooseDividends
           choosedDividends={choosedDividends}
           setChoosedDividens={setChoosedDividens}
+          onClickNext={next}
+        />
+      )}
+      {currentStepValue === "ChoosePercentage" && (
+        <Contents.ChoosePercentage
+          setChoosedPercentage={setChoosedPercentage}
+          isValid={Boolean(choosedPercentage)}
           onSubmit={async () => {
             if (!selectedSettlementType) return;
+            if (!choosedPercentage) return;
 
             const items = choosedBossItemList.map((choosedBossItem) => ({
               bossItemId: choosedBossItem.bossItem.id,
@@ -73,7 +89,9 @@ export default function CreateSettlementDialogRoot({ open, setOpen }: Props) {
               type: selectedSettlementType,
               items,
               dividends: choosedDividends,
+              percentage: choosedPercentage,
             });
+
             if (data.code === "S000") {
               setOpen(false);
             }
@@ -94,3 +112,5 @@ export interface Dividens {
   memberId: number;
   rate: number;
 }
+
+export type Percentage = 3 | 5;

@@ -1,6 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
-import { Dividens } from "components/Settlement/PartyDetail/CreateSettlementDialog/CreateSettlementDialogRoot";
+import {
+  Dividens,
+  Percentage,
+} from "components/Settlement/PartyDetail/CreateSettlementDialog/CreateSettlementDialogRoot";
 import { customedAxios } from "hooks/api/customedAxios";
 import { CommonResponse, SettlementType } from "types/common";
 
@@ -22,6 +25,7 @@ export default function usePartySettlementCreate({ partyId }: Params) {
       type,
       items,
       dividends,
+      percentage,
     }: Omit<APIParams, "accessToken" | "partyId">) =>
       sendPartySettlementCreate({
         partyId,
@@ -29,6 +33,7 @@ export default function usePartySettlementCreate({ partyId }: Params) {
         type,
         items,
         dividends,
+        percentage,
         accessToken,
       }),
     {
@@ -53,6 +58,7 @@ interface APIParams {
   type: SettlementType;
   items: Item[];
   dividends: Dividens[];
+  percentage: Percentage;
   accessToken: string;
 }
 
@@ -68,11 +74,12 @@ const sendPartySettlementCreate = ({
   type,
   items,
   dividends,
+  percentage,
   accessToken,
 }: APIParams) => {
   return customedAxios.post<CommonResponse<null>>(
     "/api/party-settlement",
-    { partyId, bossId, type, items, dividends },
+    { partyId, bossId, type, items, dividends, percentage },
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,

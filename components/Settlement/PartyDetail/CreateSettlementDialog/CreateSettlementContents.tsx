@@ -12,7 +12,11 @@ import useSearchBossItem from "hooks/boss/useSearchBossItem";
 import usePartyMemberList from "hooks/party/usePartyMemberList";
 import { SettlementType } from "types/common";
 import { cn } from "utils/common";
-import { ChoosedBossItem, Dividens } from "./CreateSettlementDialogRoot";
+import {
+  ChoosedBossItem,
+  Dividens,
+  Percentage,
+} from "./CreateSettlementDialogRoot";
 import ArrowDown from "@/public/images/ArrowDown.png";
 import Search from "@/public/images/Search.png";
 
@@ -20,6 +24,7 @@ export const CreateSettlementContents = Object.assign(() => <></>, {
   ChooseBossAndSettlementType,
   ChooseItems,
   ChooseDividends,
+  ChoosePercentage,
 });
 
 interface ChooseBossAndSettlementTypeProps {
@@ -149,6 +154,7 @@ function ChooseBossAndSettlementType({
       <CommonDialogButtonGroup
         confirmLabel={isValid ? "다음" : "기본정보를 선택해주세요"}
         confirmDisabled={!isValid}
+        preventConfirm
         onClickConfirm={() => {
           if (!isValid) {
             return;
@@ -348,6 +354,7 @@ function ChooseItems({
         <CommonDialogButtonGroup
           confirmLabel={isValid ? "다음" : "아이템을 추가해주세요"}
           confirmDisabled={!isValid}
+          preventConfirm
           onClickConfirm={() => {
             if (!isValid) {
               return;
@@ -360,17 +367,17 @@ function ChooseItems({
   );
 }
 
-interface Props {
+interface ChooseDividendsProps {
   choosedDividends: Array<Dividens>;
   setChoosedDividens: Dispatch<SetStateAction<Dividens[]>>;
-  onSubmit: () => void;
+  onClickNext: () => void;
 }
 
 function ChooseDividends({
   choosedDividends,
   setChoosedDividens,
-  onSubmit,
-}: Props) {
+  onClickNext,
+}: ChooseDividendsProps) {
   const router = useRouter();
   const { partyId } = router.query;
   const { members } = usePartyMemberList({ partyId: Number(partyId) });
@@ -466,8 +473,87 @@ function ChooseDividends({
         )}
       </div>
       <CommonDialogButtonGroup
+        confirmLabel="다음"
+        confirmDisabled={!isValid}
+        preventConfirm
+        onClickConfirm={() => {
+          if (!isValid) {
+            return;
+          }
+
+          onClickNext();
+        }}
+      />
+    </CommonDialogContent>
+  );
+}
+
+interface ChoosePercentageProps {
+  setChoosedPercentage: (percentage: Percentage) => void;
+  isValid: boolean;
+  onSubmit: () => void;
+}
+
+function ChoosePercentage({
+  isValid,
+  onSubmit,
+  setChoosedPercentage,
+}: ChoosePercentageProps) {
+  return (
+    <CommonDialogContent>
+      <CommonDialogTitle title="정산 생성" subTitle="수수료 선택" />
+      <Select.Root
+        onValueChange={(value) => {
+          setChoosedPercentage(value as unknown as Percentage);
+        }}
+      >
+        <Select.Trigger className="mt-20 inline-flex h-50 w-400 items-center justify-center rounded-8 border-1 border-white-100 bg-white outline-none">
+          <div className="flex w-full items-center justify-between px-16 text-13 text-gray-500">
+            <Select.Value placeholder="수수료를 선택 해주세요." />
+            <Select.Icon>
+              <Image
+                src={ArrowDown.src}
+                width={16}
+                height={16}
+                alt="arrow-down"
+                className="h-16 w-16"
+              />
+            </Select.Icon>
+          </div>
+        </Select.Trigger>
+        <Select.Portal>
+          <Select.Content
+            className="h-full w-400 overflow-auto rounded-8 bg-white"
+            position="popper"
+            sideOffset={2}
+          >
+            <Select.Viewport className="h-full w-full overflow-auto rounded-8 border-1 text-13 text-gray-500">
+              <Select.Item
+                key={"3"}
+                className={cn(
+                  "relative flex h-50 w-full cursor-pointer items-center px-16"
+                )}
+                value={"3"}
+              >
+                <Select.ItemText>{`${3} %`}</Select.ItemText>
+              </Select.Item>
+              <Select.Item
+                key={"5"}
+                className={cn(
+                  "relative flex h-50 w-full cursor-pointer items-center px-16"
+                )}
+                value={"5"}
+              >
+                <Select.ItemText>{`${5} %`}</Select.ItemText>
+              </Select.Item>
+            </Select.Viewport>
+          </Select.Content>
+        </Select.Portal>
+      </Select.Root>
+      <CommonDialogButtonGroup
         confirmLabel="생성"
         confirmDisabled={!isValid}
+        preventConfirm
         onClickConfirm={() => {
           if (!isValid) {
             return;
