@@ -15,7 +15,9 @@ export const SettlementRate = () => {
   );
 
   useEffect(() => {
-    partySettlement && setDividends(partySettlement.dividends);
+    partySettlement &&
+      partySettlement.dividends &&
+      setDividends(partySettlement.dividends);
   }, [partySettlement]);
 
   return (

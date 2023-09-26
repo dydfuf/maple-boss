@@ -31,6 +31,8 @@ export default function useSettlementDetailInfo({ settlementId }: Params) {
 
   return {
     partySettlement: data?.data.data?.partySettlement,
+    items: data?.data.data?.partySettlement.items,
+    selectedBossId: data?.data.data?.partySettlement.mainData.bossId,
     isLoading,
     refetch,
   };
@@ -45,16 +47,17 @@ interface APIResponse {
   partySettlement: PartySettlement;
 }
 
-interface PartySettlement {
-  id: number;
+export interface PartySettlement {
+  id?: number;
   mainData: MainData;
-  items: Item[];
-  dividends: Dividends[];
+  items?: Item[];
+  dividends?: Dividends[];
 }
 
 interface MainData {
   partyId: number;
   partyName: string;
+  bossId: number;
   bossName: string;
   bossClazz: BossClazz;
   userName: string;
@@ -68,12 +71,14 @@ interface MainData {
 }
 
 export interface Item {
+  id: number;
   name: string;
   amount: number;
   meso: number;
 }
 
 export interface Dividends {
+  userId: number;
   userName: string;
   rate: number;
 }

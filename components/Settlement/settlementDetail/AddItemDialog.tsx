@@ -61,10 +61,11 @@ export const AddItemDialog = ({
   };
 
   const handleAddItemClick = () => {
-    setChoosedBossItemList((prev) => [
-      ...prev,
-      { name: searchBossItemValue, amount, meso },
-    ]);
+    const editArray = choosedBossItemList && [
+      ...choosedBossItemList,
+      { id: bossItemId, name: searchBossItemValue, amount, meso },
+    ];
+    setChoosedBossItemList(editArray);
   };
 
   const handleConfirmClick = () => {

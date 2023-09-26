@@ -1,29 +1,72 @@
 import * as Dialog from "@radix-ui/react-alert-dialog";
+import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import useSettlementDetailInfo, {
   Item,
+  PartySettlement,
 } from "hooks/settlement/useSettlementDetailInfo";
 import { AddItemDialog } from "./AddItemDialog";
 
-export const Items = () => {
+import XIcon from "@/public/images/XIcon.png";
+
+interface Props {
+  items?: Item[];
+  setEditSettlement: Dispatch<SetStateAction<PartySettlement | undefined>>;
+}
+
+export const Items = ({ items, setEditSettlement }: Props) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const { settlementId } = router.query;
-  const { partySettlement } = useSettlementDetailInfo({
+  const { selectedBossId } = useSettlementDetailInfo({
     settlementId: Number(settlementId),
   });
   const [choosedBossItemList, setChoosedBossItemList] = useState<Array<Item>>(
-    (partySettlement && partySettlement.items) || []
+    items || []
   );
-  const selectedBossId = 1;
 
   useEffect(() => {
-    partySettlement && setChoosedBossItemList(partySettlement.items);
-  }, [partySettlement]);
+    items && setChoosedBossItemList(items);
+  }, [items]);
+
+  useEffect(() => {
+    setEditSettlement(
+      (prev) =>
+        prev && {
+          ...prev,
+          items: choosedBossItemList,
+        }
+    );
+  }, [choosedBossItemList, setEditSettlement]);
 
   const handleAddItemClick = () => {
     setOpen(true);
+  };
+
+  const handleChangeAmount = (id: number, value: number) => {
+    const editItems =
+      choosedBossItemList &&
+      choosedBossItemList.map((item) =>
+        item.id === id ? { ...item, amount: value } : item
+      );
+    editItems && setChoosedBossItemList(editItems);
+  };
+
+  const handleChangeMeso = (id: number, value: number) => {
+    const editItems =
+      choosedBossItemList &&
+      choosedBossItemList.map((item) =>
+        item.id === id ? { ...item, meso: value } : item
+      );
+    editItems && setChoosedBossItemList(editItems);
+  };
+
+  const handleRemoveItemClick = (itemId: number) => {
+    const editItems =
+      choosedBossItemList &&
+      choosedBossItemList.filter((item) => item.id !== itemId);
+    editItems && setChoosedBossItemList(editItems);
   };
 
   return (
@@ -57,11 +100,21 @@ export const Items = () => {
               <span className="mb-8 ml-8 text-13">수량</span>
               <ul className="flex flex-col gap-10">
                 {choosedBossItemList.map((item) => (
-                  <li
-                    key={`items-amount-${item.name}`}
-                    className="h-50 w-full rounded-8 border-1 border-white-100 bg-white text-center leading-50"
-                  >
-                    {item.amount}
+                  <li key={`items-amount-${item.name}`}>
+                    <input
+                      className="h-50 w-full rounded-8 border-1 border-white-100 bg-white text-center leading-50 focus:outline-none"
+                      defaultValue={item.amount}
+                      onChange={(e) => {
+                        const value = e.currentTarget.value.replaceAll(",", "");
+                        e.currentTarget.value = Number(value).toLocaleString();
+                      }}
+                      onBlur={(e) => {
+                        const value = e.currentTarget.value.replaceAll(",", "");
+                        if (!isNaN(Number(value))) {
+                          handleChangeAmount(item.id, Number(value));
+                        }
+                      }}
+                    ></input>
                   </li>
                 ))}
               </ul>
@@ -70,11 +123,30 @@ export const Items = () => {
               <span className="mb-8 ml-8 text-13">메소</span>
               <ul className="flex flex-col gap-10">
                 {choosedBossItemList.map((item) => (
-                  <li
-                    key={`items-meso-${item.name}`}
-                    className="h-50 w-full rounded-8 border-1 border-white-100 bg-white pl-16 leading-50"
-                  >
-                    {item.meso.toLocaleString()}
+                  <li key={`items-meso-${item.name}`} className="relative">
+                    <input
+                      className="h-50 w-full rounded-8 border-1 border-white-100 bg-white pl-16 leading-50 focus:outline-none"
+                      defaultValue={item.meso.toLocaleString()}
+                      onChange={(e) => {
+                        const value = e.currentTarget.value.replaceAll(",", "");
+                        e.currentTarget.value = Number(value).toLocaleString();
+                      }}
+                      onBlur={(e) => {
+                        const value = e.currentTarget.value.replaceAll(",", "");
+                        if (!isNaN(Number(value))) {
+                          handleChangeMeso(item.id, Number(value));
+                        }
+                      }}
+                    ></input>
+                    <button onClick={() => handleRemoveItemClick(item.id || 0)}>
+                      <Image
+                        src={XIcon.src}
+                        width={150}
+                        height={65}
+                        alt="X"
+                        className="absolute -right-34 top-13 h-24 w-24"
+                      />
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -89,7 +161,7 @@ export const Items = () => {
           <AddItemDialog
             choosedBossItemList={choosedBossItemList}
             setChoosedBossItemList={setChoosedBossItemList}
-            selectedBossId={selectedBossId}
+            selectedBossId={selectedBossId || 0}
             onClickConfirm={() => {
               if (choosedBossItemList.length > 0) {
                 setOpen(false);
