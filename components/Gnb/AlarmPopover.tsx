@@ -1,7 +1,11 @@
+import Image from "next/image";
 import { useRouter } from "next/router";
+import useAlarm from "hooks/alarm/useAlarm";
+import useReadAlarm from "hooks/alarm/useReadAlarm";
 import useMyPartyInvite from "hooks/party/useMyPartyInvite";
 import usePartyInviteApprove from "hooks/party/usePartyInviteApprove";
 import usePartyInviteReject from "hooks/party/usePartyInviteReject";
+import Check from "@/public/images/Check.png";
 
 export default function AlarmPopover() {
   const router = useRouter();
@@ -9,6 +13,9 @@ export default function AlarmPopover() {
   const { partyInvites } = useMyPartyInvite();
   const { partyInviteApprove } = usePartyInviteApprove();
   const { partyInviteReject } = usePartyInviteReject();
+
+  const { alarms } = useAlarm();
+  const { readAlarm } = useReadAlarm();
 
   const handleApproveClick = async (partyInviteId: number) => {
     await partyInviteApprove({ partyInviteId });
@@ -44,7 +51,23 @@ export default function AlarmPopover() {
           </div>
         </div>
       ))}
-      {partyInvites.length === 0 && <span>표시할 알림이 없습니다.</span>}
+      {alarms.map((alarm) => (
+        <div key={`alarm-${alarm.id}`} className="flex">
+          <p className="flex h-42 w-full items-center">{alarm.content}</p>
+          <button
+            className="flex shrink-0 items-center justify-center gap-x-4 px-4"
+            onClick={() => {
+              readAlarm({ alarmId: alarm.id });
+            }}
+          >
+            <Image src={Check.src} alt="check" width={16} height={16} />
+            <span className="text-14 font-normal text-gray-400">읽음</span>
+          </button>
+        </div>
+      ))}
+      {partyInvites.length === 0 && alarms.length === 0 && (
+        <span>표시할 알림이 없습니다.</span>
+      )}
     </div>
   );
 }
