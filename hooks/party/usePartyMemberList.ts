@@ -21,7 +21,7 @@ export default function usePartyMemberList({ partyId }: Params) {
   );
 
   return {
-    members: data?.data.data.members || [],
+    members: data?.data.data?.members || [],
     isLoading: isLoading,
     refetch,
   };

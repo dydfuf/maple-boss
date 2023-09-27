@@ -45,28 +45,28 @@ export const Items = ({ items, setEditSettlement }: Props) => {
   };
 
   const handleChangeAmount = (id: number, value: number) => {
-    const editItems =
+    const newItems =
       choosedBossItemList &&
       choosedBossItemList.map((item) =>
         item.id === id ? { ...item, amount: value } : item
       );
-    editItems && setChoosedBossItemList(editItems);
+    newItems && setChoosedBossItemList(newItems);
   };
 
   const handleChangeMeso = (id: number, value: number) => {
-    const editItems =
+    const newItems =
       choosedBossItemList &&
       choosedBossItemList.map((item) =>
         item.id === id ? { ...item, meso: value } : item
       );
-    editItems && setChoosedBossItemList(editItems);
+    newItems && setChoosedBossItemList(newItems);
   };
 
   const handleRemoveItemClick = (itemId: number) => {
-    const editItems =
+    const newItems =
       choosedBossItemList &&
       choosedBossItemList.filter((item) => item.id !== itemId);
-    editItems && setChoosedBossItemList(editItems);
+    newItems && setChoosedBossItemList(newItems);
   };
 
   return (
@@ -89,7 +89,7 @@ export const Items = ({ items, setEditSettlement }: Props) => {
                 {choosedBossItemList.map((item) => (
                   <li
                     key={item.name}
-                    className="h-50 w-full rounded-8 border-1 border-white-100 bg-white pl-16 leading-50"
+                    className="h-50 w-full rounded-8 border-1 border-white-100  pl-16 leading-50"
                   >
                     {item.name}
                   </li>
