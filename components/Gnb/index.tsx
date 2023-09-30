@@ -17,7 +17,7 @@ export default function Gnb({ hideGnb }: Props) {
       {!hideGnb && (
         <header className="flex h-100 w-full border-b-1 border-main-2">
           <div className="mx-auto mt-10 flex w-full max-w-[1440px]">
-            <Link href="/">
+            <Link href="/party">
               <Image
                 src={MainLogo.src}
                 width={150}
