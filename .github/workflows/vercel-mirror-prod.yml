@@ -1,0 +1,38 @@
+name: git push into another repo to deploy to vercel
+
+on:
+  push:
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: pandoc/latex
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install mustache (to update the date)
+        run: apk add ruby && gem install mustache
+
+      - name: creates output
+        run: sh ./script/build.sh
+
+      - name: Extract Tag Name
+        id: get-tag
+        run: echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
+
+      - name: Pushes to another repository
+        id: push_directory
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.VERCEL_MIRROR_SECRET_TOKEN_PROD }}
+        with:
+          source-directory: "output"
+          destination-github-username: goyounha11
+          destination-repository-name: maple-boss-prod
+          commit-message: Deploying version ${{ steps.get-tag.outputs.tag }}
+          target-branch: main
+
+      - name: Test get variable exported by push-to-another-repository
+        run: echo $DESTINATION_CLONED_DIRECTORY
