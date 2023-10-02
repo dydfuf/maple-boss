@@ -4,6 +4,7 @@ import { useState } from "react";
 import useCancelInviteParty from "hooks/party/useCancelInviteParty";
 import useInvitedPartyMember from "hooks/party/useInvitedPartyMember";
 import useInvitePartyMember from "hooks/party/useInvitePartyMember";
+import usePartyDetail from "hooks/party/usePartyDetail";
 import CancelInvitePartyDialog from "./CancelInvitePartyDialog";
 import InviteMemberDialog from "./InviteMemberDialog";
 
@@ -11,6 +12,7 @@ export default function InvitedPartyMember() {
   const router = useRouter();
   const { partyId } = router.query;
 
+  const { partyDetail } = usePartyDetail({ partyId: Number(partyId) });
   const { partyInvites, refetch } = useInvitedPartyMember({
     partyId: Number(partyId),
   });
@@ -21,6 +23,8 @@ export default function InvitedPartyMember() {
   const [dialogType, setDialogType] = useState<DialogType>(undefined);
 
   const [cancelInvitePartyId, setCancelInvitePartyId] = useState<number>(0);
+
+  const { isLeader } = partyDetail || { isLeader: false };
 
   const handleInviteClick = () => {
     setDialogOpen(true);
@@ -42,12 +46,14 @@ export default function InvitedPartyMember() {
           파티원
         </div>
         <div className="flex w-full flex-col gap-y-14">
-          <button
-            className="ml-auto flex items-center justify-center rounded-4 bg-purple-100 px-16 py-8"
-            onClick={handleInviteClick}
-          >
-            <span className="text-14 font-semibold text-white">초대</span>
-          </button>
+          {isLeader && (
+            <button
+              className="ml-auto flex items-center justify-center rounded-4 bg-purple-100 px-16 py-8"
+              onClick={handleInviteClick}
+            >
+              <span className="text-14 font-semibold text-white">초대</span>
+            </button>
+          )}
           <div className="grid w-full grid-cols-1 gap-x-30 gap-y-10 md:max-lg:grid-cols-2 xl:grid-cols-2">
             {partyInvites.map((member) => {
               return (

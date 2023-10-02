@@ -44,6 +44,9 @@ export default function SettlementListContent() {
           </Link>
         );
       })}
+      {partySettlementDetailCounts.length === 0 && (
+        <p>정산 데이터가 없습니다.</p>
+      )}
     </div>
   );
 }

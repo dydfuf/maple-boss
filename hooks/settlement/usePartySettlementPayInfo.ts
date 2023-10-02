@@ -40,6 +40,7 @@ interface APIResponse {
   totalMeso: number;
   sumMeso: number;
   userPayInfo: Record<string, number>;
+  isLeader: boolean;
 }
 
 const sendPartySettlementPayInfo = ({ accessToken, partyId }: APIParams) => {

@@ -18,7 +18,7 @@ export default function UserInfoPopover() {
   const { nickname } = info || { nickname: "" };
 
   const handleSignOutClick = () => {
-    signOut();
+    signOut({ callbackUrl: "/login" });
   };
   const handleNicknameChangeClick = () => {
     setDialogType("NICKNAME_CHANGE");

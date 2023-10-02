@@ -8,7 +8,7 @@ export default function LoginForm() {
   const [isError, setIsError] = useState(false);
 
   const { callbackUrl } = router.query;
-  const _callbackUrl = (callbackUrl as string) || "/";
+  const _callbackUrl = (callbackUrl as string) || "/party";
 
   return (
     <Form.Root

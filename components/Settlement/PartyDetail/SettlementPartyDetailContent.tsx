@@ -21,10 +21,11 @@ export default function SettlementPartyDetailContent() {
     isLoading: isLoadingPartySettlementPayInfo,
     isNotFound: isNotFoundPartySettlementPayInfo,
   } = usePartySettlementPayInfo({ partyId: Number(partyId) });
-  const { count, sumMeso, userPayInfo } = payInfo || {
+  const { count, sumMeso, userPayInfo, isLeader } = payInfo || {
     count: 0,
     sumMeso: 0,
     userPayInfo: {},
+    isLeader: false,
   };
   const { partySettlementPay, isLoading: isLoadingPartySettlementPay } =
     usePartySettlementPay({
@@ -48,6 +49,10 @@ export default function SettlementPartyDetailContent() {
     router,
   ]);
 
+  const hasWillPay = Object.keys(userPayInfo).length !== 0;
+
+  const showPayButton = hasWillPay && isLeader;
+
   if (isLoading) {
     return <></>;
   }
@@ -69,26 +74,28 @@ export default function SettlementPartyDetailContent() {
               <span className="text-gray-900">{amount.toLocaleString()}</span>
             </div>
           ))}
-          {Object.keys(userPayInfo).length === 0 && (
-            <div>지급 예정이 없습니다.</div>
-          )}
+          {!hasWillPay && <div>지급 예정이 없습니다.</div>}
         </div>
-        <div className="mt-18 flex items-center justify-between font-bold text-gray-900">
-          <span>총 메소</span>
-          <span>{sumMeso.toLocaleString()}</span>
-        </div>
-        <button
-          className="mt-24 flex h-44 w-full items-center justify-center rounded-8 bg-purple-100"
-          onClick={() => {
-            if (summaries.length === 0) {
-              alert("지급 예정 정산이 없습니다.");
-              return;
-            }
-            partySettlementPay();
-          }}
-        >
-          <span className="text-14  font-semibold text-white">지급</span>
-        </button>
+        {hasWillPay && (
+          <div className="mt-18 flex items-center justify-between font-bold text-gray-900">
+            <span>총 메소</span>
+            <span>{sumMeso.toLocaleString()}</span>
+          </div>
+        )}
+        {showPayButton && (
+          <button
+            className="mt-24 flex h-44 w-full items-center justify-center rounded-8 bg-purple-100"
+            onClick={() => {
+              if (summaries.length === 0) {
+                alert("지급 예정 정산이 없습니다.");
+                return;
+              }
+              partySettlementPay();
+            }}
+          >
+            <span className="text-14  font-semibold text-white">지급</span>
+          </button>
+        )}
       </div>
       <div className="grid w-full grid-cols-1 gap-16 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
         {summaries.map((summary) => (

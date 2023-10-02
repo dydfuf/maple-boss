@@ -49,7 +49,7 @@ export default function PasswordChangeDialog({ onSubmit }: Props) {
           <Form.Control asChild>
             <input
               className="flex h-50 items-center rounded-8 border-1 border-white-100 bg-white px-16 text-14 font-normal text-gray-500"
-              type="text"
+              type="password"
               required
               placeholder="비밀번호를 입력해주세요"
             />

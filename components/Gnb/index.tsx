@@ -1,6 +1,7 @@
 import * as Popover from "@radix-ui/react-popover";
 import Image from "next/image";
 import Link from "next/link";
+import useAlarm from "hooks/alarm/useAlarm";
 import AlarmPopover from "./AlarmPopover";
 import UserInfoPopover from "./UserInfoPopover";
 import Alarm from "@/public/images/Alarm.png";
@@ -12,10 +13,13 @@ interface Props {
 }
 
 export default function Gnb({ hideGnb }: Props) {
+  const { alarms } = useAlarm();
+  const alarmCount = alarms.length;
+
   return (
     <>
       {!hideGnb && (
-        <header className="flex h-100 w-full border-b-1 border-main-2">
+        <header className="flex h-100 w-full border-b-1 border-main-2 px-12">
           <div className="mx-auto mt-10 flex w-full max-w-[1440px]">
             <Link href="/party">
               <Image
@@ -26,20 +30,20 @@ export default function Gnb({ hideGnb }: Props) {
                 className="h-65 w-150"
               />
             </Link>
-            <div className="ml-100 flex items-center gap-x-40">
+            <div className="ml-auto flex items-center gap-x-20 sm:gap-x-40">
               {MENU_LINK_LIST.map((menu) => (
-                <Link key={menu.href} href={menu.href}>
+                <Link key={menu.href} href={menu.href} className="shrink-0">
                   <span className="text-22 font-bold text-white">
                     {menu.label}
                   </span>
                 </Link>
               ))}
             </div>
-            <div className="my-auto ml-auto flex gap-x-40">
+            <div className="my-auto ml-20 flex gap-x-20 sm:ml-40 sm:gap-x-40">
               {SUB_MENU_LIST.map((submenu) => (
                 <Popover.Root key={submenu.src}>
                   <Popover.Trigger asChild>
-                    <button>
+                    <button className="relative">
                       <Image
                         key={submenu.src}
                         src={submenu.src}
@@ -48,6 +52,11 @@ export default function Gnb({ hideGnb }: Props) {
                         alt={submenu.alt}
                         className="cursor-pointer"
                       />
+                      {submenu.type === "alarm" && alarmCount > 0 && (
+                        <div className="absolute right-5 top-0 flex h-20 w-20 -translate-y-1/2 translate-x-1/2 items-center justify-center rounded-full bg-gray-100 text-12 font-bold">
+                          {alarmCount}
+                        </div>
+                      )}
                     </button>
                   </Popover.Trigger>
                   <Popover.Portal>
