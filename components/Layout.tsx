@@ -12,7 +12,7 @@ export default function Layout({
 }: PropsWithChildren<Props>) {
   return (
     <div className="flex min-h-[100dvh] flex-col bg-main">
-      <Gnb hideGnb={hideGnb} />
+      {!hideGnb && <Gnb />}
       <main className="flex flex-1">{children}</main>
       <Footer />
     </div>
