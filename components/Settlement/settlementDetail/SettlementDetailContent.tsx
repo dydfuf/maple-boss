@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import usePartyDetail from "hooks/party/usePartyDetail";
 import usePartySettlementEdit, {
   EditSettlement,
 } from "hooks/settlement/usePartySettlementEdit";
@@ -34,11 +35,18 @@ const convertToEditSettlement = (
 
 export default function SettlementDetailContent() {
   const router = useRouter();
-  const { settlementId } = router.query;
+  const { settlementId, partyId } = router.query;
 
-  const { partySettlement } = useSettlementDetailInfo({
+  const { partySettlement, isLoading } = useSettlementDetailInfo({
     settlementId: Number(settlementId),
   });
+  const { partyDetail } = usePartyDetail({ partyId: Number(partyId) });
+
+  const { isLeader } = partyDetail || { isLeader: false };
+  const { mainData } = partySettlement || {};
+  const { status } = mainData || {};
+  const isConfirmed = status === "CONFIRMED";
+  const isDisabled = isConfirmed || !isLeader;
 
   const [editSettlement, setEditSettlement] = useState<
     PartySettlement | undefined
@@ -48,48 +56,57 @@ export default function SettlementDetailContent() {
 
   const { editPartySettlement } = usePartySettlementEdit();
 
-
   useEffect(() => {
     partySettlement && setEditSettlement(partySettlement);
   }, [partySettlement]);
 
+  if (isLoading) {
+    return <></>;
+  }
+
   return (
     <div className="flex flex-col">
       <div className="mt-40 flex w-full gap-20 ">
-        <DetailInfo setEditSettlement={setEditSettlement} />
+        <DetailInfo
+          setEditSettlement={setEditSettlement}
+          isDisabled={isDisabled}
+        />
         <Items
+          isDisabled={isDisabled}
           items={editSettlement?.items}
           setEditSettlement={setEditSettlement}
         />
         <SettlementRate
+          isDisabled={isDisabled}
           dividends={editSettlement?.dividends}
           setEditSettlement={setEditSettlement}
           isValid={isValid}
           setIsValid={setIsValid}
         />
       </div>
-      <div className="mt-50 flex w-full justify-center">
-        <div className="flex gap-8">
-          <button className="h-44 w-166 rounded-8 bg-gray-200 font-semibold text-gray-800">
-            취소
-          </button>
-          <button
-            className="h-44 w-166 rounded-8 bg-purple-100 font-semibold text-white"
-            onClick={async () => {
-              const settlement =
-                editSettlement && convertToEditSettlement(editSettlement);
-              if (isValid) {
-                settlement && (await editPartySettlement(settlement));
-              } else {
-                alert("분배율을 100%로 맞춰주세요.");
-              }
-            }}
-          >
-            저장
-          </button>
+      {!isDisabled && (
+        <div className="mt-50 flex w-full justify-center">
+          <div className="flex gap-8">
+            <button className="h-44 w-166 rounded-8 bg-gray-200 font-semibold text-gray-800">
+              취소
+            </button>
+            <button
+              className="h-44 w-166 rounded-8 bg-purple-100 font-semibold text-white"
+              onClick={async () => {
+                const settlement =
+                  editSettlement && convertToEditSettlement(editSettlement);
+                if (isValid) {
+                  settlement && (await editPartySettlement(settlement));
+                } else {
+                  alert("분배율을 100%로 맞춰주세요.");
+                }
+              }}
+            >
+              저장
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
-

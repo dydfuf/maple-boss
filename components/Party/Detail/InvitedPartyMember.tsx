@@ -79,6 +79,9 @@ export default function InvitedPartyMember() {
                 </div>
               );
             })}
+            {partyInvites.length === 0 && (
+              <span>초대한 파티원이 없습니다.</span>
+            )}
           </div>
         </div>
         {dialogType === "INVITE_MEMBER" && (

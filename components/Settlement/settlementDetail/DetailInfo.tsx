@@ -11,9 +11,10 @@ import Crown from "@/public/images/Crown.png";
 
 interface Props {
   setEditSettlement: Dispatch<SetStateAction<PartySettlement | undefined>>;
+  isDisabled: boolean;
 }
 
-export const DetailInfo = ({ setEditSettlement }: Props) => {
+export const DetailInfo = ({ setEditSettlement, isDisabled }: Props) => {
   const router = useRouter();
   const { settlementId } = router.query;
   const { partySettlement } = useSettlementDetailInfo({
@@ -33,15 +34,10 @@ export const DetailInfo = ({ setEditSettlement }: Props) => {
     confirmDate,
     previousSettlementId,
   } = mainData || {
-    partyId: 0,
     partyName: "",
     bossName: "",
-    bossClazz: "",
-    userName: "",
     isLeader: false,
     createdAt: "",
-    status: "",
-    percentage: 0,
     type: "",
     confirmDate: "",
     previousSettlementId: 0,
@@ -116,6 +112,7 @@ export const DetailInfo = ({ setEditSettlement }: Props) => {
           <RadioGroup.Root
             className="flex gap-20"
             defaultValue={String(percentage)}
+            disabled={isDisabled}
           >
             <div className="flex items-center">
               <RadioGroup.Item

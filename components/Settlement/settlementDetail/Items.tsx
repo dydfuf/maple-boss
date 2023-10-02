@@ -11,11 +11,12 @@ import { AddItemDialog } from "./AddItemDialog";
 import XIcon from "@/public/images/XIcon.png";
 
 interface Props {
+  isDisabled: boolean;
   items?: Item[];
   setEditSettlement: Dispatch<SetStateAction<PartySettlement | undefined>>;
 }
 
-export const Items = ({ items, setEditSettlement }: Props) => {
+export const Items = ({ isDisabled, items, setEditSettlement }: Props) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const { settlementId } = router.query;
@@ -41,6 +42,9 @@ export const Items = ({ items, setEditSettlement }: Props) => {
   }, [choosedBossItemList, setEditSettlement]);
 
   const handleAddItemClick = () => {
+    if (isDisabled) {
+      return;
+    }
     setOpen(true);
   };
 
@@ -63,6 +67,10 @@ export const Items = ({ items, setEditSettlement }: Props) => {
   };
 
   const handleRemoveItemClick = (itemId: number) => {
+    if (isDisabled) {
+      return;
+    }
+
     const newItems =
       choosedBossItemList &&
       choosedBossItemList.filter((item) => item.id !== itemId);
@@ -102,14 +110,15 @@ export const Items = ({ items, setEditSettlement }: Props) => {
                 {choosedBossItemList.map((item) => (
                   <li key={`items-amount-${item.name}`}>
                     <input
-                      className="h-50 w-full rounded-8 border-1 border-white-100 bg-white text-center leading-50 focus:outline-none"
-                      defaultValue={item.amount}
+                      className={`h-50 w-full rounded-8 border-1 border-white-100  text-center leading-50 focus:outline-none ${
+                        !isDisabled && "bg-white"
+                      }`}
+                      value={item.amount.toLocaleString()}
+                      disabled={isDisabled}
                       onChange={(e) => {
-                        const value = e.currentTarget.value.replaceAll(",", "");
-                        e.currentTarget.value = Number(value).toLocaleString();
-                      }}
-                      onBlur={(e) => {
-                        const value = e.currentTarget.value.replaceAll(",", "");
+                        const value = Math.abs(
+                          Number(e.currentTarget.value.replaceAll(",", ""))
+                        );
                         if (!isNaN(Number(value))) {
                           handleChangeAmount(item.id, Number(value));
                         }
@@ -125,14 +134,15 @@ export const Items = ({ items, setEditSettlement }: Props) => {
                 {choosedBossItemList.map((item) => (
                   <li key={`items-meso-${item.name}`} className="relative">
                     <input
-                      className="h-50 w-full rounded-8 border-1 border-white-100 bg-white pl-16 leading-50 focus:outline-none"
-                      defaultValue={item.meso.toLocaleString()}
+                      className={`h-50 w-full rounded-8 border-1 border-white-100 pl-16 leading-50 focus:outline-none ${
+                        !isDisabled && "bg-white"
+                      }`}
+                      value={item.meso.toLocaleString()}
+                      disabled={isDisabled}
                       onChange={(e) => {
-                        const value = e.currentTarget.value.replaceAll(",", "");
-                        e.currentTarget.value = Number(value).toLocaleString();
-                      }}
-                      onBlur={(e) => {
-                        const value = e.currentTarget.value.replaceAll(",", "");
+                        const value = Math.abs(
+                          Number(e.currentTarget.value.replaceAll(",", ""))
+                        );
                         if (!isNaN(Number(value))) {
                           handleChangeMeso(item.id, Number(value));
                         }

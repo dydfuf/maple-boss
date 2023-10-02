@@ -27,7 +27,7 @@ export default function SettlementDetailController() {
     partySettlementId: Number(settlementId),
   });
 
-  const { name } = partyDetail || { name: "" };
+  const { name, isLeader } = partyDetail || { name: "", isLeader: false };
   const { mainData } = partySettlement || {};
   const { status } = mainData || {};
 
@@ -43,7 +43,7 @@ export default function SettlementDetailController() {
 
   return (
     <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
-      {status !== "CONFIRMED" && (
+      {status !== "CONFIRMED" && isLeader && (
         <div className="flex items-center gap-x-20 text-14 font-semibold text-white">
           <button
             className="flex h-26 w-60 shrink-0 items-center justify-center rounded-4 bg-purple-100 px-16 py-6"
