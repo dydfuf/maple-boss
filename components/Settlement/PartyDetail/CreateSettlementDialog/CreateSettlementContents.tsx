@@ -82,7 +82,7 @@ function ChooseBossAndSettlementType({
             className="h-16 w-16 cursor-pointer"
           />
           {isSearchListOpen && (
-            <div className="absolute -left-1 top-48 h-full w-[calc(100%+2px)] rounded-b-8 border-1 border-white-100 bg-white focus:outline-none">
+            <div className="absolute -left-1 top-48 w-[calc(100%+2px)] rounded-b-8 border-1 border-white-100 bg-white focus:outline-none">
               {searchedBossList.map((searchedBoss) => (
                 <div
                   key={`searched-boss-${searchedBoss.id}`}
