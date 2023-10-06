@@ -4,7 +4,7 @@ import { customedAxios } from "hooks/api/customedAxios";
 import { CommonResponse } from "types/common";
 
 export default function useAlarm() {
-  const { data: sessionData } = useSession({ required: true });
+  const { data: sessionData } = useSession();
   const accessToken = sessionData?.accessToken || "";
 
   const { data } = useQuery(["alarm"], () => sendGetAlarm({ accessToken }), {

@@ -14,10 +14,18 @@ const config = withPlugins([[withBundleAnalyzer({ enabled: env.ANALYZE })]], {
     return [
       {
         source: "/",
-        destination: "/party",
+        destination: "/boss",
         permanent: true,
       },
     ];
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "i.namu.wiki",
+      },
+    ],
   },
 });
 

@@ -58,9 +58,9 @@ interface Summary {
   confirmedAt?: string;
 }
 
-type BossClazz = "EASY" | "HARD" | "NORMAL";
-type Type = "MANUAL" | "AUTO";
-type Status = "IN_PROGRESS" | "CONFIRMED" | "DELETED";
+export type BossClazz = "EASY" | "HARD" | "NORMAL" | "EXTREME" | "CHAOS";
+export type Type = "MANUAL" | "AUTO";
+export type Status = "IN_PROGRESS" | "CONFIRMED" | "DELETED";
 
 const sendPartySettlementSummary = ({ partyId, accessToken }: APIParams) => {
   return customedAxios.get<CommonResponse<APIResponse | null>>(

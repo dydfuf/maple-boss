@@ -3,10 +3,10 @@ import { format } from "date-fns";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction } from "react";
+import Badge from "components/common/Badge";
 import useSettlementDetailInfo, {
   PartySettlement,
 } from "hooks/settlement/useSettlementDetailInfo";
-import { cn } from "utils/common";
 import Crown from "@/public/images/Crown.png";
 
 interface Props {
@@ -38,7 +38,6 @@ export const DetailInfo = ({ setEditSettlement, isDisabled }: Props) => {
     bossName: "",
     isLeader: false,
     createdAt: "",
-    type: "",
     confirmDate: "",
     previousSettlementId: 0,
   };
@@ -57,14 +56,7 @@ export const DetailInfo = ({ setEditSettlement, isDisabled }: Props) => {
       <ul className="mt-30 flex h-486 w-334 flex-col gap-10 [&_li]:flex [&_li]:h-44 [&_li]:w-274 [&_li]:items-center [&_li]:rounded-8 [&_li]:bg-white [&_li]:px-20">
         <li className="justify-center gap-6">
           <span className="text-18 font-bold">{bossName}</span>
-          <div
-            className={cn(BADGE_CLASSNAME, {
-              "bg-red-100/10 text-red-100": bossClazz === "하드",
-              "bg-green-100/10 text-green-100": bossClazz === "이지",
-            })}
-          >
-            {bossClazz}
-          </div>
+          <Badge variant={bossClazz}>{bossClazz}</Badge>
         </li>
         <li className="justify-between">
           <span className="text-14 font-bold">생성일시</span>
@@ -75,25 +67,13 @@ export const DetailInfo = ({ setEditSettlement, isDisabled }: Props) => {
         </li>
         <li className="justify-between">
           <span className="text-14 font-bold">상태</span>
-          <span
-            className={cn(BADGE_CLASSNAME, {
-              "bg-gray-300 text-gray-500": status === "CONFIRMED",
-              "bg-blue-100/10 text-blue-100": status === "IN_PROGRESS",
-            })}
-          >
+          <Badge variant={status}>
             {STATUS_MAP[status as "CONFIRMED" | "IN_PROGRESS"]}
-          </span>
+          </Badge>
         </li>
         <li className="justify-between">
           <span className="text-14 font-bold">타입</span>
-          <span
-            className={cn(BADGE_CLASSNAME, {
-              "bg-purple-100/10 text-purple-100": type === "AUTO",
-              "bg-yellow-100/10 text-yellow-100": type === "MANUAL",
-            })}
-          >
-            {type}
-          </span>
+          <Badge variant={type}>{type}</Badge>
         </li>
         <li className="justify-between">
           <span className="text-14 font-bold">확정일시</span>
@@ -168,9 +148,6 @@ export const DetailInfo = ({ setEditSettlement, isDisabled }: Props) => {
     </div>
   );
 };
-
-const BADGE_CLASSNAME =
-  "flex h-22 items-center rounded-full px-8 text-12 leading-18";
 
 const STATUS_MAP = {
   CONFIRMED: "CONFIRMED",

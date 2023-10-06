@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { customedAxios } from "hooks/api/customedAxios";
 import { CommonResponse } from "types/common";
-import { useRouter } from "next/router";
+import { BossClazz, Status, Type } from "./usePartySettlementSummary";
 
 interface Params {
   settlementId: number;
@@ -82,10 +83,6 @@ export interface Dividends {
   userName: string;
   rate: number;
 }
-
-type BossClazz = "이지" | "노말" | "하드";
-type Type = "MANUAL" | "AUTO";
-type Status = "IN_PROGRESS" | "CONFIRMED";
 
 const sendSettlementDetail = ({ settlementId, accessToken }: APIParams) => {
   return customedAxios.get<CommonResponse<APIResponse>>(

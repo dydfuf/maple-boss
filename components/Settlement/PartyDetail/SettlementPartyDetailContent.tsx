@@ -2,10 +2,10 @@ import { format } from "date-fns";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import Badge from "components/common/Badge";
 import usePartySettlementPay from "hooks/settlement/usePartySettlementPay";
 import usePartySettlementPayInfo from "hooks/settlement/usePartySettlementPayInfo";
 import usePartySettlementSummary from "hooks/settlement/usePartySettlementSummary";
-import { cn } from "utils/common";
 
 export default function SettlementPartyDetailContent() {
   const router = useRouter();
@@ -105,32 +105,13 @@ export default function SettlementPartyDetailContent() {
             href={`/settlement/${partyId}/detail/${summary.id}`}
           >
             <div className="flex gap-x-6">
-              <div
-                className={cn(BADGE_CLASSNAME, {
-                  "bg-purple-100/10 text-purple-100": summary.type === "AUTO",
-                  "bg-yellow-100/10 text-yellow-100": summary.type === "MANUAL",
-                })}
-              >
-                {summary.type}
-              </div>
-              <div
-                className={cn(BADGE_CLASSNAME, {
-                  "bg-gray-300 text-gray-500": summary.status === "CONFIRMED",
-                  "bg-blue-100/10 text-blue-100":
-                    summary.status === "IN_PROGRESS",
-                })}
-              >
+              <Badge variant={summary.type}>{summary.type}</Badge>
+              <Badge variant={summary.status}>
                 {STATUS_MAP[summary.status as "CONFIRMED" | "IN_PROGRESS"]}
-              </div>
-              <div
-                className={cn(BADGE_CLASSNAME, {
-                  "bg-red-100/10 text-red-100": summary.bossClazz === "HARD",
-                  "bg-green-100/10 text-green-100":
-                    summary.bossClazz === "EASY",
-                })}
-              >
-                {BOSS_CLAZZ_TO_HANGEUL[summary.bossClazz as "HARD" | "EASY"]}
-              </div>
+              </Badge>
+              <Badge variant={summary.bossClazz}>
+                {BOSS_CLAZZ_TO_HANGEUL[summary.bossClazz]}
+              </Badge>
             </div>
             <p className="mt-10 text-18 font-bold">{summary.bossName}</p>
             <div className="mt-24 flex flex-col text-12 font-normal text-gray-500">
@@ -155,12 +136,12 @@ export default function SettlementPartyDetailContent() {
   );
 }
 
-const BADGE_CLASSNAME =
-  "flex h-22 items-center rounded-full px-8 text-12 leading-18";
-
 const BOSS_CLAZZ_TO_HANGEUL = {
   EASY: "이지",
   HARD: "하드",
+  NORMAL: "노말",
+  EXTREME: "익스트림",
+  CHAOS: "카오스",
 };
 
 const STATUS_MAP = {

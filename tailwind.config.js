@@ -63,6 +63,9 @@ module.exports = {
         "red-200": {
           DEFAULT: "#FB0000",
         },
+        "red-900": {
+          DEFAULT: "#B71C1C",
+        },
         "yellow-100": {
           DEFAULT: "#EEB524",
         },
@@ -71,6 +74,12 @@ module.exports = {
         },
         "green-100": {
           DEFAULT: "#12AC79",
+        },
+        "tomato-100": {
+          DEFAULT: "#EC6142",
+        },
+        "brown-700": {
+          DEFAULT: "#5D4037",
         },
       },
       spacing,
