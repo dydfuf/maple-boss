@@ -23,7 +23,7 @@ const config = withPlugins([[withBundleAnalyzer({ enabled: env.ANALYZE })]], {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "i.namu.wiki",
+        hostname: "cdn-web-dev-smash.mapleboss.io",
       },
     ],
   },

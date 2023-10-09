@@ -21,6 +21,11 @@ export default function BossDetailContent({ boss, items }: Props) {
     hpPhaseTwo,
     hpPhaseThree,
     hpPhaseFour,
+    levelPhaseOne,
+    levelPhaseTwo,
+    levelPhaseThree,
+    levelPhaseFour,
+    imageUrl,
   } = boss || {};
 
   const descriptionList = [
@@ -31,24 +36,30 @@ export default function BossDetailContent({ boss, items }: Props) {
     { label: "데스카운트", value: deathLimit },
   ];
 
-  const phaseList = [
+  const phaseHpList = [
     hpPhaseOne && { label: "1 페이즈", value: hpPhaseOne },
     hpPhaseTwo && { label: "2 페이즈", value: hpPhaseTwo },
     hpPhaseThree && { label: "3 페이즈", value: hpPhaseThree },
     hpPhaseFour && { label: "4 페이즈", value: hpPhaseFour },
   ].filter(Boolean);
 
+  const phaseLevelList = [
+    levelPhaseOne && { label: "1 페이즈", value: levelPhaseOne },
+    levelPhaseTwo && { label: "2 페이즈", value: levelPhaseTwo },
+    levelPhaseThree && { label: "3 페이즈", value: levelPhaseThree },
+    levelPhaseFour && { label: "4 페이즈", value: levelPhaseFour },
+  ].filter(Boolean);
+
   return (
     <div className="mt-20 flex flex-wrap gap-20 md:flex-nowrap">
       <div className="flex w-full shrink-0 flex-col rounded-12 bg-gray-200 p-20 md:w-400">
         <Image
-          src={
-            "https://i.namu.wiki/i/xY1Dd8-GTIStESxrB6JVuWx6YMtrt-eINaeusMKZV4GwxCRgX2HJ4FI5_sfsafNksd2q-beoDfCsEZDRp6l9ZlDLF0w9SKtW1Qu02WDPoWQSRO8WChTLyAPbpyzW5qAnw_pwC6FWtLhhfmgQlW9xhA.webp"
-          }
+          src={imageUrl}
           alt={name || ""}
           width={400}
           height={400}
           className="w-full rounded-12"
+          priority
         />
         <ul className="mt-30 flex h-full w-full flex-col gap-10 [&_li]:flex [&_li]:h-44 [&_li]:w-full [&_li]:items-center [&_li]:rounded-8 [&_li]:bg-white [&_li]:px-20">
           <li className="justify-center gap-6 !bg-main-2 !text-white">
@@ -64,7 +75,7 @@ export default function BossDetailContent({ boss, items }: Props) {
           <li className="justify-center gap-6 !bg-main-2 !text-white">
             <span className="text-18 font-bold">페이즈별 HP</span>
           </li>
-          {phaseList.map((phase) => (
+          {phaseHpList.map((phase) => (
             <li className="justify-between" key={phase.label}>
               <span className="text-14 font-bold">{phase.label}</span>
               <span className="text-14">
@@ -73,6 +84,15 @@ export default function BossDetailContent({ boss, items }: Props) {
                   ({formatToKoreanNumber(phase.value)})
                 </span>
               </span>
+            </li>
+          ))}
+          <li className="justify-center gap-6 !bg-main-2 !text-white">
+            <span className="text-18 font-bold">페이즈별 레벨</span>
+          </li>
+          {phaseLevelList.map((phase) => (
+            <li className="justify-between" key={phase.label}>
+              <span className="text-14 font-bold">{phase.label}</span>
+              <span className="text-14">{phase.value}</span>
             </li>
           ))}
         </ul>

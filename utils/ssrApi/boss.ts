@@ -15,6 +15,7 @@ export interface Boss {
   authenticForce: number;
   deathLimit: number;
   entryMinLevel: number;
+  imageUrl: string;
 }
 
 export const sendGetBossList = () => {

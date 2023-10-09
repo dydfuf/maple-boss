@@ -22,9 +22,14 @@ export interface Boss {
   hpPhaseTwo: number;
   hpPhaseThree: number;
   hpPhaseFour: number;
+  levelPhaseOne: number;
+  levelPhaseTwo: number;
+  levelPhaseThree: number;
+  levelPhaseFour: number;
   arcaneForce: number;
   authenticForce: number;
   deathLimit: number;
+  imageUrl: string;
 }
 
 export interface Item {
