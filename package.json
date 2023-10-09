@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "env-cmd -f .env.local cross-env FORCE_COLOR=1 next dev",
     "build": "next build",
+    "build:dev": "rimraf public/robots.txt public/sitemap*.xml & env-cmd -f ./.env.dev next build",
     "build:prod": "env-cmd -f .env.prod next build",
     "start": "next start",
     "lint": "env-cmd -f .env.prod next lint",
@@ -12,7 +13,9 @@
     "prettier": "prettier --check \"**/*.{js,jsx,ts,tsx}\"",
     "prettier:fix": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "preinstall": "npx only-allow yarn"
+    "preinstall": "npx only-allow yarn",
+    "postbulid": "next-sitemap --config next-sitemap.config.js",
+    "postbuild:dev": "env-cmd -f ./.env.dev next-sitemap --config next-sitemap.config.js"
   },
   "dependencies": {
     "@next/bundle-analyzer": "^13.3.0",
@@ -69,6 +72,7 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-react": "7.33.1",
     "eslint-plugin-tailwindcss": "^3.12.1",
+    "next-sitemap": "^4.2.3",
     "postcss": "^8.4.21",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "latest",

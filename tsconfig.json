@@ -21,6 +21,12 @@
       "@/public/*": ["/public/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.mjs"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.mjs",
+    "next-sitemap.config.js"
+  ],
   "exclude": ["node_modules"]
 }
