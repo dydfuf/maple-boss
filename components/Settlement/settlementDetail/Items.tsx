@@ -166,7 +166,6 @@ export const Items = ({ isDisabled, items, setEditSettlement }: Props) => {
           <div className="mt-30">아이템이 존재하지 않습니다.</div>
         )}
       </div>
-<<<<<<< Updated upstream
       {open && (
         <Dialog.Root open={open} onOpenChange={setOpen}>
           <AddItemDialog
@@ -182,49 +181,5 @@ export const Items = ({ isDisabled, items, setEditSettlement }: Props) => {
         </Dialog.Root>
       )}
     </>
-=======
-      <div className="mt-30 flex gap-10">
-        <div className="flex w-195 flex-col">
-          <span className="mb-8 ml-8 text-13">이름</span>
-          <ul className="flex flex-col gap-10">
-            {ITEMS?.map((item) => (
-              <input
-                key={item.name}
-                type="text"
-                defaultValue={item.name}
-                className="h-50 w-full rounded-8 border-1 border-white-100 bg-white pl-16 leading-50 focus:outline-none"
-              ></input>
-            ))}
-          </ul>
-        </div>
-        <div className="flex w-50 flex-col">
-          <span className="mb-8 ml-8 text-13">수량</span>
-          <ul className="flex flex-col gap-10">
-            {ITEMS?.map((item) => (
-              <input
-                key={`items-amount-${item.name}`}
-                type="text"
-                defaultValue={item.amount}
-                className="h-50 w-full rounded-8 border-1 border-white-100 bg-white text-center leading-50 focus:outline-none"
-              ></input>
-            ))}
-          </ul>
-        </div>
-        <div className="flex w-160 flex-col">
-          <span className="mb-8 ml-8 text-13">메소</span>
-          <ul className="flex flex-col gap-10">
-            {ITEMS?.map((item) => (
-              <input
-                key={`items-meso-${item.name}`}
-                type="text"
-                defaultValue={item.meso.toLocaleString()}
-                className="h-50 w-full rounded-8 border-1 border-white-100 bg-white pl-16 leading-50 focus:outline-none"
-              ></input>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </div>
->>>>>>> Stashed changes
   );
 };
