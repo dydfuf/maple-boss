@@ -82,9 +82,37 @@ export const SettlementRate = ({
           </span>
         </span>
       </div>
+<<<<<<< Updated upstream
       <div className="mt-24 flex gap-x-10 text-13 font-normal text-gray-900">
         <p className="flex h-24 w-200 items-center px-8">이름</p>
         <p className="flex h-24 w-200 items-center px-8">분배율</p>
+=======
+      <div className="mt-30 flex gap-10">
+        <div className="flex w-197 flex-col">
+          <span className="mb-8 ml-8 text-13">이름</span>
+          <ul className="flex flex-col gap-10">
+            {SETTLEMENT_RATE?.map((target) => (
+              <input
+                key={`settlement-userName-${target.userName}`}
+                defaultValue={target.userName}
+                className="h-50 w-full rounded-8 border-1 border-white-100 bg-white pl-16 leading-50 focus:outline-none"
+              ></input>
+            ))}
+          </ul>
+        </div>
+        <div className="flex w-197 flex-col">
+          <span className="mb-8 ml-8 text-13">분배율</span>
+          <ul className="flex flex-col gap-10">
+            {SETTLEMENT_RATE?.map((target) => (
+              <input
+                key={`settlement-rate-${target.userName}`}
+                defaultValue={`${target.rate}%`}
+                className="h-50 w-full rounded-8 border-1 border-white-100 bg-white pl-16 leading-50 focus:outline-none"
+              ></input>
+            ))}
+          </ul>
+        </div>
+>>>>>>> Stashed changes
       </div>
       {editDividends.map((member) => (
         <div
