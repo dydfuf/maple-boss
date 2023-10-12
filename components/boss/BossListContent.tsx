@@ -25,7 +25,9 @@ export default function BossListContent({ bossList }: Props) {
             priority
           />
           <div className="flex flex-col gap-4">
-            <p className="text-18 font-bold text-gray-900">{boss.name}</p>
+            <p className="line-clamp-1 text-18 font-bold text-gray-900">
+              {boss.name}
+            </p>
             <Badge variant={boss.clazz}>{boss.clazz}</Badge>
             <p className="text-12 font-bold leading-18">{`레벨제한 : ${boss.entryMinLevel}`}</p>
             <p className="text-12 font-bold leading-18">{`데카 : ${boss.deathLimit}`}</p>
