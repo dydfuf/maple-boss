@@ -34,10 +34,10 @@ export default function KickOutMemberDialog({
 
             <Form.Field className="mt-24 grid w-full" name="email">
               <div className="flex items-baseline justify-between">
-                <Form.Label className="mb-2 flex h-24 items-center px-8 text-13 font-normal leading-13 text-gray-500">
+                <Form.Label className="mb-6 items-center px-8 text-13 font-normal leading-13 text-gray-500">
                   <span>강퇴를 원하시면</span>
                   <span className="font-semibold text-purple-100">
-                    &nbsp;이메일
+                    &nbsp;{kickOutMemberEmail}
                   </span>
                   <span>을 입력하세요</span>
                 </Form.Label>
