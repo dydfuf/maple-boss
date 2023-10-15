@@ -154,12 +154,14 @@ export default function RegisterVerificationForm() {
                 placeholder="인증코드를 입력해주세요"
               />
             </Form.Control>
-            <span className="text-14 font-semibold text-gray-900">
-              {`${String(min).padStart(2, "0")}:${String(sec).padStart(
-                2,
-                "0"
-              )}`}
-            </span>
+            {isTimerStarted && (
+              <span className="text-14 font-semibold text-gray-900">
+                {`${String(min).padStart(2, "0")}:${String(sec).padStart(
+                  2,
+                  "0"
+                )}`}
+              </span>
+            )}
           </div>
         </Form.Field>
         <Form.Submit asChild>

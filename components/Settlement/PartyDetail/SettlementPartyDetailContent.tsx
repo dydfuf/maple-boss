@@ -61,7 +61,9 @@ export default function SettlementPartyDetailContent() {
     <div className="mt-40 flex w-full flex-col gap-32 lg:flex-row">
       <div className="h-full w-full lg:order-last lg:w-600">
         <div className="flex items-center justify-between">
-          <span className="text-22 font-bold text-gray-900">지급 예정</span>
+          <span className="text-22 font-bold text-gray-900">
+            지급 예정 <span className="text-12 font-normal">(수수료 제외)</span>
+          </span>
           <span className="text-14 text-purple-100">{`확정된 정산 수 : ${count}`}</span>
         </div>
         <div className="mt-20 flex flex-col gap-y-8 rounded-8 border-1 border-white-100 px-20 py-12">

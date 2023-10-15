@@ -6,6 +6,7 @@ import { useState } from "react";
 export default function LoginForm() {
   const router = useRouter();
   const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { callbackUrl } = router.query;
   const _callbackUrl = (callbackUrl as string) || "/party";
@@ -26,11 +27,13 @@ export default function LoginForm() {
           return;
         }
 
+        setIsLoading(true);
         const response = await signIn("Credentials", {
           email,
           password,
           redirect: false,
         });
+        setIsLoading(false);
 
         if (response?.ok) {
           router.push(_callbackUrl);
@@ -91,9 +94,12 @@ export default function LoginForm() {
         </Form.Control>
       </Form.Field>
       <Form.Submit asChild>
-        <button className="mt-30 flex h-44 w-full items-center justify-center rounded-8 border-1 bg-purple-100">
+        <button
+          className="mt-30 flex h-44 w-full items-center justify-center rounded-8 border-1 bg-purple-100"
+          disabled={isLoading ? true : false}
+        >
           <span className="text-14 font-semibold leading-14 text-white">
-            로그인
+            {isLoading ? "로딩중..." : "로그인"}
           </span>
         </button>
       </Form.Submit>

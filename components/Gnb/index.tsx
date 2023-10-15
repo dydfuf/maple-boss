@@ -1,6 +1,8 @@
 import * as Popover from "@radix-ui/react-popover";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 import useAlarm from "hooks/alarm/useAlarm";
 import AlarmPopover from "./AlarmPopover";
 import UserInfoPopover from "./UserInfoPopover";
@@ -9,8 +11,33 @@ import MainLogo from "@/public/images/MainLogo.png";
 import Setting from "@/public/images/Setting.png";
 
 export default function Gnb() {
+  const { status } = useSession();
+  const isLoggedIn = status === "authenticated";
+  const router = useRouter();
+
   const { alarms } = useAlarm();
   const alarmCount = alarms.length;
+
+  const MENU_LINK_LIST = [
+    { label: "보스", href: "/boss" },
+    {
+      label: "파티",
+      href: "/party",
+    },
+    {
+      label: "정산",
+      href: "/settlement",
+    },
+    !isLoggedIn && {
+      label: "로그인",
+      href: `/login?callbackUrl=${encodeURIComponent(router.asPath)}`,
+    },
+  ].filter(Boolean);
+
+  const SUB_MENU_LIST = [
+    { src: Setting.src, alt: "setting", type: "user-info" },
+    { src: Alarm.src, alt: "alarm", type: "alarm" },
+  ];
 
   return (
     <header className="flex h-100 w-full border-b-1 border-main-2 px-12">
@@ -32,54 +59,39 @@ export default function Gnb() {
           ))}
         </div>
         <div className="my-auto ml-20 flex gap-x-20 sm:ml-40 sm:gap-x-40">
-          {SUB_MENU_LIST.map((submenu) => (
-            <Popover.Root key={submenu.src}>
-              <Popover.Trigger asChild>
-                <button className="relative">
-                  <Image
-                    key={submenu.src}
-                    src={submenu.src}
-                    width={32}
-                    height={32}
-                    alt={submenu.alt}
-                    className="cursor-pointer"
-                  />
-                  {submenu.type === "alarm" && alarmCount > 0 && (
-                    <div className="absolute right-5 top-0 flex h-20 w-20 -translate-y-1/2 translate-x-1/2 items-center justify-center rounded-full bg-gray-100 text-12 font-bold">
-                      {alarmCount}
-                    </div>
-                  )}
-                </button>
-              </Popover.Trigger>
-              <Popover.Portal>
-                <Popover.Content
-                  className="w-320 rounded-16 bg-white px-20 py-30 shadow-md focus:shadow-lg"
-                  sideOffset={5}
-                >
-                  {submenu.type === "alarm" && <AlarmPopover />}
-                  {submenu.type === "user-info" && <UserInfoPopover />}
-                </Popover.Content>
-              </Popover.Portal>
-            </Popover.Root>
-          ))}
+          {isLoggedIn &&
+            SUB_MENU_LIST.map((submenu) => (
+              <Popover.Root key={submenu.src}>
+                <Popover.Trigger asChild>
+                  <button className="relative">
+                    <Image
+                      key={submenu.src}
+                      src={submenu.src}
+                      width={32}
+                      height={32}
+                      alt={submenu.alt}
+                      className="cursor-pointer"
+                    />
+                    {submenu.type === "alarm" && alarmCount > 0 && (
+                      <div className="absolute right-5 top-0 flex h-20 w-20 -translate-y-1/2 translate-x-1/2 items-center justify-center rounded-full bg-gray-100 text-12 font-bold">
+                        {alarmCount}
+                      </div>
+                    )}
+                  </button>
+                </Popover.Trigger>
+                <Popover.Portal>
+                  <Popover.Content
+                    className="w-320 rounded-16 bg-white px-20 py-30 shadow-md focus:shadow-lg"
+                    sideOffset={5}
+                  >
+                    {submenu.type === "alarm" && <AlarmPopover />}
+                    {submenu.type === "user-info" && <UserInfoPopover />}
+                  </Popover.Content>
+                </Popover.Portal>
+              </Popover.Root>
+            ))}
         </div>
       </div>
     </header>
   );
 }
-
-const MENU_LINK_LIST = [
-  {
-    label: "파티",
-    href: "/party",
-  },
-  {
-    label: "정산",
-    href: "/settlement",
-  },
-];
-
-const SUB_MENU_LIST = [
-  { src: Setting.src, alt: "setting", type: "user-info" },
-  { src: Alarm.src, alt: "alarm", type: "alarm" },
-];
