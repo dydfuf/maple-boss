@@ -3,12 +3,19 @@ import { useClickAway } from "@uidotdev/usehooks";
 import { isNaN } from "lodash-es";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import CommonDialogButtonGroup from "components/common/Dialog/CommonDialogButtonGroup";
 import CommonDialogContent from "components/common/Dialog/CommonDialogContent";
 import CommonDialogTitle from "components/common/Dialog/CommonDialogTitle";
-import useSearchBoss from "hooks/boss/useSearchBoss";
-import useSearchBossItem from "hooks/boss/useSearchBossItem";
+import useBossItemList, { SearchedBossItem } from "hooks/boss/useBossItemList";
+import useBossList, { SearchedBoss } from "hooks/boss/useBossList";
 import usePartyMemberList from "hooks/party/usePartyMemberList";
 import { SettlementType } from "types/common";
 import { cn } from "utils/common";
@@ -28,28 +35,52 @@ export const CreateSettlementContents = Object.assign(() => <></>, {
 });
 
 interface ChooseBossAndSettlementTypeProps {
+  selectedSettlementType: string | undefined;
   setSelectedSettlementType: (settlementType: SettlementType) => void;
   setSelectedBossId: (id: number) => void;
   onClickNext: () => void;
-  isValid: boolean;
 }
 
 function ChooseBossAndSettlementType({
+  selectedSettlementType,
   setSelectedSettlementType,
   setSelectedBossId,
   onClickNext,
-  isValid,
 }: ChooseBossAndSettlementTypeProps) {
   const [isSearchListOpen, setIsSearchListOpen] = useState(false);
   const [searchBossNameValue, setSearchBossNameValue] = useState("");
+  const [isValid, setIsValid] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const { searchedBossList } = useSearchBoss({
-    searchValue: searchBossNameValue,
-  });
+  const { bossList } = useBossList();
+  const filteredBossList = bossList.filter((list: SearchedBoss) =>
+    list.name.includes(searchBossNameValue)
+  );
 
   const ref = useClickAway<HTMLDivElement>(() => {
     setIsSearchListOpen(false);
   });
+
+  const isValidBoss = useCallback(() => {
+    for (const item of bossList) {
+      if (item.name === searchBossNameValue) {
+        return true;
+      }
+    }
+    return false;
+  }, [bossList, searchBossNameValue]);
+
+  useEffect(() => {
+    if (!isValidBoss()) {
+      setIsValid(false);
+      setErrorMessage("보스를 선택해주세요");
+    } else if (!Boolean(selectedSettlementType)) {
+      setIsValid(false);
+      setErrorMessage("정산타입을 선택해주세요");
+    } else {
+      setIsValid(true);
+    }
+  }, [selectedSettlementType, isValidBoss]);
 
   return (
     <CommonDialogContent contentClassName="w-630">
@@ -83,7 +114,7 @@ function ChooseBossAndSettlementType({
           />
           {isSearchListOpen && (
             <div className="absolute -left-1 top-48 w-[calc(100%+2px)] rounded-b-8 border-1 border-white-100 bg-white focus:outline-none">
-              {searchedBossList.map((searchedBoss) => (
+              {filteredBossList.map((searchedBoss) => (
                 <div
                   key={`searched-boss-${searchedBoss.id}`}
                   className="flex h-50 w-full cursor-pointer items-center px-16"
@@ -91,7 +122,7 @@ function ChooseBossAndSettlementType({
                     setSearchBossNameValue(searchedBoss.name);
                     setIsSearchListOpen(false);
                     const selectedBossId =
-                      searchedBossList.find((x) => x.name === searchedBoss.name)
+                      filteredBossList.find((x) => x.name === searchedBoss.name)
                         ?.id || 0;
                     setSelectedBossId(selectedBossId);
                   }}
@@ -99,7 +130,7 @@ function ChooseBossAndSettlementType({
                   {searchedBoss.name}
                 </div>
               ))}
-              {searchedBossList.length === 0 && (
+              {filteredBossList.length === 0 && (
                 <div className="flex h-50 w-full items-center px-16">
                   {"검색 결과가 없습니다."}
                 </div>
@@ -152,7 +183,7 @@ function ChooseBossAndSettlementType({
         </Select.Root>
       </div>
       <CommonDialogButtonGroup
-        confirmLabel={isValid ? "다음" : "기본정보를 선택해주세요"}
+        confirmLabel={isValid ? "다음" : errorMessage}
         confirmDisabled={!isValid}
         preventConfirm
         onClickConfirm={() => {
@@ -171,7 +202,6 @@ interface ChooseItemsProps {
   setChoosedBossItemList: Dispatch<SetStateAction<ChoosedBossItem[]>>;
   selectedBossId: number;
   onClickNext: () => void;
-  isValid: boolean;
 }
 
 function ChooseItems({
@@ -179,20 +209,22 @@ function ChooseItems({
   setChoosedBossItemList,
   selectedBossId,
   onClickNext,
-  isValid,
 }: ChooseItemsProps) {
   const [isSearchListOpen, setIsSearchListOpen] = useState(false);
   const [searchBossItemValue, setSearchBossItemValue] = useState("");
+  const [isValid, setIsValid] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [bossItemId, setBossItemId] = useState(0);
   const [amount, setAmount] = useState(1);
   const [meso, setMeso] = useState(0);
 
-  const [showErrorMessage, setShowMessage] = useState(false);
+  const { bossItemList } = useBossItemList({ bossId: selectedBossId });
+  const filteredItemList = bossItemList.filter((item: SearchedBossItem) =>
+    item.name.includes(searchBossItemValue)
+  );
+  const canConfirm = choosedBossItemList.length > 0;
 
-  const { searchedBossItemList } = useSearchBossItem({
-    searchValue: searchBossItemValue,
-    bossId: selectedBossId,
-  });
   const ref = useClickAway<HTMLDivElement>(() => {
     setIsSearchListOpen(false);
   });
@@ -210,16 +242,8 @@ function ChooseItems({
     setMeso(0);
   };
 
-  const isValidItem = () => {
-    if (searchBossItemValue === "") return false;
-    if (bossItemId === 0) return false;
-    if (amount < 0) return false;
-    if (meso < 0) return false;
-    return true;
-  };
-
   const handleAddItemClick = () => {
-    if (!isValidItem()) {
+    if (!isValid) {
       setShowMessage(true);
       return;
     }
@@ -230,6 +254,39 @@ function ChooseItems({
     ]);
     initializeValue();
   };
+
+  const isValidItem = useCallback(() => {
+    for (const item of bossItemList) {
+      if (item.name === searchBossItemValue) {
+        return true;
+      }
+    }
+    return false;
+  }, [bossItemList, searchBossItemValue]);
+
+  const isExistItem = useCallback(() => {
+    for (const item of choosedBossItemList) {
+      if (item.bossItem.name === searchBossItemValue) {
+        return true;
+      }
+    }
+    return false;
+  }, [choosedBossItemList, searchBossItemValue]);
+
+  useEffect(() => {
+    if (!isValidItem()) {
+      setIsValid(false);
+      setErrorMessage("올바른 아이템을 선택해 주세요");
+    } else if (isExistItem()) {
+      setIsValid(false);
+      setErrorMessage("이미 존재하는 아이템입니다");
+    } else if (amount === 0) {
+      setIsValid(false);
+      setErrorMessage("아이템의 수량이 0개입니다");
+    } else {
+      setIsValid(true);
+    }
+  }, [searchBossItemValue, amount, isValidItem, isExistItem]);
 
   return (
     <>
@@ -279,7 +336,7 @@ function ChooseItems({
             />
             {isSearchListOpen && (
               <div className="absolute -left-1 top-48 z-[1000] w-[calc(100%+2px)] rounded-b-8 border-1 border-white-100 bg-white focus:outline-none">
-                {searchedBossItemList.map((searchedBossItem) => (
+                {filteredItemList.map((searchedBossItem) => (
                   <div
                     key={`searched-boss-item-${searchedBossItem.id}`}
                     className="flex h-50 w-full cursor-pointer items-center px-16"
@@ -292,7 +349,7 @@ function ChooseItems({
                     {searchedBossItem.name}
                   </div>
                 ))}
-                {searchedBossItemList.length === 0 && (
+                {filteredItemList.length === 0 && (
                   <div className="flex h-50 w-full items-center px-16">
                     {"검색 결과가 없습니다."}
                   </div>
@@ -301,19 +358,23 @@ function ChooseItems({
             )}
           </div>
           <input
-            value={amount}
+            value={amount.toLocaleString()}
             onChange={(e) => {
-              const value = e.currentTarget.value;
-              if (!isNaN(Number(value))) {
+              const value = Math.abs(
+                Number(e.currentTarget.value.replaceAll(",", ""))
+              );
+              if (!isNaN(Number(value)) && Number(value) < 9999) {
                 setAmount(Number(value));
               }
             }}
-            className="flex h-50 w-50 items-center justify-center rounded-8 border-1 border-gray-300 px-16 text-center text-14 font-normal text-gray-500"
+            className="flex h-50 w-50 items-center justify-center rounded-8 border-1 border-gray-300 text-center text-14 font-normal text-gray-500"
           />
           <input
             value={meso.toLocaleString()}
             onChange={(e) => {
-              const value = e.currentTarget.value.replaceAll(",", "");
+              const value = Math.abs(
+                Number(e.currentTarget.value.replaceAll(",", ""))
+              );
               if (!isNaN(Number(value))) {
                 setMeso(Number(value));
               }
@@ -321,9 +382,9 @@ function ChooseItems({
             className="flex h-50 w-150 items-center justify-center rounded-8 border-1 border-gray-300 px-16 text-center text-14 font-normal text-gray-500"
           />
         </div>
-        {showErrorMessage && (
+        {showMessage && (
           <p className="mt-4 pl-4 text-12 font-normal text-red-100">
-            아이템이 선택되지 않았거나, 수량이 1개 또는 메소가 0원 미만 입니다.
+            {errorMessage}
           </p>
         )}
         <p className="mt-12 px-8 pb-4 text-13 font-normal text-gray-900">
@@ -352,11 +413,11 @@ function ChooseItems({
           {`총 메소 : ${totalMeso.toLocaleString()}`}
         </p>
         <CommonDialogButtonGroup
-          confirmLabel={isValid ? "다음" : "아이템을 추가해주세요"}
-          confirmDisabled={!isValid}
+          confirmLabel={canConfirm ? "다음" : "아이템을 추가해주세요"}
+          confirmDisabled={!canConfirm}
           preventConfirm
           onClickConfirm={() => {
-            if (!isValid) {
+            if (!canConfirm) {
               return;
             }
             onClickNext();

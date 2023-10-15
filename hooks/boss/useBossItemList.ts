@@ -1,38 +1,32 @@
 import { useQuery } from "@tanstack/react-query";
-import { useDebounce } from "@uidotdev/usehooks";
 import { useSession } from "next-auth/react";
 import { customedAxios } from "hooks/api/customedAxios";
 import { CommonResponse } from "types/common";
 
 interface Params {
-  searchValue: string;
   bossId: number;
 }
 
-export default function useSearchBossItem({ searchValue, bossId }: Params) {
+export default function useBossItemList({ bossId }: Params) {
   const { data: sessionData } = useSession({ required: true });
   const accessToken = sessionData?.accessToken || "";
 
-  const debouncedValue = useDebounce(searchValue, 1000);
-
   const { data } = useQuery(
-    ["search-boss-item", debouncedValue, bossId],
-    () =>
-      sendSearchBossItem({ searchValue: debouncedValue, bossId, accessToken }),
+    ["search-boss-item", bossId],
+    () => sendBossItemList({ accessToken, bossId }),
     {
-      enabled: Boolean(debouncedValue) && Boolean(bossId),
+      enabled: Boolean(accessToken) && Boolean(bossId),
     }
   );
 
   return {
-    searchedBossItemList: data?.data.data.searchedList || [],
+    bossItemList: data?.data.data?.searchedList || [],
   };
 }
 
 interface APIParams {
-  searchValue: string;
-  bossId: number;
   accessToken: string;
+  bossId: number;
 }
 
 interface APIResponse {
@@ -44,13 +38,9 @@ export interface SearchedBossItem {
   name: string;
 }
 
-const sendSearchBossItem = ({
-  searchValue,
-  bossId,
-  accessToken,
-}: APIParams) => {
+const sendBossItemList = ({ accessToken, bossId }: APIParams) => {
   return customedAxios.get<CommonResponse<APIResponse>>(
-    `/api/search/item?keyword=${searchValue}&bossId=${bossId}&type=RANDOM`,
+    `/api/search/item?type=RANDOM&bossId=${bossId}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,

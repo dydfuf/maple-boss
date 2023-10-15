@@ -110,7 +110,7 @@ export const Items = ({ canEdit, items, setEditSettlement }: Props) => {
                         const value = Math.abs(
                           Number(e.currentTarget.value.replaceAll(",", ""))
                         );
-                        if (!isNaN(Number(value))) {
+                        if (!isNaN(Number(value)) && Number(value) < 9999) {
                           handleChangeAmount(item.id, Number(value));
                         }
                       }}
@@ -163,14 +163,10 @@ export const Items = ({ canEdit, items, setEditSettlement }: Props) => {
       {open && (
         <Dialog.Root open={open} onOpenChange={setOpen}>
           <AddItemDialog
-            choosedBossItemList={choosedBossItemList}
+            choosedBossItemList={items || []}
             setChoosedBossItemList={setChoosedBossItemList}
             selectedBossId={selectedBossId || 0}
-            onClickConfirm={() => {
-              if (choosedBossItemList.length > 0) {
-                setOpen(false);
-              }
-            }}
+            onClickConfirm={() => setOpen(false)}
           />
         </Dialog.Root>
       )}

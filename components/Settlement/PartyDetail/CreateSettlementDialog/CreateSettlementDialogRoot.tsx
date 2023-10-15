@@ -1,11 +1,12 @@
 import * as Dialog from "@radix-ui/react-alert-dialog";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { SearchedBossItem } from "hooks/boss/useSearchBossItem";
+import { SearchedBossItem } from "hooks/boss/useBossItemList";
 import useStep from "hooks/common/useStep";
 import usePartySettlementCreate from "hooks/settlement/usePartySettlementCreate";
 import { SettlementType } from "types/common";
 import { CreateSettlementContents as Contents } from "./CreateSettlementContents";
+
 interface Props {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -48,9 +49,9 @@ export default function CreateSettlementDialogRoot({ open, setOpen }: Props) {
     <Dialog.Root open={open} onOpenChange={setOpen}>
       {currentStepValue === "ChooseBossAndSettlementType" && (
         <Contents.ChooseBossAndSettlementType
+          selectedSettlementType={selectedSettlementType}
           setSelectedSettlementType={setSelectedSettlementType}
           setSelectedBossId={setSelectedBossId}
-          isValid={Boolean(selectedBossId) && Boolean(selectedSettlementType)}
           onClickNext={next}
         />
       )}
@@ -59,7 +60,6 @@ export default function CreateSettlementDialogRoot({ open, setOpen }: Props) {
           choosedBossItemList={choosedBossItemList}
           setChoosedBossItemList={setChoosedBossItemList}
           selectedBossId={selectedBossId}
-          isValid={choosedBossItemList.length > 0}
           onClickNext={next}
         />
       )}
