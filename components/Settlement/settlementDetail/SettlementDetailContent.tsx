@@ -35,6 +35,7 @@ const convertToEditSettlement = (
 
 export default function SettlementDetailContent() {
   const router = useRouter();
+
   const { settlementId, partyId } = router.query;
 
   const { partySettlement, isLoading } = useSettlementDetailInfo({
@@ -46,7 +47,7 @@ export default function SettlementDetailContent() {
   const { mainData } = partySettlement || {};
   const { status } = mainData || {};
   const isConfirmed = status === "CONFIRMED";
-  const isDisabled = isConfirmed || !isLeader;
+  const canEdit = isLeader && !isConfirmed;
 
   const [editSettlement, setEditSettlement] = useState<
     PartySettlement | undefined
@@ -67,27 +68,27 @@ export default function SettlementDetailContent() {
   return (
     <div className="flex flex-col">
       <div className="mt-40 flex w-full gap-20 ">
-        <DetailInfo
-          setEditSettlement={setEditSettlement}
-          isDisabled={isDisabled}
-        />
+        <DetailInfo setEditSettlement={setEditSettlement} canEdit={canEdit} />
         <Items
-          isDisabled={isDisabled}
+          canEdit={canEdit}
           items={editSettlement?.items}
           setEditSettlement={setEditSettlement}
         />
         <SettlementRate
-          isDisabled={isDisabled}
+          canEdit={canEdit}
           dividends={editSettlement?.dividends}
           setEditSettlement={setEditSettlement}
           isValid={isValid}
           setIsValid={setIsValid}
         />
       </div>
-      {!isDisabled && (
+      {canEdit && (
         <div className="mt-50 flex w-full justify-center">
           <div className="flex gap-8">
-            <button className="h-44 w-166 rounded-8 bg-gray-200 font-semibold text-gray-800">
+            <button
+              className="h-44 w-166 rounded-8 bg-gray-200 font-semibold text-gray-800"
+              onClick={() => router.push(`/settlement/${partyId}`)}
+            >
               취소
             </button>
             <button

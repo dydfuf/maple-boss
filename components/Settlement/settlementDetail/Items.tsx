@@ -11,12 +11,12 @@ import { AddItemDialog } from "./AddItemDialog";
 import XIcon from "@/public/images/XIcon.png";
 
 interface Props {
-  isDisabled: boolean;
+  canEdit: boolean;
   items?: Item[];
   setEditSettlement: Dispatch<SetStateAction<PartySettlement | undefined>>;
 }
 
-export const Items = ({ isDisabled, items, setEditSettlement }: Props) => {
+export const Items = ({ canEdit, items, setEditSettlement }: Props) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const { settlementId } = router.query;
@@ -41,13 +41,6 @@ export const Items = ({ isDisabled, items, setEditSettlement }: Props) => {
     );
   }, [choosedBossItemList, setEditSettlement]);
 
-  const handleAddItemClick = () => {
-    if (isDisabled) {
-      return;
-    }
-    setOpen(true);
-  };
-
   const handleChangeAmount = (id: number, value: number) => {
     const newItems =
       choosedBossItemList &&
@@ -67,10 +60,6 @@ export const Items = ({ isDisabled, items, setEditSettlement }: Props) => {
   };
 
   const handleRemoveItemClick = (itemId: number) => {
-    if (isDisabled) {
-      return;
-    }
-
     const newItems =
       choosedBossItemList &&
       choosedBossItemList.filter((item) => item.id !== itemId);
@@ -83,8 +72,10 @@ export const Items = ({ isDisabled, items, setEditSettlement }: Props) => {
         <div className="flex items-center justify-between">
           <span className="text-18 font-bold text-gray-800">아이템</span>
           <button
-            className="h-26 rounded-4 bg-gray-300 px-8 text-center text-14 font-semibold leading-26 text-gray-800"
-            onClick={handleAddItemClick}
+            className={`h-26 rounded-4 bg-gray-300 px-8 text-center text-14 font-semibold leading-26 text-gray-800 ${
+              !canEdit && "hidden"
+            }`}
+            onClick={() => setOpen(true)}
           >
             아이템추가
           </button>
@@ -111,10 +102,10 @@ export const Items = ({ isDisabled, items, setEditSettlement }: Props) => {
                   <li key={`items-amount-${item.name}`}>
                     <input
                       className={`h-50 w-full rounded-8 border-1 border-white-100  text-center leading-50 focus:outline-none ${
-                        !isDisabled && "bg-white"
+                        canEdit && "bg-white"
                       }`}
                       value={item.amount.toLocaleString()}
-                      disabled={isDisabled}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         const value = Math.abs(
                           Number(e.currentTarget.value.replaceAll(",", ""))
@@ -135,10 +126,10 @@ export const Items = ({ isDisabled, items, setEditSettlement }: Props) => {
                   <li key={`items-meso-${item.name}`} className="relative">
                     <input
                       className={`h-50 w-full rounded-8 border-1 border-white-100 pl-16 leading-50 focus:outline-none ${
-                        !isDisabled && "bg-white"
+                        canEdit && "bg-white"
                       }`}
                       value={item.meso.toLocaleString()}
-                      disabled={isDisabled}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         const value = Math.abs(
                           Number(e.currentTarget.value.replaceAll(",", ""))
@@ -148,7 +139,10 @@ export const Items = ({ isDisabled, items, setEditSettlement }: Props) => {
                         }
                       }}
                     ></input>
-                    <button onClick={() => handleRemoveItemClick(item.id || 0)}>
+                    <button
+                      className={!canEdit ? "hidden" : ""}
+                      onClick={() => handleRemoveItemClick(item.id || 0)}
+                    >
                       <Image
                         src={XIcon.src}
                         width={150}

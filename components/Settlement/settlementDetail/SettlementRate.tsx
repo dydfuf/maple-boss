@@ -15,7 +15,7 @@ import { cn } from "utils/common";
 import ArrowDown from "@/public/images/ArrowDown.png";
 
 interface Props {
-  isDisabled: boolean;
+  canEdit: boolean;
   dividends?: Dividends[];
   setEditSettlement: Dispatch<SetStateAction<PartySettlement | undefined>>;
   isValid: boolean;
@@ -23,7 +23,7 @@ interface Props {
 }
 
 export const SettlementRate = ({
-  isDisabled,
+  canEdit,
   dividends,
   setEditSettlement,
   isValid,
@@ -99,11 +99,11 @@ export const SettlementRate = ({
             onValueChange={(value) => {
               handleChangeRate(member.userId, value);
             }}
-            disabled={isDisabled}
+            disabled={!canEdit}
           >
             <Select.Trigger
               className={`inline-flex h-50 w-200 items-center justify-center rounded-8 border-1 border-white-100 outline-none ${
-                !isDisabled && "bg-white"
+                canEdit && "bg-white"
               }`}
             >
               <div className="flex w-full items-center justify-between px-16">
@@ -114,7 +114,7 @@ export const SettlementRate = ({
                     width={16}
                     height={16}
                     alt="arrow-down"
-                    className="h-16 w-16"
+                    className={`h-16 w-16 ${!canEdit && "hidden"}`}
                   />
                 </Select.Icon>
               </div>

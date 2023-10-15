@@ -11,10 +11,10 @@ import Crown from "@/public/images/Crown.png";
 
 interface Props {
   setEditSettlement: Dispatch<SetStateAction<PartySettlement | undefined>>;
-  isDisabled: boolean;
+  canEdit: boolean;
 }
 
-export const DetailInfo = ({ setEditSettlement, isDisabled }: Props) => {
+export const DetailInfo = ({ setEditSettlement, canEdit }: Props) => {
   const router = useRouter();
   const { settlementId } = router.query;
   const { partySettlement } = useSettlementDetailInfo({
@@ -89,60 +89,63 @@ export const DetailInfo = ({ setEditSettlement, isDisabled }: Props) => {
         </li>
         <li className="justify-between">
           <span className="text-14 font-bold">수수료</span>
-          <RadioGroup.Root
-            className="flex gap-20"
-            defaultValue={String(percentage)}
-            disabled={isDisabled}
-          >
-            <div className="flex items-center">
-              <RadioGroup.Item
-                className="mt-2 h-20 w-20 rounded-full border-1 border-purple-100"
-                value="3"
-                id="r1"
-                onClick={() =>
-                  setEditSettlement(
-                    (prev) =>
-                      prev && {
-                        ...prev,
-                        mainData: {
-                          ...prev.mainData,
-                          percentage: 3,
-                        },
-                      }
-                  )
-                }
-              >
-                <RadioGroup.Indicator className="relative flex h-full w-full items-center justify-center after:block after:h-10 after:w-10 after:rounded-5 after:bg-purple-100 after:content-['']" />
-              </RadioGroup.Item>
-              <label className="pl-10 text-15 leading-1" htmlFor="r1">
-                3%
-              </label>
-            </div>
-            <div className="flex items-center">
-              <RadioGroup.Item
-                className=" mt-2 h-20 w-20 rounded-full border-1 border-purple-100"
-                value="5"
-                id="r2"
-                onClick={() =>
-                  setEditSettlement(
-                    (prev) =>
-                      prev && {
-                        ...prev,
-                        mainData: {
-                          ...prev.mainData,
-                          percentage: 5,
-                        },
-                      }
-                  )
-                }
-              >
-                <RadioGroup.Indicator className="relative flex h-full w-full items-center justify-center after:block after:h-10 after:w-10 after:rounded-5 after:bg-purple-100 after:content-['']" />
-              </RadioGroup.Item>
-              <label className="pl-10 text-15 leading-1" htmlFor="r2">
-                5%
-              </label>
-            </div>
-          </RadioGroup.Root>
+          {canEdit ? (
+            <RadioGroup.Root
+              className="flex gap-20"
+              defaultValue={String(percentage)}
+            >
+              <div className="flex items-center">
+                <RadioGroup.Item
+                  className="mt-2 h-20 w-20 rounded-full border-1 border-purple-100"
+                  value="3"
+                  id="r1"
+                  onClick={() =>
+                    setEditSettlement(
+                      (prev) =>
+                        prev && {
+                          ...prev,
+                          mainData: {
+                            ...prev.mainData,
+                            percentage: 3,
+                          },
+                        }
+                    )
+                  }
+                >
+                  <RadioGroup.Indicator className="relative flex h-full w-full items-center justify-center after:block after:h-10 after:w-10 after:rounded-5 after:bg-purple-100 after:content-['']" />
+                </RadioGroup.Item>
+                <label className="pl-10 text-15 leading-1" htmlFor="r1">
+                  3%
+                </label>
+              </div>
+              <div className="flex items-center">
+                <RadioGroup.Item
+                  className=" mt-2 h-20 w-20 rounded-full border-1 border-purple-100"
+                  value="5"
+                  id="r2"
+                  onClick={() =>
+                    setEditSettlement(
+                      (prev) =>
+                        prev && {
+                          ...prev,
+                          mainData: {
+                            ...prev.mainData,
+                            percentage: 5,
+                          },
+                        }
+                    )
+                  }
+                >
+                  <RadioGroup.Indicator className="relative flex h-full w-full items-center justify-center after:block after:h-10 after:w-10 after:rounded-5 after:bg-purple-100 after:content-['']" />
+                </RadioGroup.Item>
+                <label className="pl-10 text-15 leading-1" htmlFor="r2">
+                  5%
+                </label>
+              </div>
+            </RadioGroup.Root>
+          ) : (
+            <span className="text-14">{percentage}%</span>
+          )}
         </li>
       </ul>
     </div>
