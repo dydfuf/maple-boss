@@ -22,6 +22,7 @@ export default function Document() {
           name="naver-site-verification"
           content="850dfa049911db5ecf128f599eeea8b91c692202"
         />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
       </Head>
       <body>
         <Main />

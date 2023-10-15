@@ -40,7 +40,7 @@ export default function Gnb() {
   ];
 
   return (
-    <header className="flex h-100 w-full border-b-1 border-main-2 px-12">
+    <header className="flex h-80 w-full border-b-1 border-main-2 px-12">
       <div className="mx-auto mt-10 flex w-full max-w-[1440px]">
         <Link href="/boss">
           <Image
