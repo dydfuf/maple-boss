@@ -8,8 +8,12 @@ interface Props {
 }
 
 export default function NicknameChangeDialog({ onSubmit }: Props) {
-  const validateNickName = (value: string) => {
+  const validateNickNameLength = (value: string) => {
     return value.length <= 1 || value.length >= 8;
+  };
+
+  const validateNickNameEngKorNum = (value: string) => {
+    return !/^[A-Za-z0-9가-힣]*$/.test(value);
   };
 
   return (
@@ -32,9 +36,15 @@ export default function NicknameChangeDialog({ onSubmit }: Props) {
             </Form.Message>
             <Form.Message
               className="p-4 text-12 text-red-100"
-              match={validateNickName}
+              match={validateNickNameLength}
             >
               닉네임은 2~7자리로 설정해주세요
+            </Form.Message>
+            <Form.Message
+              className="p-4 text-12 text-red-100"
+              match={validateNickNameEngKorNum}
+            >
+              닉네임은, 한글, 영어, 숫자만 입력 가능합니다.
             </Form.Message>
           </div>
           <Form.Control asChild>
