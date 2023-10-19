@@ -4,7 +4,7 @@ import { find } from "lodash-es";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import usePartyMemberList from "hooks/party/usePartyMemberList";
+import usePartyMemberList, { Member } from "hooks/party/usePartyMemberList";
 import { cn } from "utils/common";
 import ArrowDown from "@/public/images/ArrowDown.png";
 
@@ -22,6 +22,11 @@ export default function ChangeLeaderDialog({ onSubmit }: Props) {
 
   const [value, setValue] = useState(leaderMemberNickname);
 
+  const getLeaderId = (members: Member[]) => {
+    const leader = members.filter((member) => member.isLeader === true);
+    return leader[0].id;
+  };
+
   return (
     <Dialog.Portal>
       <Dialog.Overlay className="fixed inset-0 data-[state=open]:bg-black/[0.3]" />
@@ -36,7 +41,7 @@ export default function ChangeLeaderDialog({ onSubmit }: Props) {
             value={value}
             onValueChange={setValue}
           >
-            <Select.Trigger className="inline-flex h-50 w-full items-center justify-center rounded-8 border-1 border-white-100 bg-white outline-none">
+            <Select.Trigger className="mt-12 inline-flex h-50 w-full items-center justify-center rounded-8 border-1 border-white-100 bg-white outline-none">
               <div className="flex w-full items-center justify-between px-16">
                 <Select.Value />
                 <Select.Icon>
@@ -62,7 +67,7 @@ export default function ChangeLeaderDialog({ onSubmit }: Props) {
                       key={member.nickName}
                       className={cn(
                         "relative flex h-50 w-full cursor-pointer items-center px-16",
-                        { "bg-gray-200": member.nickName === value }
+                        { hidden: member.nickName === value }
                       )}
                       value={member.nickName}
                     >
@@ -88,10 +93,12 @@ export default function ChangeLeaderDialog({ onSubmit }: Props) {
                 onClick={() => {
                   const selectedMemberId = find(members, { nickName: value })
                     ?.id;
-                  if (!selectedMemberId) {
-                    return;
+                  if (selectedMemberId === getLeaderId(members)) {
+                    alert("변경할 파티장을 선택해주세요.");
+                  } else if (selectedMemberId) {
+                    onSubmit(selectedMemberId);
+                    alert("파티장 변경에 성공했습니다.");
                   }
-                  onSubmit(selectedMemberId);
                 }}
               >
                 <span className="text-14 font-semibold text-white">확인</span>

@@ -36,7 +36,7 @@ interface APIResponse {
   members: Member[];
 }
 
-interface Member {
+export interface Member {
   id: number;
   email: string;
   nickName: string;
