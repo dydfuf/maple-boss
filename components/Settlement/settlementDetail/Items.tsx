@@ -82,13 +82,13 @@ export const Items = ({ canEdit, items, setEditSettlement }: Props) => {
         </div>
         {choosedBossItemList.length !== 0 ? (
           <div className="mt-30 flex gap-10">
-            <div className="flex w-195 flex-col">
+            <div className="flex w-225 flex-col">
               <span className="mb-8 ml-8 text-13">이름</span>
               <ul className="flex flex-col gap-10">
                 {choosedBossItemList.map((item) => (
                   <li
                     key={item.name}
-                    className="h-50 w-full rounded-8 border-1 border-white-100  pl-16 leading-50"
+                    className="h-50 w-full overflow-hidden rounded-8 border-1 border-white-100 pl-16 leading-50"
                   >
                     {item.name}
                   </li>
@@ -119,13 +119,13 @@ export const Items = ({ canEdit, items, setEditSettlement }: Props) => {
                 ))}
               </ul>
             </div>
-            <div className="flex w-160 flex-col">
+            <div className="flex w-130 flex-col">
               <span className="mb-8 ml-8 text-13">메소</span>
               <ul className="flex flex-col gap-10">
                 {choosedBossItemList.map((item) => (
                   <li key={`items-meso-${item.name}`} className="relative">
                     <input
-                      className={`h-50 w-full rounded-8 border-1 border-white-100 pl-16 leading-50 focus:outline-none ${
+                      className={`h-50 w-full  rounded-8 border-1 border-white-100 pl-16 leading-50 focus:outline-none ${
                         canEdit && "bg-white"
                       }`}
                       value={item.meso.toLocaleString()}
