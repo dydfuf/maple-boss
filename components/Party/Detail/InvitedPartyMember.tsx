@@ -66,7 +66,9 @@ export default function InvitedPartyMember() {
                   </div>
                   {member.status === "INVITED" && (
                     <button
-                      className="flex h-20 w-60 shrink-0 items-center justify-center rounded-full border-1 border-purple-100 bg-white"
+                      className={`flex h-20 w-60 shrink-0 items-center justify-center rounded-full border-1 border-purple-100 bg-white ${
+                        !isLeader && "hidden"
+                      }`}
                       onClick={() => {
                         handleCancelInviteClick(member.id);
                       }}
