@@ -6,6 +6,10 @@ interface Props {
 }
 
 export default function InviteMemberDialog({ onSubmit }: Props) {
+  const validateInviteEmail = (value: string) => {
+    return value.length <= 1 || value.length >= 30;
+  };
+
   return (
     <Dialog.Portal>
       <Dialog.Overlay className="fixed inset-0 data-[state=open]:bg-black/[0.3]" />
@@ -32,6 +36,12 @@ export default function InviteMemberDialog({ onSubmit }: Props) {
                 </Form.Label>
                 <Form.Message className="text-10" match="valueMissing">
                   이메일을 입력해주세요
+                </Form.Message>
+                <Form.Message
+                  className="p-4 text-12 text-red-100"
+                  match={validateInviteEmail}
+                >
+                  이메일은 30자 이내로 입력해주세요.
                 </Form.Message>
               </div>
               <Form.Control asChild>
