@@ -31,6 +31,10 @@ export default function SettlementConfirmDialog({ onSubmit }: Props) {
   };
 
   const handleConfirmClick = () => {
+    if (items?.length === 0) {
+      alert("추가된 아이템 목록이 없습니다.");
+      return;
+    }
     if (!isValidItem()) {
       alert("수량이 0인 항목 또는 메소가 0인 항목이 있습니다.");
       return;
