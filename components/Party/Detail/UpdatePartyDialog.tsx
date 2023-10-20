@@ -12,6 +12,10 @@ export default function UpdatePartyDialog({
   initialPartyName,
   initialPartyDescription,
 }: Props) {
+  const validatePartyName = (value: string) => {
+    return value.length <= 1 || value.length >= 15;
+  };
+
   return (
     <>
       <Dialog.Overlay className="fixed inset-0 data-[state=open]:bg-black/[0.3]" />
@@ -38,6 +42,12 @@ export default function UpdatePartyDialog({
                 </Form.Label>
                 <Form.Message className="text-10" match="valueMissing">
                   파티 이름을 입력해주세요
+                </Form.Message>
+                <Form.Message
+                  className="p-4 text-12 text-red-100"
+                  match={validatePartyName}
+                >
+                  파티이름은 15자 이내로 입력해주세요.
                 </Form.Message>
               </div>
               <Form.Control asChild>
