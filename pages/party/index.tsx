@@ -1,5 +1,14 @@
+import Head from "next/head";
 import PartyListContainer from "components/Party/PartyListContainer";
+import { getPageTitle } from "utils/meta";
 
 export default function PartyListPage() {
-  return <PartyListContainer />;
+  return (
+    <>
+      <Head>
+        <title>{getPageTitle("파티")}</title>
+      </Head>
+      <PartyListContainer />;
+    </>
+  );
 }

@@ -1,6 +1,8 @@
 import { GetStaticPaths, GetStaticProps } from "next";
+import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
 import BossDetailContainer from "components/boss/detail/BossDetailContainer";
+import { getPageTitle } from "utils/meta";
 import { sendGetBossList } from "utils/ssrApi/boss";
 import { Boss, Item, sendGetBossDetail } from "utils/ssrApi/bossDetail";
 
@@ -10,7 +12,14 @@ interface Props {
 }
 
 export default function BossDetailPage({ boss, items }: Props) {
-  return <BossDetailContainer boss={boss} items={items} />;
+  return (
+    <>
+      <Head>
+        <title>{getPageTitle(`${boss.name}(${boss.clazz})`)}</title>
+      </Head>
+      <BossDetailContainer boss={boss} items={items} />;
+    </>
+  );
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {

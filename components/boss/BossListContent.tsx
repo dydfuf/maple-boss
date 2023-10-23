@@ -13,7 +13,7 @@ export default function BossListContent({ bossList }: Props) {
       {bossList.map((boss) => (
         <Link
           key={`boss-list-${boss.id}`}
-          className="flex gap-8 rounded-12 bg-gray-100 p-8"
+          className="flex flex-col items-center gap-8 rounded-12 bg-gray-100 p-8 sm:flex-row"
           href={`/boss/${boss.id}`}
         >
           <Image
@@ -21,10 +21,10 @@ export default function BossListContent({ bossList }: Props) {
             alt={boss.name}
             width={100}
             height={100}
-            className="h-80 w-80 shrink-0 rounded-12 sm:h-100 sm:w-100"
+            className="h-120 w-120 shrink-0 rounded-12 sm:h-100 sm:w-100"
             priority
           />
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col items-center gap-4 sm:items-start">
             <p className="line-clamp-1 text-18 font-bold text-gray-900">
               {boss.name}
             </p>

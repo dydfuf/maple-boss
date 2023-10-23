@@ -7,7 +7,7 @@ export default function SettlementPartyDetailContainer() {
   return (
     <section className="flex w-full">
       <ContentWrapper>
-        <ContentTitle title="정산 상세">
+        <ContentTitle title="정산 요약">
           <SettlementPartyDetailController />
         </ContentTitle>
         <SettlementPartyDetailContent />
