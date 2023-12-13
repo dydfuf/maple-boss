@@ -25,6 +25,10 @@ const config = withPlugins([[withBundleAnalyzer({ enabled: env.ANALYZE })]], {
         protocol: "https",
         hostname: "cdn-web-dev-smash.mapleboss.io",
       },
+      {
+        protocol: "https",
+        hostname: "avatar.maplestory.nexon.com",
+      },
     ],
   },
 });

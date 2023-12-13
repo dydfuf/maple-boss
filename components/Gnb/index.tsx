@@ -21,6 +21,10 @@ export default function Gnb() {
   const MENU_LINK_LIST = [
     { label: "보스", href: "/boss" },
     {
+      label: "랭킹",
+      href: "/ranking",
+    },
+    {
       label: "파티",
       href: "/party",
     },
