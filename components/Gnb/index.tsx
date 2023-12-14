@@ -36,6 +36,10 @@ export default function Gnb() {
       label: "로그인",
       href: `/login?callbackUrl=${encodeURIComponent(router.asPath)}`,
     },
+    isLoggedIn && {
+      label: "문의",
+      href: "/inquiry",
+    },
   ].filter(Boolean);
 
   const SUB_MENU_LIST = [
