@@ -35,6 +35,7 @@ interface APIResponse {
   content: string;
   type: Type;
   status: Status;
+  createdAt: string;
   //TODO
   answer: string;
 }

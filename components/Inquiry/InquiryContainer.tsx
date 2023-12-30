@@ -7,7 +7,7 @@ export default function InquiryContainer() {
   return (
     <section className="flex w-full">
       <ContentWrapper>
-        <ContentTitle title="문의" />
+        <ContentTitle title="게시판" />
         <InquiryCreateButton />
         <InquiryListTable />
       </ContentWrapper>

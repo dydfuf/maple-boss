@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
-import useGetInquiry, { Status, Type } from "hooks/inquiry/useGetInquiry";
+import useGetInquiry from "hooks/inquiry/useGetInquiry";
+import { StatusToNameMap, TypeToNameMap } from "./constant";
 
 export default function InquiryListTable() {
   const { inquiryList } = useGetInquiry();
@@ -45,13 +46,3 @@ export default function InquiryListTable() {
     </table>
   );
 }
-
-const TypeToNameMap: Record<Type, string> = {
-  INQUIRY: "문의",
-  TENDINOUS: "건의",
-};
-const StatusToNameMap: Record<Status, string> = {
-  COMPLETED: "완료",
-  CREATED: "신청",
-  IN_PROGRESS: "처리중",
-};

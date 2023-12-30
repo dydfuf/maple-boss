@@ -8,12 +8,8 @@ export default function InquiryDetail() {
   const { inquiryDetail } = useGetInquiryDetail({ id: Number(inquiryId) });
 
   return (
-    <div>
-      <p>title : {inquiryDetail?.title}</p>
-      <p>type : {inquiryDetail?.type}</p>
+    <div className="p-12 text-gray-600">
       <p>content : {inquiryDetail?.content}</p>
-      <p>answer : {inquiryDetail?.answer}</p>
-      <p>status : {inquiryDetail?.status}</p>
     </div>
   );
 }
