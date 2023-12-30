@@ -8,7 +8,7 @@ interface Props {
   hideGnb?: boolean;
 }
 
-const MapleFont = localFont({
+export const MapleFont = localFont({
   src: [
     {
       path: "../fonts/Maplestory_OTF_Bold.otf",

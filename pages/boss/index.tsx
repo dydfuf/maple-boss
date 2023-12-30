@@ -14,7 +14,7 @@ export default function BossListPage({ bossList }: Props) {
       <Head>
         <title>{getPageTitle("보스")}</title>
       </Head>
-      <BossListContainer bossList={bossList} />;
+      <BossListContainer bossList={bossList} />
     </>
   );
 }

@@ -8,7 +8,7 @@ export default function PartyListPage() {
       <Head>
         <title>{getPageTitle("파티")}</title>
       </Head>
-      <PartyListContainer />;
+      <PartyListContainer />
     </>
   );
 }

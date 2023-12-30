@@ -8,7 +8,7 @@ export default function PartyDetailPage() {
       <Head>
         <title>{getPageTitle("파티 상세")}</title>
       </Head>
-      <PartyDetailContainer />;
+      <PartyDetailContainer />
     </>
   );
 }

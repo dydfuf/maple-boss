@@ -8,7 +8,7 @@ export default function EmailVerifyPage() {
       <Head>
         <title>{getPageTitle("회원가입")}</title>
       </Head>
-      <RegisterContainer />;
+      <RegisterContainer />
     </>
   );
 }

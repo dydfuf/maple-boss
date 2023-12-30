@@ -8,7 +8,7 @@ export default function LoginPage() {
       <Head>
         <title>{getPageTitle("로그인")}</title>
       </Head>
-      <LoginContainer />;
+      <LoginContainer />
     </>
   );
 }

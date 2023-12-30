@@ -8,7 +8,7 @@ export default function SettlementPage() {
       <Head>
         <title>{getPageTitle("정산")}</title>
       </Head>
-      <SettlementContainer />;
+      <SettlementContainer />
     </>
   );
 }

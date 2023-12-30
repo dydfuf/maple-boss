@@ -8,7 +8,7 @@ export default function SettlementPartyDetailPage() {
       <Head>
         <title>{getPageTitle("정산 상세")}</title>
       </Head>
-      <SettlementDetailContainer />;
+      <SettlementDetailContainer />
     </>
   );
 }

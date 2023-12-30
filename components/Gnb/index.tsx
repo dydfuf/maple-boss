@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import { MapleFont } from "components/Layout";
 import useAlarm from "hooks/alarm/useAlarm";
 import AlarmPopover from "./AlarmPopover";
 import UserInfoPopover from "./UserInfoPopover";
@@ -18,27 +19,32 @@ export default function Gnb() {
   const { alarms } = useAlarm();
   const alarmCount = alarms.length;
 
-  const MENU_LINK_LIST = [
-    { label: "보스", href: "/boss" },
+  const POPOVER_LINK_LIST = [
     {
-      label: "랭킹",
-      href: "/ranking",
+      label: "파티/정산",
+      type: "party-settlement",
+      subMenus: [
+        { label: "파티 관리", href: "/party" },
+        { label: "파티 정산 관리", href: "/settlement" },
+      ],
     },
     {
-      label: "파티",
-      href: "/party",
+      label: "게시판",
+      type: "board",
+      subMenus: [
+        { label: "랭킹 게시판", href: "/ranking" },
+        { label: "자유 게시판", href: "" },
+        { label: "문의 게시판", href: "/inquiry" },
+      ],
     },
     {
-      label: "정산",
-      href: "/settlement",
-    },
-    !isLoggedIn && {
-      label: "로그인",
-      href: `/login?callbackUrl=${encodeURIComponent(router.asPath)}`,
-    },
-    isLoggedIn && {
-      label: "문의",
-      href: "/inquiry",
+      label: "부가기능",
+      type: "extra",
+      subMenus: [
+        { label: "보스 정보", href: "/boss" },
+        { label: "유니온 계산기", href: "" },
+        { label: "코디 시뮬레이터", href: "/" },
+      ],
     },
   ].filter(Boolean);
 
@@ -50,7 +56,7 @@ export default function Gnb() {
   return (
     <header className="flex h-80 w-full border-b-1 border-main-2 px-12">
       <div className="mx-auto mt-10 flex w-full max-w-[1440px]">
-        <Link href="/boss">
+        <Link href="/boss" className="hidden sm:block">
           <Image
             src={MainLogo.src}
             width={150}
@@ -60,11 +66,41 @@ export default function Gnb() {
           />
         </Link>
         <div className="ml-auto flex items-center gap-x-20 sm:gap-x-40">
-          {MENU_LINK_LIST.map((menu) => (
-            <Link key={menu.href} href={menu.href} className="shrink-0">
-              <span className="text-22 font-bold text-white">{menu.label}</span>
-            </Link>
+          {POPOVER_LINK_LIST.map((menu) => (
+            <Popover.Root key={menu.type}>
+              <Popover.Trigger asChild>
+                <button className="shrink-0">
+                  <span className="text-22 font-bold text-white">
+                    {menu.label}
+                  </span>
+                </button>
+              </Popover.Trigger>
+              <Popover.Portal>
+                <Popover.Content
+                  className="flex w-full flex-col items-center gap-12 rounded-16 bg-white p-20 shadow-md focus:shadow-lg"
+                  sideOffset={5}
+                >
+                  {menu.subMenus.map((subMenu) => (
+                    <Popover.Close key={subMenu.href} asChild>
+                      <Link href={subMenu.href} className={MapleFont.className}>
+                        <span className="text-20 font-bold text-gray-400">
+                          {subMenu.label}
+                        </span>
+                      </Link>
+                    </Popover.Close>
+                  ))}
+                </Popover.Content>
+              </Popover.Portal>
+            </Popover.Root>
           ))}
+          {!isLoggedIn && (
+            <Link
+              href={`/login?callbackUrl=${encodeURIComponent(router.asPath)}`}
+              className="shrink-0"
+            >
+              <span className="text-22 font-bold text-white">로그인</span>
+            </Link>
+          )}
         </div>
         <div className="my-auto ml-20 flex gap-x-20 sm:ml-40 sm:gap-x-40">
           {isLoggedIn &&

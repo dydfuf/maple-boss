@@ -17,7 +17,7 @@ export default function BossDetailPage({ boss, items }: Props) {
       <Head>
         <title>{getPageTitle(`${boss.name}(${boss.clazz})`)}</title>
       </Head>
-      <BossDetailContainer boss={boss} items={items} />;
+      <BossDetailContainer boss={boss} items={items} />
     </>
   );
 }
