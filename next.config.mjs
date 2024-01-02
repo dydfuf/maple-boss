@@ -31,6 +31,14 @@ const config = withPlugins([[withBundleAnalyzer({ enabled: env.ANALYZE })]], {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/proxy/api/:path*",
+        destination: `${env.NEXT_PUBLIC_API_HOST}/api/:path*`,
+      },
+    ];
+  },
 });
 
 export default config;

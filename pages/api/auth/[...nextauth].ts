@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { env } from "env.mjs";
-import { customedAxios } from "hooks/api/customedAxios";
+import { customedSSRAxios } from "hooks/api/customedAxios";
 import { CommonResponse } from "types/common";
 
 export default NextAuth({
@@ -93,10 +93,13 @@ interface LoginResponse {
 }
 
 const sendLogin = ({ email, password }: LoginParams) => {
-  return customedAxios.post<CommonResponse<LoginResponse>>("/api/auth/login", {
-    email,
-    password,
-  });
+  return customedSSRAxios.post<CommonResponse<LoginResponse>>(
+    "/api/auth/login",
+    {
+      email,
+      password,
+    }
+  );
 };
 
 interface RotateRefreshTokenParams {
@@ -112,7 +115,7 @@ const rotateRefreshToken = ({
   accessToken,
   refreshToken,
 }: RotateRefreshTokenParams) => {
-  return customedAxios.post<CommonResponse<RotateRefreshTokenResponse>>(
+  return customedSSRAxios.post<CommonResponse<RotateRefreshTokenResponse>>(
     "/api/auth/refresh-access-token",
     {
       accessToken,

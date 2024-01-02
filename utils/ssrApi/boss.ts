@@ -1,4 +1,4 @@
-import { customedAxios } from "hooks/api/customedAxios";
+import { customedSSRAxios } from "hooks/api/customedAxios";
 import { BossClazz } from "hooks/settlement/usePartySettlementSummary";
 import { CommonResponse } from "types/common";
 
@@ -19,7 +19,7 @@ export interface Boss {
 }
 
 export const sendGetBossList = () => {
-  return customedAxios.get<CommonResponse<APIResponse>>(
+  return customedSSRAxios.get<CommonResponse<APIResponse>>(
     `/api/public/boss?bossClasses=&keywords=&size=50`
   );
 };

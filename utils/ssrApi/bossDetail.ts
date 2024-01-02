@@ -1,4 +1,4 @@
-import { customedAxios } from "hooks/api/customedAxios";
+import { customedSSRAxios } from "hooks/api/customedAxios";
 import { BossClazz } from "hooks/settlement/usePartySettlementSummary";
 import { CommonResponse } from "types/common";
 
@@ -42,7 +42,7 @@ export interface Item {
 type ItemType = "CONSUMABLE" | "EQUIPMENT" | "EXTRA";
 
 export const sendGetBossDetail = ({ bossId }: APIParams) => {
-  return customedAxios.get<CommonResponse<APIResponse>>(
+  return customedSSRAxios.get<CommonResponse<APIResponse>>(
     `/api/public/boss/${bossId}`
   );
 };
