@@ -42,7 +42,7 @@ export default function Gnb() {
       type: "extra",
       subMenus: [
         { label: "보스 정보", href: "/boss" },
-        { label: "유니온 계산기", href: "" },
+        { label: "유니온 계산기", href: "/union-simulator" },
         { label: "코디 시뮬레이터", href: "/" },
       ],
     },

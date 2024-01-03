@@ -55,6 +55,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
+    "@redux-devtools/extension": "3.3.0",
     "@total-typescript/ts-reset": "^0.4.2",
     "@types/date-fns": "^2.6.0",
     "@types/lodash-es": "^4.17.8",
