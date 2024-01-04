@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import { isEqual, unionWith } from "lodash-es";
 import { Point } from "./point.js";
 
@@ -33,9 +34,9 @@ class Piece {
 
     for (let i = 0; i < this.shape.length; ++i) {
       for (let j = 0; j < this.shape[i].length; ++j) {
-        if (this.shape[i][j] === 1) {
+        if (this.shape[i][j] == 1) {
           this.pointShape.push(new PiecePoint(j, i, false));
-        } else if (this.shape[i][j] === 2) {
+        } else if (this.shape[i][j] == 2) {
           this.pointShape.push(new PiecePoint(j, i, true));
         }
       }
@@ -48,7 +49,7 @@ class Piece {
     Object.defineProperty(this, "offCenter", { value: 0, writable: true });
 
     for (let i = 0; i < this.shape[0].length; i++) {
-      if (this.shape[0][i] !== 0) {
+      if (this.shape[0][i] != 0) {
         this.offCenter = i;
         break;
       }
@@ -74,7 +75,7 @@ class Piece {
           .map(() => new Array(shape.length).fill(0));
         for (let k = 0; k < shape.length; k++) {
           for (let l = 0; l < shape[0].length; l++) {
-            if (shape[k][l] !== 0) {
+            if (shape[k][l] != 0) {
               newGrid[shape[0].length - l - 1][k] = shape[k][l];
             }
           }
@@ -88,7 +89,7 @@ class Piece {
         .map(() => new Array(shape[0].length).fill(0));
       for (let k = 0; k < shape.length; k++) {
         for (let l = 0; l < shape[0].length; l++) {
-          if (shape[k][l] !== 0) {
+          if (shape[k][l] != 0) {
             newGrid[shape.length - k - 1][l] = shape[k][l];
           }
         }
@@ -114,7 +115,7 @@ class Piece {
     for (let piece of this.transformations) {
       if (
         !piece.shape[0][1 + piece.offCenter] ||
-        piece.shape[0][1 + piece.offCenter] === 0
+        piece.shape[0][1 + piece.offCenter] == 0
       ) {
         this.restrictedTransformations.push(piece);
       }

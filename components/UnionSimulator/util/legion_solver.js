@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import { Piece } from "./piece.js";
 import { Point } from "./point.js";
 
@@ -34,7 +35,7 @@ class LegionSolver {
         j < this.board[0].length / 2 + 1;
         j++
       ) {
-        if (this.board[i][j] !== -1) {
+        if (this.board[i][j] != -1) {
           this.middle.push(new Point(j, i));
         }
       }
@@ -43,7 +44,7 @@ class LegionSolver {
     this.emptySpots = [];
     for (let i = 0; i < this.board.length; i++) {
       for (let j = 0; j < this.board[0].length; j++) {
-        if (this.board[i][j] === 0) {
+        if (this.board[i][j] == 0) {
           this.emptySpots.push(new Point(j, i));
         }
       }
@@ -59,10 +60,10 @@ class LegionSolver {
     this.longSpaces = [];
     for (let i = 0; i < this.board.length; i++) {
       for (let j = 0; j < this.board[0].length; j++) {
-        if (this.checkLongSpace(j, i) === "horizontal") {
+        if (this.checkLongSpace(j, i) == "horizontal") {
           this.longSpaces.push(new Point(j, i));
         }
-        if (this.checkLongSpace(j, i) === "vertical") {
+        if (this.checkLongSpace(j, i) == "vertical") {
           this.longSpaces.push(new Point(j, i));
         }
       }
@@ -91,12 +92,12 @@ class LegionSolver {
       }
       if (
         this.valid &&
-        this.restrictedSpots.length !== 0 &&
+        this.restrictedSpots.length != 0 &&
         this.pieces[this.restrictedPieceNumber].amount &&
-        this.directionFree !== 5 &&
+        this.directionFree != 5 &&
         !this.firstAlgorithm
       ) {
-        if (this.restrictedPieceNumber !== this.pieceLength) {
+        if (this.restrictedPieceNumber != this.pieceLength) {
           point = this.restrictedSpots[0];
           piece =
             this.pieces[this.restrictedPieceNumber].restrictedTransformations[
@@ -129,8 +130,8 @@ class LegionSolver {
       } else if (
         this.valid &&
         this.pieces[this.pieceNumber].amount &&
-        (this.firstAlgorithm || this.restrictedSpots.length === 0) &&
-        this.directionFree !== 5
+        (this.firstAlgorithm || this.restrictedSpots.length == 0) &&
+        this.directionFree != 5
       ) {
         this.directionFree = 0;
         if (!this.firstAlgorithm) {
@@ -139,13 +140,13 @@ class LegionSolver {
             position < this.emptySpots.length &&
             this.board[this.emptySpots[position].y][
               this.emptySpots[position].x
-            ] !== 0
+            ] != 0
           ) {
             position++;
           }
         } else {
         }
-        if (position === this.emptySpots.length) {
+        if (position == this.emptySpots.length) {
           return true;
         }
         point = this.emptySpots[position];
@@ -179,11 +180,11 @@ class LegionSolver {
               position < this.emptySpots.length &&
               this.board[this.emptySpots[position].y][
                 this.emptySpots[position].x
-              ] !== 0
+              ] != 0
             ) {
               position++;
             }
-            if (position === this.emptySpots.length) {
+            if (position == this.emptySpots.length) {
               return true;
             }
           }
@@ -194,7 +195,7 @@ class LegionSolver {
           this.changeIndex(false);
         }
       } else {
-        if (stack.length === 0) {
+        if (stack.length == 0) {
           return false;
         }
         if (!this.valid) {
@@ -214,7 +215,7 @@ class LegionSolver {
           position,
           this.valid,
         ] = stack.pop();
-        if (this.directionFree === 0) {
+        if (this.directionFree == 0) {
           this.returnToList(this.pieceNumber, spotsMoved);
           this.takeBackPiece(
             point,
@@ -231,16 +232,16 @@ class LegionSolver {
             ]
           );
         }
-        this.firstAlgorithm = !(this.longSpaces.length === 0);
+        this.firstAlgorithm = !(this.longSpaces.length == 0);
         if (!this.firstAlgorithm) {
-          this.changeIndex(!this.restrictedSpots.length === 0);
+          this.changeIndex(!this.restrictedSpots.length == 0);
         } else {
           this.changeIndex(false);
         }
       }
 
       this.iterations++;
-      if (this.iterations % batchSize === 0) {
+      if (this.iterations % batchSize == 0) {
         this.onBoardUpdated();
         await new Promise((resolve) => setTimeout(resolve, 0));
         await this.pausePromise;
@@ -272,7 +273,7 @@ class LegionSolver {
   }
 
   isValid() {
-    if (this.middle.length === 0) return true;
+    if (this.middle.length == 0) return true;
 
     let normalPieces = 0;
     for (let point of this.middle) {
@@ -284,7 +285,7 @@ class LegionSolver {
       }
     }
 
-    this.valid = normalPieces !== this.middle.length;
+    this.valid = normalPieces != this.middle.length;
   }
 
   isPlaceable(position, piece) {
@@ -300,7 +301,7 @@ class LegionSolver {
         y < 0 ||
         x >= this.board[0].length ||
         x < 0 ||
-        this.board[y][x] !== 0
+        this.board[y][x] != 0
       ) {
         return false;
       }
@@ -324,21 +325,18 @@ class LegionSolver {
       realPoints.push(new Point(x, y));
       this.history[this.history.length - 1].push(new Point(x, y));
       for (let i = 0; i < this.restrictedSpots.length; i++) {
-        if (
-          this.restrictedSpots[i].x === x &&
-          this.restrictedSpots[i].y === y
-        ) {
+        if (this.restrictedSpots[i].x == x && this.restrictedSpots[i].y == y) {
           this.restrictedSpots.splice(i, 1);
           i--;
         }
       }
       for (let i = 0; i < this.longSpaces.length; i++) {
-        if (this.longSpaces[i].x === x && this.longSpaces[i].y === y) {
+        if (this.longSpaces[i].x == x && this.longSpaces[i].y == y) {
           this.longSpaces.splice(i, 1);
           i--;
         }
       }
-      if (this.longSpaces.length === 0) {
+      if (this.longSpaces.length == 0) {
         this.firstAlgorithm = false;
       }
     }
@@ -353,8 +351,8 @@ class LegionSolver {
     for (let i = 0; i < this.restrictedSpots.length - 1; i++) {
       for (let j = i + 1; j < this.restrictedSpots.length; j++) {
         if (
-          this.restrictedSpots[i].x === this.restrictedSpots[j].x &&
-          this.restrictedSpots[i].y === this.restrictedSpots[j].y
+          this.restrictedSpots[i].x == this.restrictedSpots[j].x &&
+          this.restrictedSpots[i].y == this.restrictedSpots[j].y
         ) {
           spliceElements.push(i);
         }
@@ -378,17 +376,17 @@ class LegionSolver {
 
   searchSurroundings(x, y) {
     let restrictedSpaces = 0;
-    if (this.board[y] && this.board[y][x] === 0) {
-      if (this.board[y + 1] && this.board[y + 1][x] === 0) {
+    if (this.board[y] && this.board[y][x] == 0) {
+      if (this.board[y + 1] && this.board[y + 1][x] == 0) {
         restrictedSpaces++;
       }
-      if (this.board[y - 1] && this.board[y - 1][x] === 0) {
+      if (this.board[y - 1] && this.board[y - 1][x] == 0) {
         restrictedSpaces++;
       }
-      if (this.board[y] && this.board[y][x + 1] === 0) {
+      if (this.board[y] && this.board[y][x + 1] == 0) {
         restrictedSpaces++;
       }
-      if (this.board[y] && this.board[y][x - 1] === 0) {
+      if (this.board[y] && this.board[y][x - 1] == 0) {
         restrictedSpaces++;
       }
       if (restrictedSpaces <= 1) {
@@ -402,25 +400,25 @@ class LegionSolver {
   checkLongSpace(x, y) {
     if (
       this.board[y + 1] &&
-      this.board[y + 1][x] === 0 &&
+      this.board[y + 1][x] == 0 &&
       this.board[y - 1] &&
-      this.board[y - 1][x] === 0 &&
+      this.board[y - 1][x] == 0 &&
       this.board[y] &&
-      this.board[y][x + 1] !== 0 &&
+      this.board[y][x + 1] != 0 &&
       this.board[y] &&
-      this.board[y][x - 1] !== 0
+      this.board[y][x - 1] != 0
     ) {
       return "vertical";
     }
     if (
       this.board[y + 1] &&
-      this.board[y + 1][x] !== 0 &&
+      this.board[y + 1][x] != 0 &&
       this.board[y - 1] &&
-      this.board[y - 1][x] !== 0 &&
+      this.board[y - 1][x] != 0 &&
       this.board[y] &&
-      this.board[y][x + 1] === 0 &&
+      this.board[y][x + 1] == 0 &&
       this.board[y] &&
-      this.board[y][x - 1] === 0
+      this.board[y][x - 1] == 0
     ) {
       return "horizontal";
     }
@@ -453,16 +451,16 @@ class LegionSolver {
   }
 
   determineDirectionFree(point) {
-    if (this.board[point.y - 1] && this.board[point.y - 1][point.x] === 0) {
+    if (this.board[point.y - 1] && this.board[point.y - 1][point.x] == 0) {
       this.directionFree = 1;
-    } else if (this.board[point.y] && this.board[point.y][point.x + 1] === 0) {
+    } else if (this.board[point.y] && this.board[point.y][point.x + 1] == 0) {
       this.directionFree = 2;
     } else if (
       this.board[point.y + 1] &&
-      this.board[point.y + 1][point.x] === 0
+      this.board[point.y + 1][point.x] == 0
     ) {
       this.directionFree = 3;
-    } else if (this.board[point.y] && this.board[point.y][point.x - 1] === 0) {
+    } else if (this.board[point.y] && this.board[point.y][point.x - 1] == 0) {
       this.directionFree = 4;
     } else {
       this.directionFree = 5;
@@ -473,16 +471,16 @@ class LegionSolver {
     let x;
     let y;
     if (
-      this.directionFree === 0 ||
-      this.directionFree === 3 ||
-      this.directionFree === 5
+      this.directionFree == 0 ||
+      this.directionFree == 3 ||
+      this.directionFree == 5
     ) {
       x = position.x + point.x - piece.offCenter;
       y = position.y + point.y;
-    } else if (this.directionFree === 1) {
+    } else if (this.directionFree == 1) {
       x = position.x - point.x + piece.offCenter;
       y = position.y - point.y;
-    } else if (this.directionFree === 2) {
+    } else if (this.directionFree == 2) {
       x = position.x + point.y;
       y = position.y + point.x - piece.offCenter;
     } else {
@@ -494,7 +492,7 @@ class LegionSolver {
 
   pause() {
     this.time -= new Date().getTime();
-    if (this.iterations !== 0) {
+    if (this.iterations != 0) {
       document.getElementById("iterations").style.visibility = "visible";
       document.getElementById(
         "iterationsValue"

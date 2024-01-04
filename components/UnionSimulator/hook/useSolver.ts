@@ -126,8 +126,6 @@ export default function useSolver() {
       }
       finishedSolver = legionSolvers[3];
       pieceHistory = legionSolvers[3].history;
-
-      console.log({ pieceHistory, finishedSolver, board });
     }
 
     return {
