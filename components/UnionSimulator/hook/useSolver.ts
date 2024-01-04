@@ -5,7 +5,8 @@ import { LegionSolver } from "../util/legion_solver";
 
 export default function useSolver() {
   const { pieces } = usePiecesStore((state) => state);
-  const { board } = useBoardStore((state) => state);
+  const { board: _board } = useBoardStore((state) => state);
+  const board = cloneDeep(_board);
 
   const solve = async () => {
     const downBoard: number[][] = [];
@@ -129,9 +130,10 @@ export default function useSolver() {
     }
 
     return {
-      board: finishedSolver?.board,
+      board,
       success,
       pieceHistory,
+      finishedSolver,
     };
   };
 
