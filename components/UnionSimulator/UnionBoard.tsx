@@ -9,8 +9,9 @@ export default function UnionBoard() {
   const [dragging, setDragging] = useState(false);
   const [dragState, setDragState] = useState<number>(-1);
   const [pieceHistory, setPieceHistory] = useState<Point[][]>([]);
+  const [isZoneSelect, setIsZoneSelect] = useState(false);
 
-  const { board, setBoard, resetBoard, solvingState, setSolvingState } =
+  const { board, setBoard, resetBoard, solvingState, setSolvingState, zones } =
     useBoardStore((state) => state);
   const { pieces } = usePiecesStore((state) => state);
   const { solve } = useSolver();
@@ -21,7 +22,34 @@ export default function UnionBoard() {
     0
   );
 
+  const getZone = (i: number, j: number) => {
+    const zone = zones.find((zone) =>
+      zone.some(([_i, _j]) => {
+        if (_i === i && _j === j) return true;
+        return false;
+      })
+    );
+    return zone;
+  };
+
   const flipCell = (i: number, j: number) => {
+    if (isZoneSelect) {
+      const zone = getZone(i, j);
+      if (!zone) return;
+      setBoard(
+        board.map((row, x) =>
+          row.map((cell, y) =>
+            zone.some(([_i, _j]) => _i === x && _j === y)
+              ? cell === -1
+                ? 0
+                : -1
+              : cell
+          )
+        )
+      );
+      return;
+    }
+
     setBoard(
       board.map((row, x) =>
         row.map((cell, y) =>
@@ -50,6 +78,18 @@ export default function UnionBoard() {
     if (solvingState !== "initial") return;
 
     if (dragging) {
+      if (isZoneSelect) {
+        const zone = getZone(i, j);
+        if (!zone) return;
+        setBoard(
+          board.map((row, x) =>
+            row.map((cell, y) =>
+              zone.some(([_i, _j]) => _i === x && _j === y) ? dragState : cell
+            )
+          )
+        );
+        return;
+      }
       setBoard(
         board.map((row, x) =>
           row.map((cell, y) => (x === i && y === j ? dragState : cell))
@@ -85,6 +125,18 @@ export default function UnionBoard() {
   return (
     <div className="flex w-full flex-col">
       <div className="mt-10 flex w-full">
+        <div className="flex items-center">
+          <input
+            type="checkbox"
+            checked={isZoneSelect}
+            onChange={(e) => setIsZoneSelect(e.target.checked)}
+            className="h-20 w-20"
+            id="zone-select"
+          />
+          <label htmlFor="zone-select" className="ml-10">
+            영역 선택
+          </label>
+        </div>
         <button
           className="ml-auto flex shrink-0 items-center justify-center rounded-4 bg-purple-100 px-24 py-4 disabled:opacity-25"
           onClick={resetBoard}
