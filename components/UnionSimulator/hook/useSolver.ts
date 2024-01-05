@@ -2,6 +2,7 @@ import { cloneDeep } from "lodash-es";
 import { useBoardStore } from "states/board";
 import { usePiecesStore } from "states/pieces";
 import { LegionSolver } from "../util/legion_solver";
+import { Point } from "../util/point";
 
 export default function useSolver() {
   const { pieces } = usePiecesStore((state) => state);
@@ -132,7 +133,7 @@ export default function useSolver() {
     return {
       board,
       success,
-      pieceHistory,
+      pieceHistory: pieceHistory as Point[][],
       finishedSolver,
     };
   };

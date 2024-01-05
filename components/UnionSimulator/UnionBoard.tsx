@@ -3,10 +3,12 @@ import { useBoardStore } from "states/board";
 import { usePiecesStore } from "states/pieces";
 import BoardCell from "./BoardCell";
 import useSolver from "./hook/useSolver";
+import { Point } from "./util/point";
 
 export default function UnionBoard() {
   const [dragging, setDragging] = useState(false);
   const [dragState, setDragState] = useState<number>(-1);
+  const [pieceHistory, setPieceHistory] = useState<Point[][]>([]);
 
   const { board, setBoard, resetBoard, solvingState, setSolvingState } =
     useBoardStore((state) => state);
@@ -30,6 +32,7 @@ export default function UnionBoard() {
   };
 
   const handleMouseDown = (i: number, j: number) => {
+    if (solvingState !== "initial") return;
     const state = board[i][j] === -1 ? 0 : -1;
     setDragging(true);
     setDragState(state);
@@ -37,11 +40,15 @@ export default function UnionBoard() {
   };
 
   const handleMouseUp = () => {
+    if (solvingState !== "initial") return;
+
     setDragging(false);
     setDragState(-1);
   };
 
   const handleMouseOver = (i: number, j: number) => {
+    if (solvingState !== "initial") return;
+
     if (dragging) {
       setBoard(
         board.map((row, x) =>
@@ -58,11 +65,12 @@ export default function UnionBoard() {
       return alert("캐릭터 칸수와 유니온 보드의 칸수가 다릅니다");
 
     setSolvingState("solving");
-    const { board, success } = await solve();
+    const { board, success, pieceHistory } = await solve();
     setSolvingState("solved");
 
     if (success) {
       setBoard(board);
+      setPieceHistory(pieceHistory);
     } else {
       alert("보드를 채울 수 있는 경우의 수를 찾지 못했습니다.");
     }
@@ -70,6 +78,7 @@ export default function UnionBoard() {
 
   const handleResetBoard = () => {
     resetBoard();
+    setPieceHistory([]);
     setSolvingState("initial");
   };
 
@@ -96,6 +105,7 @@ export default function UnionBoard() {
                   handleMouseUp={handleMouseUp}
                   handleMouseDown={handleMouseDown}
                   handleMouseOver={handleMouseOver}
+                  pieceHistory={pieceHistory}
                 />
               ))}
             </tr>

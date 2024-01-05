@@ -1,6 +1,7 @@
 import { useBoardStore } from "states/board";
 import { usePiecesStore } from "states/pieces";
 import { cn } from "utils/common";
+import { Point } from "./util/point";
 
 interface Props {
   i: number;
@@ -8,6 +9,7 @@ interface Props {
   handleMouseDown: (i: number, j: number) => void;
   handleMouseUp: () => void;
   handleMouseOver: (i: number, j: number) => void;
+  pieceHistory: Point[][];
 }
 
 export default function BoardCell({
@@ -16,6 +18,7 @@ export default function BoardCell({
   handleMouseDown,
   handleMouseUp,
   handleMouseOver,
+  pieceHistory,
 }: Props) {
   const { board } = useBoardStore((state) => state);
   const { pieceColours } = usePiecesStore((state) => state);
@@ -43,19 +46,48 @@ export default function BoardCell({
 
   const backgroundColor = pieceColours.get(board[i][j]);
 
+  const getPieceHistory = (i: number, j: number) => {
+    const currentPieceHistory = pieceHistory.filter((piece) =>
+      piece.some((point) => point.y === i && point.x === j)
+    );
+    return currentPieceHistory;
+  };
+  const currentPieceHistory = getPieceHistory(i, j);
+
+  const colorBorderTop = currentPieceHistory.some((piece) =>
+    piece.some((point) => point.y === i - 1 && point.x === j)
+  );
+  const colorBorderBottom = currentPieceHistory.some((piece) =>
+    piece.some((point) => point.y === i + 1 && point.x === j)
+  );
+  const colorBorderLeft = currentPieceHistory.some((piece) =>
+    piece.some((point) => point.y === i && point.x === j - 1)
+  );
+  const colorBorderRight = currentPieceHistory.some((piece) =>
+    piece.some((point) => point.y === i && point.x === j + 1)
+  );
+
   return (
     <td
       onMouseDown={() => handleMouseDown(i, j)}
       onMouseUp={handleMouseUp}
       onMouseOver={() => handleMouseOver(i, j)}
-      className={cn("cursor-pointer border-1", {
+      className={cn("cursor-pointer border-1 text-12", {
         "border-t-2 border-t-black": isTopBorder,
         "border-b-2 border-b-black": isBottomBorder,
         "border-l-2 border-l-black": isLeftBorder,
         "border-r-2 border-r-black": isRightBorder,
-        "border-none": board[i][j] > 1,
+        "border-black": board[i][j] > 1,
       })}
-      style={{ backgroundColor }}
+      style={{
+        backgroundColor,
+        borderTopColor: colorBorderTop ? pieceColours.get(board[i][j]) : "",
+        borderBottomColor: colorBorderBottom
+          ? pieceColours.get(board[i][j])
+          : "",
+        borderLeftColor: colorBorderLeft ? pieceColours.get(board[i][j]) : "",
+        borderRightColor: colorBorderRight ? pieceColours.get(board[i][j]) : "",
+      }}
     />
   );
 }
