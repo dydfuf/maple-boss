@@ -18,7 +18,7 @@ export default function RankingPage(props: Props) {
   return (
     <>
       <Head>
-        <title>{getPageTitle("랭킹")}</title>
+        <title>{getPageTitle("무릉도장 랭킹")}</title>
       </Head>
       <RankingContainer {...props} />
     </>

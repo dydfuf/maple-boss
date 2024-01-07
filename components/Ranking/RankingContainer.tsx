@@ -14,7 +14,7 @@ export default function RankingContainer({ rankList, nowDate }: Props) {
   return (
     <section className="flex w-full">
       <ContentWrapper isFixed>
-        <ContentTitle title="랭킹" />
+        <ContentTitle title="무릉도장 랭킹" />
         <RankingWorldNavigator />
         <RankingListTable rankList={rankList} nowDate={nowDate} />
         <RankingPageNavigator />
