@@ -186,11 +186,6 @@ export default function UnionBoard() {
           </button>
         </div>
       </div>
-      <div className="mt-20 flex justify-between rounded-8 border-2 p-20">
-        <p className="text-20 font-bold">
-          @TODO: 로그인 하여 현재 유니온 시뮬레이션을 저장해보세요
-        </p>
-      </div>
     </div>
   );
 }

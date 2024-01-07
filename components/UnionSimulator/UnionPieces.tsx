@@ -58,6 +58,7 @@ export default function UnionPieces() {
                 className="flex h-50 w-50 items-center justify-center rounded-8 border-2 text-center"
                 id={`piece${index + 1}`}
                 type="number"
+                min={0}
                 value={piece.amount}
                 onChange={(e) => {
                   if (isNaN(Number(e.target.value))) {
