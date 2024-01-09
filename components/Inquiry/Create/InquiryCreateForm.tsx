@@ -1,26 +1,36 @@
 import * as Form from "@radix-ui/react-form";
 import * as Select from "@radix-ui/react-select";
+import { Editor } from "@toast-ui/react-editor";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useRef } from "react";
 import useCreateInquiry from "hooks/inquiry/useCreateInquiry";
 import { Type } from "hooks/inquiry/useGetInquiry";
 import ArrowDown from "@/public/images/ArrowDown.png";
 
+const ToastEditor = dynamic(() => import("components/common/Editor"), {
+  ssr: false,
+});
+
 export default function InquiryCreateForm() {
   const { createInquiry } = useCreateInquiry();
   const router = useRouter();
+
+  const textRef = useRef<Editor>(null);
 
   return (
     <Form.Root
       className="mt-30 flex w-full flex-col gap-y-8"
       onSubmit={async (event) => {
         event.preventDefault();
-        const { inquiryContent, inquiryTitle, inquiryType } =
-          Object.fromEntries(new FormData(event.currentTarget));
+        const { inquiryTitle, inquiryType } = Object.fromEntries(
+          new FormData(event.currentTarget)
+        );
 
         const { data } = await createInquiry({
           title: inquiryTitle as string,
-          content: inquiryContent as string,
+          content: textRef?.current?.getInstance().getHTML() ?? "",
           type: inquiryType as Type,
         });
 
@@ -85,14 +95,11 @@ export default function InquiryCreateForm() {
           </Form.Control>
         </Form.Field>
       </div>
-      <Form.Field className="mb-10 flex items-start" name="inquiryContent">
-        <Form.Control asChild>
-          <textarea
-            className="flex h-600 w-full items-center rounded-8 border-1 border-white-100 bg-white px-16 py-8 text-14 font-normal text-gray-500 focus:outline-none"
-            required
-            placeholder="문의 내용을 입력해주세요."
-          />
-        </Form.Control>
+      <Form.Field
+        className="mb-10 flex w-full items-start"
+        name="inquiryContent"
+      >
+        <ToastEditor textRef={textRef} />
       </Form.Field>
       <div className="ml-auto flex gap-8">
         <button className="flex h-44 w-60 items-center justify-center rounded-8 border-1 bg-purple-100">
