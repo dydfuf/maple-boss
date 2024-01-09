@@ -10,7 +10,7 @@ export default function RankingListTable({ rankList, nowDate }: Props) {
   return (
     <div className="mt-40 flex flex-col items-center justify-center">
       <p className="ml-auto mr-12 text-12 text-gray-500">{`${nowDate} 기준 랭킹`}</p>
-      <table className="mt-8 w-[1380px] table-fixed">
+      <table className="mt-8 w-full table-fixed">
         <colgroup>
           <col width={"10%"} />
           <col width={"35%"} />
@@ -32,7 +32,7 @@ export default function RankingListTable({ rankList, nowDate }: Props) {
             <tr key={rank.rank} className="border-b-1 last:border-b-0">
               <td className="text-24 font-bold">{rank.rank}</td>
               <td>
-                <div className="flex items-center">
+                <div className="flex flex-col items-center sm:flex-row">
                   <Image
                     src={rank.imageSrc}
                     width={160}

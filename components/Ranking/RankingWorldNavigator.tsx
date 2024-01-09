@@ -16,7 +16,7 @@ export default function RankingWorldNavigator() {
   };
 
   return (
-    <div className="mt-20 grid grid-cols-10 gap-8">
+    <div className="mt-20 grid grid-cols-3 gap-8 sm:grid-cols-5 lg:grid-cols-8">
       {WORLD_NAME_LIST.map((worldName) => (
         <button
           key={worldName}

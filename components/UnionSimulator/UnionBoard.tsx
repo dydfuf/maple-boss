@@ -164,21 +164,21 @@ export default function UnionBoard() {
           ))}
         </tbody>
       </table>
-      <div className="mt-20 flex justify-between rounded-8 border-2 p-20">
+      <div className="mt-20 flex flex-col justify-between rounded-8 border-2 p-20 lg:flex-row">
         <div className="flex flex-col">
           <p>보드에 채워야 할 칸 : {beFilledAmount}칸</p>
           <p>보드에 채워진 칸 : {filledAmount}칸</p>
         </div>
         <div className="flex items-center gap-20">
           <button
-            className="flex shrink-0 items-center justify-center rounded-4 border-1 border-gray-700 bg-gray-100 px-52 py-8 disabled:opacity-25"
+            className="flex w-full items-center justify-center rounded-4 border-1 border-gray-700 bg-gray-100 py-8 disabled:opacity-25 lg:w-fit lg:shrink-0 lg:px-52"
             onClick={handleResetBoard}
             disabled={solvingState !== "solved"}
           >
             <span className="text-20 font-bold text-black">초기화</span>
           </button>
           <button
-            className="flex shrink-0 items-center justify-center rounded-4 bg-purple-100 px-52 py-8 disabled:opacity-25"
+            className="flex w-full items-center justify-center rounded-4 bg-purple-100 py-8 disabled:opacity-25 lg:w-fit lg:shrink-0 lg:px-52"
             onClick={handleSolve}
             disabled={solvingState !== "initial"}
           >

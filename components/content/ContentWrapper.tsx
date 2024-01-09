@@ -11,7 +11,7 @@ export default function ContentWrapper({
   return (
     <div
       className={`mx-auto mb-90 mt-50 flex min-h-[780px] ${
-        isFixed ? "w-[1440px]" : "w-full max-w-[1440px]"
+        isFixed ? "w-[1080px]" : "w-full max-w-[1080px]"
       } flex-col rounded-16 bg-white p-30`}
     >
       {children}

@@ -7,7 +7,7 @@ export default function UnionPieces() {
     usePiecesStore((state) => state);
 
   return (
-    <div className="w-400 shrink-0 rounded-12 bg-gray-200 p-20">
+    <div className="w-full shrink-0 rounded-12 bg-gray-200 p-20 sm:max-w-[360px]">
       <div className="mb-20 flex items-center justify-between px-10">
         <p className="text-24 font-bold">{`총 캐릭터 수 : ${getAllAmounts()}`}</p>
         <button

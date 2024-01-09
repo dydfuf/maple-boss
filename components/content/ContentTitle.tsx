@@ -15,7 +15,7 @@ export default function ContentTitle({
     <div
       className={cn("flex h-54 w-full items-center rounded-16 px-30", {
         "bg-main-2": variant === "common",
-        "bg-gray-300": variant === "detail",
+        "flex-col bg-gray-300 sm:flex-row": variant === "detail",
       })}
     >
       <h1

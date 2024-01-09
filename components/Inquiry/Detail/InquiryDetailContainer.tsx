@@ -31,7 +31,7 @@ export default function InquiryDetailContainer() {
           title={`${type ? `[${type}]` : ""} ${title}`}
           variant="detail"
         >
-          <InquiryDetailSubTitle author="작성자" date={date} viewCount={0} />
+          <InquiryDetailSubTitle date={date} />
         </ContentTitle>
         <InquiryDetail />
       </ContentWrapper>

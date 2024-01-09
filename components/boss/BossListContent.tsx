@@ -9,7 +9,7 @@ interface Props {
 
 export default function BossListContent({ bossList }: Props) {
   return (
-    <div className="mt-20 grid grid-cols-2 gap-16 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+    <div className="mt-20 grid grid-cols-2 gap-16 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
       {bossList.map((boss) => (
         <Link
           key={`boss-list-${boss.id}`}
