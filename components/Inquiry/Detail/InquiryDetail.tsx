@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import useGetInquiryDetail from "hooks/inquiry/useGetInquiryDetail";
+import InquiryAnswer from "./InquiryAnswer";
 
 const ToastViewer = dynamic(() => import("components/common/Viewer"), {
   ssr: false,
@@ -12,9 +13,12 @@ export default function InquiryDetail() {
 
   const { inquiryDetail } = useGetInquiryDetail({ id: Number(inquiryId) });
   return (
-    <div className="h-full p-12 text-gray-600">
+    <div className="flex h-full flex-col p-12 text-gray-600">
       {inquiryDetail?.content && (
-        <ToastViewer contents={inquiryDetail.content} />
+        <div className="flex h-full w-full flex-col">
+          <ToastViewer contents={inquiryDetail.content} />
+          <InquiryAnswer />
+        </div>
       )}
     </div>
   );

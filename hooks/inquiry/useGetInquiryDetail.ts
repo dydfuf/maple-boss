@@ -36,8 +36,8 @@ interface APIResponse {
   type: Type;
   status: Status;
   createdAt: string;
-  //TODO
-  answer: string;
+  answer?: string;
+  completedAt?: string;
 }
 
 const getInquiryDetail = ({ accessToken, id }: APIParams) => {

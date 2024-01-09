@@ -13,7 +13,10 @@ export default function InquiryDetailContainer() {
   const { inquiryId } = router.query;
 
   const { inquiryDetail } = useGetInquiryDetail({ id: Number(inquiryId) });
-  const { title, createdAt } = inquiryDetail || { title: "", createdAt: "" };
+  const { title, createdAt } = inquiryDetail || {
+    title: "",
+    createdAt: "",
+  };
   const type = TypeToNameMap[inquiryDetail?.type as Type] || "";
 
   let date = "";

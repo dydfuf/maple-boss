@@ -34,7 +34,6 @@ export default function Gnb() {
       subMenus: [
         { label: "랭킹 게시판", href: "/ranking" },
         // { label: "자유 게시판", href: "" },
-        // { label: "문의 게시판", href: "/inquiry" },
       ],
     },
     {
@@ -43,7 +42,6 @@ export default function Gnb() {
       subMenus: [
         { label: "보스 정보", href: "/boss" },
         { label: "유니온 계산기", href: "/union-simulator" },
-        // { label: "코디 시뮬레이터", href: "/" },
       ],
     },
   ].filter(Boolean);

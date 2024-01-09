@@ -1,4 +1,6 @@
 import * as Dialog from "@radix-ui/react-alert-dialog";
+import * as Popover from "@radix-ui/react-popover";
+import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
 import { useState } from "react";
 import useChangeNickname from "hooks/user/useChangeNickname";
@@ -27,6 +29,10 @@ export default function UserInfoPopover() {
   const handlePasswordChangeClick = () => {
     setDialogType("PASSWORD_CHANGE");
     setDialogOpen(true);
+  };
+  const router = useRouter();
+  const handleInquiryClick = () => {
+    router.push("/inquiry");
   };
 
   return (
@@ -57,6 +63,16 @@ export default function UserInfoPopover() {
               비밀번호 변경
             </span>
           </button>
+          <Popover.Close asChild>
+            <button
+              className="w-full rounded-4 bg-gray-200 px-16 py-8"
+              onClick={handleInquiryClick}
+            >
+              <span className="text-14 font-semibold text-gray-900">
+                문의 내역
+              </span>
+            </button>
+          </Popover.Close>
         </div>
       </div>
       {dialogType === "NICKNAME_CHANGE" && (
