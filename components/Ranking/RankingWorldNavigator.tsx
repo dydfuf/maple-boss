@@ -34,7 +34,7 @@ export default function RankingWorldNavigator() {
   );
 }
 
-const WORLD_NAME_LIST = [
+export const WORLD_NAME_LIST = [
   "전체월드",
   "리부트2",
   "리부트",

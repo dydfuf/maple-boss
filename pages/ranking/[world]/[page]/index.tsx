@@ -2,10 +2,12 @@ import { range } from "@toss/utils";
 import { format } from "date-fns";
 import { GetStaticProps } from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { parse } from "node-html-parser";
 import React from "react";
 import { ParsedUrlQuery } from "querystring";
 import RankingContainer from "components/Ranking/RankingContainer";
+import { WORLD_NAME_LIST } from "components/Ranking/RankingWorldNavigator";
 import { getPageTitle } from "utils/meta";
 import { sendRankingHTML } from "utils/ssrApi/mapleRanking";
 
@@ -15,10 +17,21 @@ interface Props {
 }
 
 export default function RankingPage(props: Props) {
+  const router = useRouter();
+  const { world, page } = router.query;
+
+  const worldNum = Number(world);
+  const currentWorld = WORLD_NAME_LIST[worldNum];
+  const currentPage = Number(page);
+
   return (
     <>
       <Head>
-        <title>{getPageTitle("무릉도장 랭킹")}</title>
+        <title>
+          {getPageTitle(
+            `무릉도장 랭킹 | ${currentWorld} | ${currentPage} 페이지`
+          )}
+        </title>
       </Head>
       <RankingContainer {...props} />
     </>
