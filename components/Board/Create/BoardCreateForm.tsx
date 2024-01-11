@@ -5,16 +5,16 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useRef } from "react";
-import useCreateInquiry from "hooks/inquiry/useCreateInquiry";
-import { Type } from "hooks/inquiry/useGetInquiry";
+import useCreateBoard from "hooks/board/useCreateBoard";
+import { Category } from "hooks/board/useGetBoard";
 import ArrowDown from "@/public/images/ArrowDown.png";
 
 const ToastEditor = dynamic(() => import("components/common/Editor"), {
   ssr: false,
 });
 
-export default function InquiryCreateForm() {
-  const { createInquiry } = useCreateInquiry();
+export default function BoardCreateForm() {
+  const { createBoard } = useCreateBoard();
   const router = useRouter();
 
   const textRef = useRef<Editor>(null);
@@ -24,29 +24,29 @@ export default function InquiryCreateForm() {
       className="mt-30 flex w-full flex-col gap-y-8"
       onSubmit={async (event) => {
         event.preventDefault();
-        const { inquiryTitle, inquiryType } = Object.fromEntries(
+        const { boardTitle, boardCategory } = Object.fromEntries(
           new FormData(event.currentTarget)
         );
 
-        const { data } = await createInquiry({
-          title: inquiryTitle as string,
+        const { data } = await createBoard({
+          title: boardTitle as string,
           content: textRef?.current?.getInstance().getHTML() ?? "",
-          type: inquiryType as Type,
+          category: boardCategory as Category,
         });
 
         if (data.code === "S000") {
-          router.push("/inquiry");
+          router.push("/board");
           return;
         }
       }}
     >
       <div className="flex gap-20">
-        <Form.Field className="mb-10 flex items-center" name="inquiryType">
+        <Form.Field className="mb-10 flex items-center" name="boardCategory">
           <Form.Control asChild>
             <Select.Root>
               <Select.Trigger className="inline-flex h-50 w-120 items-center justify-center rounded-8 border-1 border-white-100 bg-white outline-none">
                 <div className="flex w-full items-center justify-between px-16 text-13 text-gray-500">
-                  <Select.Value placeholder="문의 타입" />
+                  <Select.Value placeholder="카테고리" />
                   <Select.Icon>
                     <Image
                       src={ArrowDown.src}
@@ -71,7 +71,9 @@ export default function InquiryCreateForm() {
                         className="relative flex h-50 w-full cursor-pointer items-center px-16"
                         value={item}
                       >
-                        <Select.ItemText>{TypeToNameMap[item]}</Select.ItemText>
+                        <Select.ItemText>
+                          {CategoryToNameMap[item]}
+                        </Select.ItemText>
                       </Select.Item>
                     ))}
                   </Select.Viewport>
@@ -83,25 +85,22 @@ export default function InquiryCreateForm() {
 
         <Form.Field
           className="mb-10 flex w-full items-center"
-          name="inquiryTitle"
+          name="boardTitle"
         >
           <Form.Control asChild>
             <input
               className="flex h-50 w-full items-center rounded-8 border-1 border-white-100 bg-white px-16 text-14 font-normal text-gray-500 focus:outline-none"
               type="text"
               required
-              placeholder="문의 제목을 입력해주세요."
+              placeholder="게시글 제목을 입력해주세요."
             />
           </Form.Control>
         </Form.Field>
       </div>
-      <Form.Field
-        className="mb-10 flex w-full items-start"
-        name="inquiryContent"
-      >
+      <Form.Field className="mb-10 flex w-full items-start" name="boardContent">
         <ToastEditor
           textRef={textRef}
-          placeholder="문의 내용을 입력해주세요."
+          placeholder="게시글 내용을 입력해주세요."
         />
       </Form.Field>
       <div className="ml-auto flex gap-8">
@@ -122,8 +121,7 @@ export default function InquiryCreateForm() {
   );
 }
 
-const SelectItemList: Type[] = ["INQUIRY", "TENDINOUS"];
-const TypeToNameMap: Record<Type, string> = {
-  INQUIRY: "문의",
-  TENDINOUS: "건의",
+const SelectItemList: Category[] = ["FREE"];
+const CategoryToNameMap: Record<Category, string> = {
+  FREE: "자유",
 };

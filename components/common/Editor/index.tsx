@@ -4,14 +4,15 @@ import { Ref } from "react";
 
 interface Props {
   textRef: Ref<Editor>;
+  placeholder: string;
 }
 
-export default function ToastEditor({ textRef }: Props) {
+export default function ToastEditor({ textRef, placeholder }: Props) {
   return (
     <div className="w-full">
       <Editor
         ref={textRef}
-        placeholder="문의 내용을 입력해주세요."
+        placeholder={placeholder}
         previewStyle="vertical"
         language="ko-KR"
         hideModeSwitch

@@ -1,3 +1,5 @@
+import BoardCreateContainer from "components/Board/Create/BoardCreateContainer";
+
 export default function BoardCreatePage() {
-  return <div>index</div>;
+  return <BoardCreateContainer />;
 }
