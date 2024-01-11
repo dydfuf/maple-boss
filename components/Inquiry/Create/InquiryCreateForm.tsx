@@ -60,7 +60,7 @@ export default function InquiryCreateForm() {
               </Select.Trigger>
               <Select.Portal>
                 <Select.Content
-                  className="h-full w-120 overflow-auto rounded-8 bg-white"
+                  className="z-50 h-full w-120 overflow-auto rounded-8 bg-white "
                   position="popper"
                   sideOffset={2}
                 >

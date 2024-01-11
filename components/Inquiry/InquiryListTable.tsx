@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { useRouter } from "next/router";
 import useGetInquiry from "hooks/inquiry/useGetInquiry";
 import { StatusToNameMap, TypeToNameMap } from "./constant";
@@ -15,8 +16,9 @@ export default function InquiryListTable() {
     <table className="mt-20 w-full table-fixed">
       <colgroup>
         <col width={"10%"} />
-        <col width={"20%"} />
-        <col width={"50%"} />
+        <col width={"15%"} />
+        <col width={"40%"} />
+        <col width={"15%"} />
         <col width={"20%"} />
       </colgroup>
       <thead className="border-1 bg-gray-300">
@@ -24,6 +26,7 @@ export default function InquiryListTable() {
           <th className="p-8">번호</th>
           <th className="p-8">타입</th>
           <th className="p-8">제목</th>
+          <th className="p-8">등록일</th>
           <th className="p-8">상태</th>
         </tr>
       </thead>
@@ -39,6 +42,7 @@ export default function InquiryListTable() {
             <td className="p-12 font-bold">{inquiry.id}</td>
             <td>{TypeToNameMap[inquiry.type]}</td>
             <td>{inquiry.title}</td>
+            <td>{format(new Date(inquiry.createdAt), "yyyy-MM-dd HH:MM")}</td>
             <td>{StatusToNameMap[inquiry.status]}</td>
           </tr>
         ))}

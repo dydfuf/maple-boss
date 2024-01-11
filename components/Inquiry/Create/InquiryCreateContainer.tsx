@@ -6,7 +6,7 @@ export default function InquiryCreateContainer() {
   return (
     <section className="flex w-full">
       <ContentWrapper isFixed>
-        <ContentTitle title="게시글 등록" />
+        <ContentTitle title="문의 등록" />
         <InquiryCreateForm />
       </ContentWrapper>
     </section>

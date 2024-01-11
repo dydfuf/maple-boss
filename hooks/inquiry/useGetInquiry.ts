@@ -32,6 +32,7 @@ interface Inquiry {
   title: string;
   type: Type;
   status: Status;
+  createdAt: string;
 }
 
 const getInquiryList = ({ accessToken }: GetInquiryListParams) => {
