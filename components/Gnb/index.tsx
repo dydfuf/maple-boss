@@ -33,7 +33,7 @@ export default function Gnb() {
       type: "board",
       subMenus: [
         { label: "랭킹 게시판", href: "/ranking" },
-        // { label: "자유 게시판", href: "" },
+        { label: "자유 게시판", href: "/board" },
       ],
     },
     {
