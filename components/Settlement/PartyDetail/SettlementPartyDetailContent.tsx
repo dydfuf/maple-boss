@@ -99,7 +99,7 @@ export default function SettlementPartyDetailContent() {
           </button>
         )}
       </div>
-      <div className="grid w-full grid-cols-1 gap-16 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+      <div className="grid w-full grid-cols-1 gap-16 sm:grid-cols-2 lg:grid-cols-2">
         {summaries.map((summary) => (
           <Link
             key={`summary-${summary.id}`}

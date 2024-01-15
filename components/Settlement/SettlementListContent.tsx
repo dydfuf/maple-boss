@@ -7,7 +7,7 @@ export default function SettlementListContent() {
   const { partySettlementDetailCounts } = usePartySettlementDetailCounts();
 
   return (
-    <div className="mt-40 grid grid-cols-1 gap-16 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="mt-40 grid grid-cols-1 gap-16 sm:grid-cols-2 lg:grid-cols-3">
       {partySettlementDetailCounts?.map((settlement, idx) => {
         const settlementCountList = [
           { label: "진행중 정산", value: settlement.inProgressCount },
