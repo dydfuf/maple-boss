@@ -43,7 +43,7 @@ export default function BoardCreateForm() {
       <div className="flex gap-20">
         <Form.Field className="mb-10 flex items-center" name="boardCategory">
           <Form.Control asChild>
-            <Select.Root>
+            <Select.Root defaultValue={SelectItemList[0]}>
               <Select.Trigger className="inline-flex h-50 w-120 items-center justify-center rounded-8 border-1 border-white-100 bg-white outline-none">
                 <div className="flex w-full items-center justify-between px-16 text-13 text-gray-500">
                   <Select.Value placeholder="카테고리" />
