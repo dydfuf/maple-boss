@@ -52,4 +52,4 @@ const getBoardList = ({ accessToken }: APIParams) => {
   });
 };
 
-export type Category = "FREE";
+export type Category = "FREE" | "TIP" | "WALK_THROUGH";

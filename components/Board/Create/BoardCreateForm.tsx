@@ -121,7 +121,9 @@ export default function BoardCreateForm() {
   );
 }
 
-const SelectItemList: Category[] = ["FREE"];
-const CategoryToNameMap: Record<Category, string> = {
+const SelectItemList: Category[] = ["FREE", "TIP", "WALK_THROUGH"];
+export const CategoryToNameMap: Record<Category, string> = {
   FREE: "자유",
+  TIP: "팁",
+  WALK_THROUGH: "공략",
 };

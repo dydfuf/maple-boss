@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 import { useRouter } from "next/router";
 import useGetBoard from "hooks/board/useGetBoard";
+import { CategoryToNameMap } from "./Create/BoardCreateForm";
 
 export default function BoardListTable() {
   const { boardList } = useGetBoard();
@@ -41,7 +42,7 @@ export default function BoardListTable() {
             }}
           >
             <td className="p-12 font-bold">{board.id}</td>
-            <td>{board.category}</td>
+            <td>{CategoryToNameMap[board.category]}</td>
             <td>{board.title}</td>
             <td>{board.nickname}</td>
             <td>{format(new Date(board.createdAt), "yyyy-MM-dd HH:MM")}</td>

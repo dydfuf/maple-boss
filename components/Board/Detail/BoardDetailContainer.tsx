@@ -2,9 +2,11 @@ import { format } from "date-fns";
 import { useRouter } from "next/router";
 import ContentTitle from "components/content/ContentTitle";
 import ContentWrapper from "components/content/ContentWrapper";
+import { Category } from "hooks/board/useGetBoard";
 import useGetBoardDetail from "hooks/board/useGetBoardDetail";
 import BoardDetail from "./BoardDetail";
 import BoardDetailSubTitle from "./BoardDetailSubTitle";
+import { CategoryToNameMap } from "../Create/BoardCreateForm";
 
 export default function BoardDetailContainer() {
   const router = useRouter();
@@ -24,7 +26,9 @@ export default function BoardDetailContainer() {
     date = format(new Date(createdAt), "yyyy-MM-dd HH:MM");
   } catch (e) {}
 
-  const contentTitle = `[${category}] ${title}`;
+  const contentTitle = `[${
+    category ? CategoryToNameMap[category] : ""
+  }] ${title}`;
 
   return (
     <section className="flex w-full">
