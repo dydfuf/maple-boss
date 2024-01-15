@@ -2,7 +2,6 @@ import { format } from "date-fns";
 import { useRouter } from "next/router";
 import ContentTitle from "components/content/ContentTitle";
 import ContentWrapper from "components/content/ContentWrapper";
-import { Category } from "hooks/board/useGetBoard";
 import useGetBoardDetail from "hooks/board/useGetBoardDetail";
 import BoardDetail from "./BoardDetail";
 import BoardDetailSubTitle from "./BoardDetailSubTitle";
