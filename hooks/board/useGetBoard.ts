@@ -1,20 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
 import { customedAxios } from "hooks/api/customedAxios";
 import { CommonResponse } from "types/common";
 
 export default function useGetBoard() {
-  const { data: sessionData } = useSession();
-
-  const accessToken = sessionData?.accessToken || "";
-
-  const { data, isLoading } = useQuery(
-    ["board"],
-    () => getBoardList({ accessToken }),
-    {
-      enabled: Boolean(accessToken),
-    }
-  );
+  const { data, isLoading } = useQuery(["board"], () => getBoardList({}));
 
   return { boardList: data?.data.data.content || [], isLoading };
 }
@@ -26,9 +15,8 @@ export default function useGetBoard() {
  * nickname
  * category
  */
-interface APIParams {
-  accessToken: string;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface APIParams {}
 
 interface APIResponse {
   content: Board[];
@@ -41,15 +29,13 @@ interface Board {
   views: number;
   createdAt: string;
   userId: number;
+  commentCount: number;
   nickname: string;
 }
 
-const getBoardList = ({ accessToken }: APIParams) => {
-  return customedAxios.get<CommonResponse<APIResponse>>("/api/board", {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+// eslint-disable-next-line no-empty-pattern
+const getBoardList = ({}: APIParams) => {
+  return customedAxios.get<CommonResponse<APIResponse>>("/api/board");
 };
 
 export type Category = "FREE" | "TIP" | "WALK_THROUGH";

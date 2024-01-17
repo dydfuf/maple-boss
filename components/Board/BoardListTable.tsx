@@ -43,7 +43,10 @@ export default function BoardListTable() {
           >
             <td className="p-12 font-bold">{board.id}</td>
             <td>{CategoryToNameMap[board.category]}</td>
-            <td>{board.title}</td>
+            <td>
+              {board.title}{" "}
+              <span className="text-14">({board.commentCount})</span>
+            </td>
             <td>{board.nickname}</td>
             <td>{format(new Date(board.createdAt), "yyyy-MM-dd HH:MM")}</td>
             <td>{board.views}</td>
