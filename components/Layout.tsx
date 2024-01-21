@@ -8,14 +8,36 @@ interface Props {
   hideGnb?: boolean;
 }
 
-export const MapleFont = localFont({
+export const PretendardFont = localFont({
   src: [
     {
-      path: "../fonts/Maplestory_OTF_Bold.otf",
-      weight: "700",
-      style: "bold",
+      path: "../fonts/Pretendard-ExtraLight.woff2",
+      weight: "200",
     },
-    { path: "../fonts/Maplestory_OTF_Light.otf", weight: "500" },
+    {
+      path: "../fonts/Pretendard-Light.woff2",
+      weight: "300",
+    },
+    {
+      path: "../fonts/Pretendard-Regular.woff2",
+      weight: "400",
+    },
+    {
+      path: "../fonts/Pretendard-Medium.woff2",
+      weight: "500",
+    },
+    {
+      path: "../fonts/Pretendard-SemiBold.woff2",
+      weight: "600",
+    },
+    {
+      path: "../fonts/Pretendard-Bold.woff2",
+      weight: "700",
+    },
+    {
+      path: "../fonts/Pretendard-ExtraBold.woff2",
+      weight: "800",
+    },
   ],
 });
 
@@ -27,7 +49,7 @@ export default function Layout({
     <div
       className={cn(
         "flex min-h-[100dvh] flex-col bg-main",
-        MapleFont.className
+        PretendardFont.className
       )}
     >
       {!hideGnb && <Gnb />}

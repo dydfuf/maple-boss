@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import { MapleFont } from "components/Layout";
+import { PretendardFont } from "components/Layout";
 import useAlarm from "hooks/alarm/useAlarm";
 import AlarmPopover from "./AlarmPopover";
 import UserInfoPopover from "./UserInfoPopover";
@@ -80,7 +80,10 @@ export default function Gnb() {
                 >
                   {menu.subMenus.map((subMenu) => (
                     <Popover.Close key={subMenu.href} asChild>
-                      <Link href={subMenu.href} className={MapleFont.className}>
+                      <Link
+                        href={subMenu.href}
+                        className={PretendardFont.className}
+                      >
                         <span className="text-20 font-bold text-gray-400">
                           {subMenu.label}
                         </span>
