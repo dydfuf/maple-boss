@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+import { colors } from "./tailwind/color";
+
 const spacing = {};
 const borderWidth = {};
 const borderRadius = {};
@@ -26,62 +28,7 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {
-        main: {
-          DEFAULT: "#2B2B36",
-        },
-        "main-2": {
-          DEFAULT: "#383854",
-        },
-        "white-100": {
-          DEFAULT: "#E5E8EB",
-        },
-        "gray-200": {
-          DEFAULT: "#F7F8FA",
-        },
-        "gray-300": {
-          DEFAULT: "#E5E8EB",
-        },
-        "gray-400": {
-          DEFAULT: "#ADB5BD",
-        },
-        "gray-500": {
-          DEFAULT: "#8B95A1",
-        },
-        "gray-600": {
-          DEFAULT: "#6B7684",
-        },
-        "gray-900": {
-          DEFAULT: "#191F28",
-        },
-        "purple-100": {
-          DEFAULT: "#5252A4",
-        },
-        "red-100": {
-          DEFAULT: "#C13E31",
-        },
-        "red-200": {
-          DEFAULT: "#FB0000",
-        },
-        "red-900": {
-          DEFAULT: "#B71C1C",
-        },
-        "yellow-100": {
-          DEFAULT: "#EEB524",
-        },
-        "blue-100": {
-          DEFAULT: "#4398EC",
-        },
-        "green-100": {
-          DEFAULT: "#12AC79",
-        },
-        "tomato-100": {
-          DEFAULT: "#EC6142",
-        },
-        "brown-700": {
-          DEFAULT: "#5D4037",
-        },
-      },
+      colors,
       spacing,
       borderWidth,
       borderRadius,
