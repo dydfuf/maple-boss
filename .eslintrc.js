@@ -9,6 +9,7 @@ module.exports = {
     "react-app/jest",
     "plugin:@typescript-eslint/recommended",
     "plugin:tailwindcss/recommended",
+    "plugin:storybook/recommended"
   ],
   parserOptions: {
     babelOptions: {
