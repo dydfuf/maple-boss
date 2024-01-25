@@ -2,7 +2,7 @@ import localFont from "next/font/local";
 import { PropsWithChildren } from "react";
 import { cn } from "utils/common";
 import Footer from "./Footer";
-import Gnb from "./Gnb";
+import Topbar from "./Topbar";
 
 interface Props {
   hideGnb?: boolean;
@@ -48,11 +48,11 @@ export default function Layout({
   return (
     <div
       className={cn(
-        "flex min-h-[100dvh] flex-col bg-main",
+        "flex min-h-[100dvh] flex-col bg-gray9",
         PretendardFont.className
       )}
     >
-      {!hideGnb && <Gnb />}
+      {!hideGnb && <Topbar />}
       <main className="flex flex-1">{children}</main>
       <Footer />
     </div>
