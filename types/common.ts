@@ -5,3 +5,5 @@ export interface CommonResponse<T> {
 }
 
 export type SettlementType = "MANUAL" | "AUTO";
+
+export type RoundSize = "default" | "full";

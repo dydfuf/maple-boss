@@ -27,7 +27,7 @@ export default function Text({
   );
 }
 
-const PC_TEXT_VARIANTS: Record<Size, string> = {
+export const PC_TEXT_VARIANTS: Record<Size, string> = {
   1: "sm:text-14 sm:leading-22",
   2: "sm:text-16 sm:leading-24",
   3: "sm:text-18 sm:leading-28",
@@ -36,7 +36,7 @@ const PC_TEXT_VARIANTS: Record<Size, string> = {
   6: "sm:text-28 sm:leading-42",
 };
 
-const MOBILE_TEXT_VARIANTS: Record<Size, string> = {
+export const MOBILE_TEXT_VARIANTS: Record<Size, string> = {
   1: "text-14 leading-22",
   2: "text-14 leading-22",
   3: "text-16 leading-24",
