@@ -4,12 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import { CDN_HOST } from "constants/common";
 import { PretendardFont } from "components/Layout";
 import useAlarm from "hooks/alarm/useAlarm";
 import AlarmPopover from "./AlarmPopover";
 import UserInfoPopover from "./UserInfoPopover";
 import Alarm from "@/public/images/Alarm.png";
-import MainLogo from "@/public/images/MainLogo.png";
 import Setting from "@/public/images/Setting.png";
 
 export default function Gnb() {
@@ -57,7 +57,7 @@ export default function Gnb() {
       <div className="mx-auto mt-10 flex w-full max-w-[1080px]">
         <Link href="/boss" className="hidden sm:block">
           <Image
-            src={MainLogo.src}
+            src={CDN_HOST + "/common/logo.png"}
             width={150}
             height={65}
             alt="MainLogo"

@@ -23,7 +23,7 @@ const config = withPlugins([[withBundleAnalyzer({ enabled: env.ANALYZE })]], {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "cdn-web-dev-smash.mapleboss.io",
+        hostname: "d30kvxso34opsk.cloudfront.net",
       },
       {
         protocol: "https",
