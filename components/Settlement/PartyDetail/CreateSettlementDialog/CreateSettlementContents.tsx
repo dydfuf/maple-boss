@@ -1,7 +1,6 @@
 import * as Select from "@radix-ui/react-select";
 import { useClickAway } from "@uidotdev/usehooks";
 import { isNaN } from "lodash-es";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import {
   Dispatch,
@@ -105,7 +104,7 @@ function ChooseBossAndSettlementType({
               setSearchBossNameValue(e.currentTarget.value);
             }}
           />
-          <Image
+          <img
             src={Search.src}
             width={16}
             height={16}
@@ -147,7 +146,7 @@ function ChooseBossAndSettlementType({
             <div className="flex w-full items-center justify-between px-16 text-14 font-normal text-gray-500">
               <Select.Value placeholder="정산 타입을 선택하세요" />
               <Select.Icon>
-                <Image
+                <img
                   src={ArrowDown.src}
                   width={16}
                   height={16}
@@ -327,7 +326,7 @@ function ChooseItems({
                 setSearchBossItemValue(e.currentTarget.value);
               }}
             />
-            <Image
+            <img
               src={Search.src}
               width={16}
               height={16}
@@ -493,7 +492,7 @@ function ChooseDividends({
               <div className="flex w-full items-center justify-between px-16">
                 <Select.Value />
                 <Select.Icon>
-                  <Image
+                  <img
                     src={ArrowDown.src}
                     width={16}
                     height={16}
@@ -572,7 +571,7 @@ function ChoosePercentage({
           <div className="flex w-full items-center justify-between px-16 text-13 text-gray-500">
             <Select.Value placeholder="수수료를 선택 해주세요." />
             <Select.Icon>
-              <Image
+              <img
                 src={ArrowDown.src}
                 width={16}
                 height={16}

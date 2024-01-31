@@ -1,5 +1,3 @@
-/** @TODO #125 Topbar의 팝오버를 구현할때 제거되어야 합니다. */
-import Image from "next/image";
 import { useRouter } from "next/router";
 import useAlarm from "hooks/alarm/useAlarm";
 import useReadAlarm from "hooks/alarm/useReadAlarm";
@@ -61,7 +59,7 @@ export default function AlarmPopover() {
               readAlarm({ alarmId: alarm.id });
             }}
           >
-            <Image src={Check.src} alt="check" width={16} height={16} />
+            <img src={Check.src} alt="check" width={16} height={16} />
             <span className="text-14 font-normal text-gray-400">읽음</span>
           </button>
         </div>

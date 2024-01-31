@@ -1,11 +1,10 @@
 /** @TODO #125 Topbar의 팝오버를 구현할때 제거되어야 합니다. */
 import * as Popover from "@radix-ui/react-popover";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import { CDN_HOST } from "constants/common";
 import { PretendardFont } from "components/Layout";
+import { CDN_HOST } from "constants/common";
 import useAlarm from "hooks/alarm/useAlarm";
 import AlarmPopover from "./AlarmPopover";
 import UserInfoPopover from "./UserInfoPopover";
@@ -56,7 +55,7 @@ export default function Gnb() {
     <header className="flex h-80 w-full border-b-1 border-main-2 px-12">
       <div className="mx-auto mt-10 flex w-full max-w-[1080px]">
         <Link href="/boss" className="hidden sm:block">
-          <Image
+          <img
             src={CDN_HOST + "/common/logo.png"}
             width={150}
             height={65}
@@ -110,7 +109,7 @@ export default function Gnb() {
               <Popover.Root key={submenu.src}>
                 <Popover.Trigger asChild>
                   <button className="relative">
-                    <Image
+                    <img
                       key={submenu.src}
                       src={submenu.src}
                       width={32}

@@ -1,5 +1,4 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import useCreateParty from "hooks/party/useCreateParty";
@@ -30,7 +29,7 @@ export default function PartyListContent() {
           onClick={() => setDialogOpen(true)}
         >
           <div className="flex items-center gap-x-8">
-            <Image
+            <img
               src={Plus.src}
               width={16}
               height={16}
@@ -53,7 +52,7 @@ export default function PartyListContent() {
                 {party.leaderNickname}
               </p>
               {party.isLeader && (
-                <Image src={Crown.src} width={16} height={16} alt="crown" />
+                <img src={Crown.src} width={16} height={16} alt="crown" />
               )}
             </div>
           </Link>

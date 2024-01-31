@@ -1,5 +1,4 @@
 import * as Select from "@radix-ui/react-select";
-import Image from "next/image";
 import React, {
   Dispatch,
   SetStateAction,
@@ -109,7 +108,7 @@ export const SettlementRate = ({
               <div className="flex w-full items-center justify-between px-16">
                 <Select.Value />
                 <Select.Icon>
-                  <Image
+                  <img
                     src={ArrowDown.src}
                     width={16}
                     height={16}

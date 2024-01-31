@@ -1,5 +1,4 @@
 import { useClickAway } from "@uidotdev/usehooks";
-import Image from "next/image";
 import {
   Dispatch,
   SetStateAction,
@@ -135,7 +134,7 @@ export const AddItemDialog = ({
                 setSearchBossItemValue(e.currentTarget.value);
               }}
             />
-            <Image
+            <img
               src={Search.src}
               width={16}
               height={16}

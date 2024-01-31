@@ -1,7 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import * as Select from "@radix-ui/react-select";
 import { find } from "lodash-es";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import usePartyMemberList, { Member } from "hooks/party/usePartyMemberList";
@@ -45,7 +44,7 @@ export default function ChangeLeaderDialog({ onSubmit }: Props) {
               <div className="flex w-full items-center justify-between px-16">
                 <Select.Value />
                 <Select.Icon>
-                  <Image
+                  <img
                     src={ArrowDown.src}
                     width={16}
                     height={16}

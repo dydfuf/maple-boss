@@ -1,5 +1,4 @@
 import { formatToKoreanNumber } from "@toss/utils";
-import Image from "next/image";
 import Badge from "components/common/Badge";
 import { Boss, Item } from "utils/ssrApi/bossDetail";
 
@@ -53,13 +52,12 @@ export default function BossDetailContent({ boss, items }: Props) {
   return (
     <div className="mt-20 flex flex-wrap gap-20 md:flex-nowrap">
       <div className="flex w-full shrink-0 flex-col rounded-12 bg-gray-200 p-20 md:w-400">
-        <Image
+        <img
           src={imageUrl}
           alt={name || ""}
           width={400}
           height={400}
           className="w-full rounded-12"
-          priority
         />
         <ul className="mt-30 flex h-full w-full flex-col gap-10 [&_li]:flex [&_li]:h-44 [&_li]:w-full [&_li]:items-center [&_li]:rounded-8 [&_li]:bg-white [&_li]:px-20">
           <li className="justify-center gap-6 !bg-main-2 !text-white">

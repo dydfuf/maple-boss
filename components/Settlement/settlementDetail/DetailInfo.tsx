@@ -1,6 +1,5 @@
 import * as RadioGroup from "@radix-ui/react-radio-group";
 import { format } from "date-fns";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction } from "react";
 import Badge from "components/common/Badge";
@@ -49,7 +48,7 @@ export const DetailInfo = ({ setEditSettlement, canEdit }: Props) => {
         <div className="flex h-16">
           <span className="mr-4 leading-16">{partyName}</span>
           {isLeader && (
-            <Image src={Crown.src} width={16} height={16} alt="crown" />
+            <img src={Crown.src} width={16} height={16} alt="crown" />
           )}
         </div>
       </div>

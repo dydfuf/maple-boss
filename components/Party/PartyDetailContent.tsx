@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import usePartyDetail from "hooks/party/usePartyDetail";
@@ -73,7 +72,7 @@ export default function PartyDetailContent() {
       <div className="mt-40 flex flex-col gap-20 lg:flex-row">
         <div className="h-240 w-full rounded-16 border-1 border-white-100 bg-white px-30 pb-40 pt-21 lg:w-600">
           <div className="flex gap-x-30">
-            <Image
+            <img
               src={Wallet.src}
               width={100}
               height={98}
@@ -88,7 +87,7 @@ export default function PartyDetailContent() {
               <p className="text-28 font-bold text-gray-900">
                 {accumulatedMeso.toLocaleString()}
               </p>
-              <Image
+              <img
                 src={Meso.src}
                 width={30}
                 height={29}

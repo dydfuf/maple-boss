@@ -1,5 +1,4 @@
 import * as Dialog from "@radix-ui/react-alert-dialog";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import useSettlementDetailInfo, {
@@ -143,7 +142,7 @@ export const Items = ({ canEdit, items, setEditSettlement }: Props) => {
                       className={!canEdit ? "hidden" : ""}
                       onClick={() => handleRemoveItemClick(item.id || 0)}
                     >
-                      <Image
+                      <img
                         src={XIcon.src}
                         width={150}
                         height={65}

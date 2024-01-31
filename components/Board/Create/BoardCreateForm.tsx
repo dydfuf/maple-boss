@@ -2,7 +2,6 @@ import * as Form from "@radix-ui/react-form";
 import * as Select from "@radix-ui/react-select";
 import { Editor } from "@toast-ui/react-editor";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useRef } from "react";
 import useCreateBoard from "hooks/board/useCreateBoard";
@@ -48,7 +47,7 @@ export default function BoardCreateForm() {
                 <div className="flex w-full items-center justify-between px-16 text-13 text-gray-500">
                   <Select.Value placeholder="카테고리" />
                   <Select.Icon>
-                    <Image
+                    <img
                       src={ArrowDown.src}
                       width={16}
                       height={16}

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Rank } from "pages/ranking/[world]/[page]";
 
 interface Props {
@@ -33,7 +32,7 @@ export default function RankingListTable({ rankList, nowDate }: Props) {
               <td className="text-24 font-bold">{rank.rank}</td>
               <td>
                 <div className="flex flex-col items-center sm:flex-row">
-                  <Image
+                  <img
                     src={rank.imageSrc}
                     width={160}
                     height={160}

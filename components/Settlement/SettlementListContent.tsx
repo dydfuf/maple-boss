@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import usePartySettlementDetailCounts from "hooks/settlement/usePartySettlementDetailCounts";
 import Crown from "@/public/images/Crown.png";
@@ -27,7 +26,7 @@ export default function SettlementListContent() {
                 {settlement.partyName}
               </p>
               {settlement.isLeader && (
-                <Image src={Crown.src} width={16} height={16} alt="crown" />
+                <img src={Crown.src} width={16} height={16} alt="crown" />
               )}
             </div>
             <div className="mt-20 flex flex-col gap-y-8 rounded-8 bg-gray-200 px-20 py-16">
