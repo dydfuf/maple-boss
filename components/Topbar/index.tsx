@@ -1,15 +1,14 @@
-import Image from "next/image";
 import Link from "next/link";
 import Text from "components/common/Text";
-import MainLogo from "@/public/images/MainLogo.png";
+import { CDN_HOST } from "constants/common";
 
 export default function Topbar() {
   return (
     <header className="flex h-64 justify-center bg-white">
       <div className="flex w-full max-w-[1080px]">
         <Link href="/boss">
-          <Image
-            src={MainLogo.src}
+          <img
+            src={CDN_HOST + "/common/logo.png"}
             width={148}
             height={64}
             alt="MainLogo"
