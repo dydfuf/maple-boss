@@ -1,9 +1,8 @@
-import { PropsWithChildren } from "react";
+import { HtmlHTMLAttributes, PropsWithChildren } from "react";
 import { cn } from "utils/common";
 
-interface Props {
+interface Props extends HtmlHTMLAttributes<HTMLSpanElement> {
   size?: Size;
-  className?: string;
 }
 
 type Size = 1 | 2 | 3 | 4 | 5 | 6;

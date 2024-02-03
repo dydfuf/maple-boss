@@ -34,9 +34,12 @@ module.exports = {
       borderRadius,
       fontSize,
       lineHeight,
+      boxShadow: {
+        default: "0  4px 8px 0 rgba(0, 0, 0, 0.08)",
+      },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
   future: {
     hoverOnlyWhenSupported: true,
   },
