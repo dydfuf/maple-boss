@@ -31,7 +31,7 @@ interface APIResponse {
   partyInvites: PartyInvite[];
 }
 
-interface PartyInvite {
+export interface PartyInvite {
   id: number;
   partyName: string;
   status: Status;

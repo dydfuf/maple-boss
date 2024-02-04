@@ -24,7 +24,7 @@ interface APIResponse {
   alarms: Alarm[];
 }
 
-interface Alarm {
+export interface Alarm {
   id: number;
   content: string;
 }

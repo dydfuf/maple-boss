@@ -1,19 +1,51 @@
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
+import AlarmReddot from "./AlarmReddot";
+import { Popover, PopoverTrigger } from "./Popover";
+import AlarmPopoverContent from "./Popover/AlarmPopoverContent";
+import NeedLoginPopoverContent from "./Popover/NeedLoginPopoverContent";
+import UserInfoPopoverContent from "./Popover/UserInfoPopoverContent";
 import BellIcon from "@/public/images/Bell.png";
 import UserIcon from "@/public/images/User.png";
 
 export default function UserMenuList() {
-  // @TODO: #140 로그인 여부에 따라 분기되는 기능을 구현합니다.
-  const hasAlarm = true;
+  const { status } = useSession();
+  const isLoggedIn = status === "authenticated";
+
+  const router = useRouter();
+
+  const handleLoginBtnClick = () => {
+    router.push(`/login?callbackUrl=${encodeURIComponent(router.asPath)}`);
+  };
 
   return (
     <div className="ml-40 flex space-x-20">
-      <div className="relative flex cursor-pointer items-center justify-center rounded-full border-1 p-10">
-        <img src={BellIcon.src} alt="alarm" className="h-24 w-24" />
-        {hasAlarm && (
-          <div className="absolute right-0 top-0 h-12 w-12 rounded-full bg-error" />
+      <Popover>
+        <PopoverTrigger>
+          <div className="relative flex cursor-pointer items-center justify-center rounded-full border-1 p-10">
+            <img src={BellIcon.src} alt="alarm" className="h-24 w-24" />
+            {isLoggedIn && <AlarmReddot />}
+          </div>
+        </PopoverTrigger>
+        {!isLoggedIn && (
+          <NeedLoginPopoverContent handleLoginBtnClick={handleLoginBtnClick} />
         )}
-      </div>
-      <img src={UserIcon.src} alt="user" className="h-44 w-44 cursor-pointer" />
+        {isLoggedIn && <AlarmPopoverContent />}
+      </Popover>
+
+      <Popover>
+        <PopoverTrigger>
+          <img
+            src={UserIcon.src}
+            alt="user"
+            className="h-44 w-44 cursor-pointer"
+          />
+        </PopoverTrigger>
+        {!isLoggedIn && (
+          <NeedLoginPopoverContent handleLoginBtnClick={handleLoginBtnClick} />
+        )}
+        {isLoggedIn && <UserInfoPopoverContent />}
+      </Popover>
     </div>
   );
 }

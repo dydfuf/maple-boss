@@ -30,6 +30,10 @@ module.exports = {
     extend: {
       colors,
       spacing,
+      minWidth: spacing,
+      minHeight: spacing,
+      maxWidth: spacing,
+      maxHeight: spacing,
       borderWidth,
       borderRadius,
       fontSize,

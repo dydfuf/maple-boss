@@ -11,6 +11,7 @@ export default function Text({
   size = 1,
   className,
   children,
+  ...rest
 }: PropsWithChildren<Props>) {
   // @TODO: breakpoint가 정해지지 전까지 임의로 sm을 사용한다.
   return (
@@ -20,6 +21,7 @@ export default function Text({
         MOBILE_TEXT_VARIANTS[size],
         className
       )}
+      {...rest}
     >
       {children}
     </span>
