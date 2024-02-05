@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import InputErrorMessage from "./InputErrorMessage";
 import Text from "../Text";
 import Input from "./index";
 
@@ -41,10 +40,6 @@ export const DEFAULT: Story = {
       <div className="flex flex-col gap-8">
         <p>Error</p>
         <Input disabled placeholder="파티이름을 입력해주세요" />
-        <InputErrorMessage
-          message="아이디가 올바르지 않습니다."
-          className="px-20"
-        />
       </div>
       <div className="flex flex-col gap-8">
         <p>Entered</p>
@@ -89,10 +84,6 @@ export const FULL_ROUND: Story = {
       <div className="flex flex-col gap-8">
         <p>Error</p>
         <Input roundSize="full" placeholder="파티이름을 입력해주세요" />
-        <InputErrorMessage
-          message="아이디가 올바르지 않습니다."
-          className="px-20"
-        />
       </div>
       <div className="flex flex-col gap-8">
         <p>Entered</p>

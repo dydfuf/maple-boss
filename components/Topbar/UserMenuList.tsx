@@ -15,6 +15,13 @@ export default function UserMenuList() {
   const router = useRouter();
 
   const handleLoginBtnClick = () => {
+    const { callbackUrl } = router.query;
+    if (callbackUrl) {
+      router.push(
+        `/login?callbackUrl=${encodeURIComponent(callbackUrl as string)}`
+      );
+      return;
+    }
     router.push(`/login?callbackUrl=${encodeURIComponent(router.asPath)}`);
   };
 

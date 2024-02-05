@@ -12,11 +12,3 @@ export default function LoginPage() {
     </>
   );
 }
-
-export const getServerSideProps = () => {
-  return {
-    props: {
-      hideGnb: true,
-    },
-  };
-};

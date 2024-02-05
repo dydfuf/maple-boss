@@ -1,32 +1,32 @@
-import { HtmlHTMLAttributes, PropsWithChildren } from "react";
+import { forwardRef, HtmlHTMLAttributes, PropsWithChildren } from "react";
 import { cn } from "utils/common";
 
-interface Props extends HtmlHTMLAttributes<HTMLSpanElement> {
+export interface TextProps extends HtmlHTMLAttributes<HTMLSpanElement> {
   size?: Size;
 }
 
 type Size = 1 | 2 | 3 | 4 | 5 | 6;
 
-export default function Text({
-  size = 1,
-  className,
-  children,
-  ...rest
-}: PropsWithChildren<Props>) {
-  // @TODO: breakpoint가 정해지지 전까지 임의로 sm을 사용한다.
-  return (
-    <span
-      className={cn(
-        PC_TEXT_VARIANTS[size],
-        MOBILE_TEXT_VARIANTS[size],
-        className
-      )}
-      {...rest}
-    >
-      {children}
-    </span>
-  );
-}
+const Text = forwardRef<HTMLSpanElement, PropsWithChildren<TextProps>>(
+  ({ size = 1, className, children, ...rest }, ref) => {
+    return (
+      <span
+        ref={ref}
+        className={cn(
+          PC_TEXT_VARIANTS[size],
+          MOBILE_TEXT_VARIANTS[size],
+          className
+        )}
+        {...rest}
+      >
+        {children}
+      </span>
+    );
+  }
+);
+Text.displayName = "Text";
+
+export default Text;
 
 export const PC_TEXT_VARIANTS: Record<Size, string> = {
   1: "sm:text-14 sm:leading-22",

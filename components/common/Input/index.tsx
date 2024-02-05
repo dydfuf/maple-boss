@@ -9,7 +9,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 function Input(
-  { roundSize = "default", innerButton, disabled, ...rest }: Props,
+  { roundSize = "default", innerButton, disabled, className, ...rest }: Props,
   ref?: Ref<HTMLInputElement>
 ) {
   return (
@@ -17,8 +17,8 @@ function Input(
       className={cn(
         "border-1 border-gray7 px-20 py-11 text-gray1",
         "focus-within:border-gray1 focus-within:outline-none",
-        PC_TEXT_VARIANTS[4],
-        MOBILE_TEXT_VARIANTS[4],
+        PC_TEXT_VARIANTS[3],
+        MOBILE_TEXT_VARIANTS[3],
 
         {
           "rounded-10": roundSize === "default",
@@ -29,7 +29,10 @@ function Input(
       )}
     >
       <input
-        className="h-full w-full bg-transparent focus:outline-none"
+        className={cn(
+          "h-full w-full bg-transparent focus:outline-none",
+          className
+        )}
         disabled={disabled}
         {...rest}
         ref={ref}
