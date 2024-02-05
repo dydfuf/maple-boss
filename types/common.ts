@@ -23,7 +23,6 @@ export interface SubMenu {
 export enum MenuType {
   PARTY,
   SETTLEMENT,
-  RANKING,
   BOARD,
   BOSS,
   UNION_SIMULATOR,

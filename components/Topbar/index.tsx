@@ -12,7 +12,6 @@ export default function Topbar() {
   const getActiveMenu = (pathname: string) => {
     if (pathname.includes("/party")) return MenuType.PARTY;
     if (pathname.includes("/settlement")) return MenuType.SETTLEMENT;
-    if (pathname.includes("/ranking")) return MenuType.RANKING;
     if (pathname.includes("/board")) return MenuType.BOARD;
     if (pathname.includes("/boss")) return MenuType.BOSS;
     if (pathname.includes("/union-simulator")) return MenuType.UNION_SIMULATOR;
@@ -61,10 +60,7 @@ const MENU_LIST: Menu[] = [
   {
     label: "게시판",
     type: "board",
-    subMenus: [
-      { key: MenuType.RANKING, label: "랭킹 게시판", href: "/ranking" },
-      { key: MenuType.BOARD, label: "자유 게시판", href: "/board" },
-    ],
+    subMenus: [{ key: MenuType.BOARD, label: "자유 게시판", href: "/board" }],
   },
   {
     label: "부가기능",
