@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
-import { CDN_HOST } from "constants/common";
 import { Menu, MenuType } from "types/common";
 import Menulist from "./Menulist";
 import UserMenuList from "./UserMenuList";
+import LogoWithText from "@/public/images/LogoWithText.png";
 
 export default function Topbar() {
   const router = useRouter();
@@ -26,14 +26,14 @@ export default function Topbar() {
 
   return (
     <header className="flex h-64 justify-center bg-white">
-      <div className="flex w-full max-w-[1080px]">
+      <div className="flex w-full max-w-[1080px] items-center">
         <Link href="/boss">
           <img
-            src={CDN_HOST + "/common/logo.png"}
-            width={148}
-            height={64}
+            src={LogoWithText.src}
+            width={135}
+            height={50}
             alt="MainLogo"
-            className="h-64 w-148"
+            className="h-50 w-135"
           />
         </Link>
         <div className="ml-auto flex items-center">
