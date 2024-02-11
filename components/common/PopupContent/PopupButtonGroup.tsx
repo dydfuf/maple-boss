@@ -2,7 +2,7 @@ import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import Button from "components/common/Button";
 import { cn } from "utils/common";
 interface Props {
-  onActionClick: () => void;
+  onActionClick?: () => void;
   actionLabel?: string;
   cancelLabel?: string;
   disabledAction?: boolean;

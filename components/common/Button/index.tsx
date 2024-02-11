@@ -1,17 +1,19 @@
 import { ButtonHTMLAttributes } from "react";
 import { RoundSize } from "types/common";
 import { cn } from "utils/common";
-import Text from "../Text";
+import Text, { Size } from "../Text";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   label: string;
   roundSize?: RoundSize;
+  textSize?: Size;
 }
 
 export default function Button({
   className,
   roundSize = "default",
   label,
+  textSize = 3,
   ...rest
 }: Props) {
   return (
@@ -26,7 +28,7 @@ export default function Button({
       )}
       {...rest}
     >
-      <Text size={3}>{label}</Text>
+      <Text size={textSize}>{label}</Text>
     </button>
   );
 }

@@ -12,11 +12,3 @@ export default function EmailVerifyPage() {
     </>
   );
 }
-
-export const getServerSideProps = () => {
-  return {
-    props: {
-      hideGnb: true,
-    },
-  };
-};

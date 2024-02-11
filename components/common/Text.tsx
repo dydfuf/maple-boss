@@ -5,7 +5,7 @@ export interface TextProps extends HtmlHTMLAttributes<HTMLSpanElement> {
   size?: Size;
 }
 
-type Size = 1 | 2 | 3 | 4 | 5 | 6;
+export type Size = 1 | 2 | 3 | 4 | 5 | 6;
 
 const Text = forwardRef<HTMLSpanElement, PropsWithChildren<TextProps>>(
   ({ size = 1, className, children, ...rest }, ref) => {
