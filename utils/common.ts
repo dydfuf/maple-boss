@@ -1,5 +1,8 @@
-import classnames from "classnames";
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
-export const cn = classnames.bind(classnames);
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 
 export const isEven = (number: number) => number % 2 === 0;

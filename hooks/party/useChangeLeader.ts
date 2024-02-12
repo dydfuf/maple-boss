@@ -25,6 +25,7 @@ export default function useChangeLeader({ partyId }: Params) {
         // @TODO: query-key 별도관리 하도록 수정
         // https://mapleboss.atlassian.net/browse/MAW-60
         queryClient.invalidateQueries(["party-detail"]);
+        queryClient.invalidateQueries(["party-member-list"]);
       },
     }
   );

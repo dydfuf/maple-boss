@@ -7,6 +7,7 @@ interface Props {
   kickOutMemberEmail: string;
 }
 
+// TODO: 강퇴하기 디자인을 적용해야합니다.
 export default function KickOutMemberDialog({
   onSubmit,
   kickOutMemberEmail,

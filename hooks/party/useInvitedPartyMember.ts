@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { customedAxios } from "hooks/api/customedAxios";
 import { useSession } from "next-auth/react";
+import { customedAxios } from "hooks/api/customedAxios";
 import { CommonResponse } from "types/common";
 
 interface Params {
@@ -36,7 +36,7 @@ interface APIResponse {
   partyInvites: PartyInvite[];
 }
 
-interface PartyInvite {
+export interface PartyInvite {
   id: number;
   email: string;
   status: Status;

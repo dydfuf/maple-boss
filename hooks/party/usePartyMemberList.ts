@@ -22,7 +22,7 @@ export default function usePartyMemberList({ partyId }: Params) {
 
   return {
     members: data?.data.data?.members || [],
-    isLoading: isLoading,
+    isLoading,
     refetch,
   };
 }

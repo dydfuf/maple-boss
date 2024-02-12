@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { customedAxios } from "hooks/api/customedAxios";
 import { CommonResponse } from "types/common";
@@ -12,6 +12,8 @@ export default function useUpdatePartyDetail({ partyId }: Params) {
 
   const accessToken = sessionData?.accessToken || "";
 
+  const queryClient = useQueryClient();
+
   const { mutateAsync, isLoading } = useMutation(
     ["update-party-detail", partyId],
     ({ name, description }: Omit<APIParams, "accessToken" | "partyId">) =>
@@ -21,6 +23,7 @@ export default function useUpdatePartyDetail({ partyId }: Params) {
         if (data?.data.code !== "S000") {
           alert(data?.data.message);
         }
+        queryClient.invalidateQueries(["party-detail", partyId]);
       },
     }
   );

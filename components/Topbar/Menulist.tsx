@@ -31,7 +31,7 @@ export default function Menulist({ submenuList, activeMenu }: Props) {
                   <Text
                     size={3}
                     className={cn("cursor-pointer font-bold text-gray1", {
-                      "!text-primary1": subMenu.key === activeMenu,
+                      "text-primary1": subMenu.key === activeMenu,
                     })}
                   >
                     {subMenu.label}

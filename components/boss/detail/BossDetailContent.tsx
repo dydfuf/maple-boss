@@ -60,7 +60,7 @@ export default function BossDetailContent({ boss, items }: Props) {
           className="w-full rounded-12"
         />
         <ul className="mt-30 flex h-full w-full flex-col gap-10 [&_li]:flex [&_li]:h-44 [&_li]:w-full [&_li]:items-center [&_li]:rounded-8 [&_li]:bg-white [&_li]:px-20">
-          <li className="justify-center gap-6 !bg-main-2 !text-white">
+          <li className="justify-center gap-6 bg-main-2 !text-white">
             <span className="text-18 font-bold">{name}</span>
             <Badge variant={"CONTRAST"}>{clazz}</Badge>
           </li>
@@ -70,7 +70,7 @@ export default function BossDetailContent({ boss, items }: Props) {
               <span className="text-14">{description.value}</span>
             </li>
           ))}
-          <li className="justify-center gap-6 !bg-main-2 !text-white">
+          <li className="justify-center gap-6 bg-main-2 !text-white">
             <span className="text-18 font-bold">페이즈별 HP</span>
           </li>
           {phaseHpList.map((phase) => (
@@ -84,7 +84,7 @@ export default function BossDetailContent({ boss, items }: Props) {
               </span>
             </li>
           ))}
-          <li className="justify-center gap-6 !bg-main-2 !text-white">
+          <li className="justify-center gap-6 bg-main-2 !text-white">
             <span className="text-18 font-bold">페이즈별 레벨</span>
           </li>
           {phaseLevelList.map((phase) => (
@@ -97,7 +97,7 @@ export default function BossDetailContent({ boss, items }: Props) {
       </div>
       <div className="flex w-full flex-col rounded-12 bg-gray-200 p-20">
         <ul className="flex h-full w-full flex-col gap-10 [&_li]:flex [&_li]:h-44 [&_li]:w-full [&_li]:items-center [&_li]:rounded-8 [&_li]:bg-white [&_li]:px-20">
-          <li className="justify-center gap-6 !bg-main-2 !text-white">
+          <li className="justify-center gap-6 bg-main-2 !text-white">
             <span className="text-18 font-bold">드랍 아이템</span>
           </li>
           {items?.map((item) => (

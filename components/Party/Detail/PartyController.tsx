@@ -1,109 +1,82 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import Button from "components/common/Button";
+import useCancelInviteParty from "hooks/party/useCancelInviteParty";
 import useChangeLeader from "hooks/party/useChangeLeader";
-import useLeaveParty from "hooks/party/useLeaveParty";
+import useInvitedPartyMember from "hooks/party/useInvitedPartyMember";
+import useInvitePartyMember from "hooks/party/useInvitePartyMember";
 import usePartyDetail from "hooks/party/usePartyDetail";
-import useUpdatePartyDetail from "hooks/party/useUpdatePartyDetail";
 import ChangeLeaderDialog from "./ChangeLeaderDialog";
-import LeavePartyDialog from "./LeavePartyDialog";
-import UpdatePartyDialog from "./UpdatePartyDialog";
+import InviteMemberDialog from "./InviteMemberDialog";
 
 export default function PartyController() {
   const router = useRouter();
   const { partyId } = router.query;
 
-  const { partyDetail, refetch, isLoading } = usePartyDetail({
+  const { partyDetail } = usePartyDetail({
     partyId: Number(partyId),
   });
-  const { isLeader, name, description } = partyDetail || {
-    name: "",
-    description: "",
-  };
+  const { isLeader } = partyDetail || {};
 
-  const { changeLeader } = useChangeLeader({ partyId: Number(partyId) });
-  const { updateParty } = useUpdatePartyDetail({ partyId: Number(partyId) });
-  const { leaveParty } = useLeaveParty({ partyId: Number(partyId) });
+  const { changeLeader, isLoading: isChangeLeaderLoading } = useChangeLeader({
+    partyId: Number(partyId),
+  });
 
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [dialogType, setDialogType] = useState<DialogType>(undefined);
+  const [changeLeaderDialogOpen, setChangeLeaderDialogOpen] = useState(false);
+  const [inviteMemberDialogOpen, setInviteMemberDialogOpen] = useState(false);
 
-  const handleUpdatePartyDetailClick = () => {
-    setDialogType("UPDATE_PARTY_DETAIL");
-    setDialogOpen(true);
-  };
-  const handleChangeLeaderClick = () => {
-    setDialogType("CHANGE_LEADER");
-    setDialogOpen(true);
-  };
-  const handleLeavePartyClick = () => {
-    setDialogType("LEAVE_PARTY");
-    setDialogOpen(true);
-  };
-
-  if (isLoading) {
-    return <></>;
-  }
+  const { partyInvites } = useInvitedPartyMember({
+    partyId: Number(partyId),
+  });
+  const { inviteMember } = useInvitePartyMember({ partyId: Number(partyId) });
+  const { cancelInviteParty } = useCancelInviteParty();
 
   return (
-    <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
-      <div className="absolute">
-        {dialogType === "UPDATE_PARTY_DETAIL" && (
-          <UpdatePartyDialog
-            onSubmit={async (name: string, description: string) => {
-              const { data } = await updateParty({ name, description });
-              if (data.code === "S000") {
-                setDialogOpen(false);
-                refetch();
-                return;
-              }
-              alert(data.message);
-            }}
-            initialPartyName={name}
-            initialPartyDescription={description}
+    <>
+      {isLeader && (
+        <div className="ml-auto flex w-246 space-x-22">
+          {/** TODO: 버튼을 수정한다. */}
+          <Button
+            roundSize="full"
+            className="flex h-40 items-center justify-center"
+            label="리더변경"
+            onClick={() => setChangeLeaderDialogOpen(true)}
           />
-        )}
-        {dialogType === "CHANGE_LEADER" && (
-          <ChangeLeaderDialog
-            onSubmit={async (memberId: number) => {
-              await changeLeader({ memberId });
-            }}
+          <Button
+            roundSize="full"
+            className="flex h-40 items-center justify-center"
+            label="파티원 초대"
+            onClick={() => setInviteMemberDialogOpen(true)}
           />
-        )}
-        {dialogType === "LEAVE_PARTY" && (
-          <LeavePartyDialog
-            onSubmit={async () => {
-              await leaveParty();
-            }}
-            partyName={name}
-            isLeader={isLeader}
-          />
-        )}
-      </div>
-      <div className="flex items-center gap-x-20 text-14 font-semibold text-white">
-        {isLeader && (
-          <>
-            <button className="shrink-0" onClick={handleUpdatePartyDetailClick}>
-              수정
-            </button>
-            <button className="shrink-0" onClick={handleChangeLeaderClick}>
-              리더변경
-            </button>
-          </>
-        )}
-        <button
-          className="flex h-26 w-60 shrink-0 items-center justify-center rounded-4 bg-purple-100 px-16 py-6"
-          onClick={handleLeavePartyClick}
-        >
-          탈퇴
-        </button>
-      </div>
-    </Dialog.Root>
+        </div>
+      )}
+      <Dialog.Root
+        open={changeLeaderDialogOpen}
+        onOpenChange={setChangeLeaderDialogOpen}
+      >
+        <ChangeLeaderDialog
+          onSubmit={async (memberId: number) => {
+            await changeLeader({ memberId });
+            setChangeLeaderDialogOpen(false);
+          }}
+          isLoading={isChangeLeaderLoading}
+        />
+      </Dialog.Root>
+      <Dialog.Root
+        open={inviteMemberDialogOpen}
+        onOpenChange={setInviteMemberDialogOpen}
+      >
+        <InviteMemberDialog
+          onSubmit={async (email: string) => {
+            await inviteMember({ email });
+          }}
+          partyInvites={partyInvites}
+          cancelInviteParty={async (memberId: number) => {
+            await cancelInviteParty({ partyInviteId: memberId });
+          }}
+        />
+      </Dialog.Root>
+    </>
   );
 }
-
-type DialogType =
-  | "UPDATE_PARTY_DETAIL"
-  | "CHANGE_LEADER"
-  | "LEAVE_PARTY"
-  | undefined;

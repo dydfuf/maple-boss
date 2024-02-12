@@ -110,12 +110,12 @@ export default function RegisterVerificationForm() {
       const { data } = await createUser({ email: authSendedEmail });
 
       // 이미 가입된 이메일일 경우 로그인 페이지로 이동한다.
-      if(data.code === "F004"){
+      if (data.code === "F004") {
         alert(data.message);
         router.push("/login");
-        return
+        return;
       }
-      
+
       if (data.data) {
         setUserCreatedAlertOpen(true);
       }
@@ -225,9 +225,11 @@ export default function RegisterVerificationForm() {
             titleClassName="whitespace-pre text-center"
           />
           <div className="mt-20">
-            <PopupButtonGroup onActionClick={() => {
-              router.push("/login");
-            }} />
+            <PopupButtonGroup
+              onActionClick={() => {
+                router.push("/login");
+              }}
+            />
           </div>
         </PopupContent>
       </AlertDialog.Root>

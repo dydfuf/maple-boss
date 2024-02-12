@@ -25,9 +25,9 @@ export default function LeavePartyDialog({
 
   return (
     <Dialog.Portal>
-      <Dialog.Overlay className="fixed inset-0 data-[state=open]:bg-black/[0.3]" />
+      <Dialog.Overlay className="fixed inset-0 z-50 data-[state=open]:bg-black/[0.3]" />
       <Form.Root className="mt-30 flex w-full flex-col gap-y-8">
-        <Dialog.Content className="fixed left-1/2 top-1/2 max-h-[85vh] w-400 max-w-[450px] -translate-x-1/2 -translate-y-1/2 rounded-8 bg-white p-30 shadow-lg focus:outline-none">
+        <Dialog.Content className="fixed left-1/2 top-1/2 z-50 max-h-[85vh] w-400 max-w-[450px] -translate-x-1/2 -translate-y-1/2 rounded-8 bg-white p-30 shadow-lg focus:outline-none">
           <div className="flex w-full flex-col items-center justify-center">
             <Dialog.Title className="mr-auto text-center text-24 font-bold text-gray-900">
               탈퇴

@@ -1,76 +1,42 @@
-import * as Dialog from "@radix-ui/react-dialog";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import useKickOutMember from "hooks/party/useKickOutMember";
-import usePartyDetail from "hooks/party/usePartyDetail";
+import Text from "components/common/Text";
 import usePartyMemberList from "hooks/party/usePartyMemberList";
-import KickOutMemberDialog from "./KickOutMemberDialog";
+import DefaultChractor from "@/public/images/DefaultChractor.png";
+import LeaderCrown from "@/public/images/LeaderCrown.png";
 
 export default function PartyMember() {
   const router = useRouter();
   const { partyId } = router.query;
 
-  const { members, refetch } = usePartyMemberList({ partyId: Number(partyId) });
-  const { partyDetail } = usePartyDetail({ partyId: Number(partyId) });
-  const { kickOutMember } = useKickOutMember({ partyId: Number(partyId) });
-
-  const [dialogOpen, setDialogOpen] = useState(false);
-
-  const [kickOutMemberEmail, setKickOutMemberEmail] = useState<string>("");
-  const [kickOutMemberId, setKickOutMemberId] = useState<number>(0);
-
-  const { isLeader } = partyDetail || {
-    isLeader: false,
-  };
-
-  const handleKickOutClick = (memberEmail: string, memberId: number) => {
-    setDialogOpen(true);
-    setKickOutMemberEmail(memberEmail);
-    setKickOutMemberId(memberId);
-  };
+  const { members } = usePartyMemberList({ partyId: Number(partyId) });
 
   return (
-    <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
-      <div className="flex w-full gap-x-64 rounded-16 border-1 border-white-100 p-30 pb-10">
-        <div className="shrink-0 text-22 font-bold text-purple-100">파티원</div>
-        <div className="grid w-full grid-cols-1 gap-x-30 gap-y-10 md:max-lg:grid-cols-2 xl:grid-cols-2">
-          {members.map((member) => {
-            return (
-              <div
-                key={`party-member-${member.id}`}
-                className="flex items-center border-b-1 border-white-100 pb-16"
-              >
-                <div className="flex h-full w-full flex-col gap-y-6">
-                  <p className="text-16 font-semibold text-gray-900">
-                    {member.nickName}
-                  </p>
-                  <p className="text-12 text-gray-600">{member.email}</p>
-                </div>
-                {isLeader && !member.isLeader && (
-                  <button
-                    className="flex h-20 w-60 items-center justify-center rounded-full bg-white-100"
-                    onClick={() => {
-                      handleKickOutClick(member.email, member.id);
-                    }}
-                  >
-                    <span className="text-12 font-semibold text-gray-500">
-                      강퇴
-                    </span>
-                  </button>
-                )}
-              </div>
-            );
-          })}
+    <div className="grid grid-cols-6 gap-16 px-8">
+      {members.map((member) => (
+        <div
+          className="relative flex flex-col items-center px-32 py-30"
+          key={`party-member-${member.id}`}
+        >
+          {member.isLeader && (
+            <img
+              src={LeaderCrown.src}
+              alt="leader-crown"
+              className="absolute right-10 top-10 h-24 w-24"
+            />
+          )}
+          <img
+            src={DefaultChractor.src}
+            alt={member.nickName}
+            className="h-120 w-100"
+          />
+          <Text size={3} className="mt-8 font-bold">
+            {member.nickName}
+          </Text>
+          <Text size={1} className="text-gray4">
+            {member.email}
+          </Text>
         </div>
-        <KickOutMemberDialog
-          onSubmit={async () => {
-            await kickOutMember({ memberId: kickOutMemberId });
-            setDialogOpen(false);
-            refetch();
-          }}
-          kickOutMemberEmail={kickOutMemberEmail}
-        />
-      </div>
-    </Dialog.Root>
+      ))}
+    </div>
   );
 }

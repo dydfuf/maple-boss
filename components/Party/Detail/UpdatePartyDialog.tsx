@@ -1,102 +1,124 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
-import * as Form from "@radix-ui/react-form";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import Button from "components/common/Button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "components/common/Form";
+import Input from "components/common/Input";
+import Text from "components/common/Text";
+import Textarea from "components/common/Textarea";
 
 interface Props {
-  onSubmit: (name: string, description: string) => void;
+  onSubmit: (name: string, description: string) => Promise<void>;
   initialPartyName: string;
   initialPartyDescription: string;
+  nickName: string;
+  isLoading?: boolean;
 }
+
+const formSchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "파티 이름을 입력해주세요" })
+    .max(15, { message: "이메일은 30자 이내로 입력해주세요" }),
+  description: z.string().min(1, { message: "파티 설명을 입력해주세요" }),
+});
 
 export default function UpdatePartyDialog({
   onSubmit,
   initialPartyName,
   initialPartyDescription,
+  nickName,
+  isLoading,
 }: Props) {
-  const validatePartyName = (value: string) => {
-    return value.length <= 1 || value.length >= 15;
-  };
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: initialPartyName,
+      description: initialPartyDescription,
+    },
+  });
 
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+    const { name, description } = values;
+    await onSubmit(name, description);
+    form.reset();
+  };
   return (
     <>
-      <Dialog.Overlay className="fixed inset-0 data-[state=open]:bg-black/[0.3]" />
-      <Form.Root
-        className="mt-30 flex w-full flex-col gap-y-8"
-        onSubmit={async (event) => {
-          event.preventDefault();
-          const { name, description } = Object.fromEntries(
-            new FormData(event.currentTarget)
-          );
-          onSubmit(name as string, description as string);
-        }}
-      >
-        <Dialog.Content className="fixed left-1/2 top-1/2 max-h-[85vh] w-400 max-w-[450px] -translate-x-1/2 -translate-y-1/2 rounded-8 bg-white p-30 shadow-lg focus:outline-none">
-          <div className="flex w-full flex-col items-center justify-center">
-            <Dialog.Title className="mr-auto text-center text-24 font-bold text-gray-900">
-              파티 정보 수정
-            </Dialog.Title>
-
-            <Form.Field className="mt-24 grid w-full" name="name">
-              <div className="flex items-baseline justify-between">
-                <Form.Label className="mb-2 flex h-24 items-center px-8 text-13 font-normal leading-13 text-gray-900">
-                  파티 이름
-                </Form.Label>
-                <Form.Message className="text-10" match="valueMissing">
-                  파티 이름을 입력해주세요
-                </Form.Message>
-                <Form.Message
-                  className="p-4 text-12 text-red-100"
-                  match={validatePartyName}
-                >
-                  파티이름은 15자 이내로 입력해주세요.
-                </Form.Message>
-              </div>
-              <Form.Control asChild>
-                <input
-                  className="flex h-50 items-center rounded-8 border-1 border-white-100 bg-white px-16 text-14 font-normal text-gray-500"
-                  type="text"
-                  required
-                  placeholder="파티 이름을 입력해주세요"
-                  defaultValue={initialPartyName}
-                />
-              </Form.Control>
-            </Form.Field>
-            <Form.Field className="mt-12 grid w-full" name="description">
-              <div className="flex items-baseline justify-between">
-                <Form.Label className="mb-2 flex h-24 items-center px-8 text-13 font-normal leading-13 text-gray-900">
-                  파티 설명
-                </Form.Label>
-                <Form.Message className="text-10" match="valueMissing">
-                  파티 설명을 입력해주세요
-                </Form.Message>
-              </div>
-              <Form.Control asChild>
-                <input
-                  className="flex h-50 items-center rounded-8 border-1 border-white-100 bg-white px-16 text-14 font-normal text-gray-500"
-                  type="text"
-                  required
-                  placeholder="파티 설명을 입력해주세요"
-                  defaultValue={initialPartyDescription}
-                />
-              </Form.Control>
-            </Form.Field>
-
-            <div className="mt-30 flex w-full gap-x-12">
-              <Dialog.Close asChild>
-                <button className="flex h-44 w-full items-center justify-center rounded-8 bg-gray-200 focus:outline-none">
-                  <span className="text-14 font-semibold text-gray-800">
-                    취소
-                  </span>
-                </button>
-              </Dialog.Close>
-              <Form.Submit asChild>
-                <button className="flex h-44 w-full items-center justify-center rounded-8 bg-purple-100 focus:outline-none">
-                  <span className="text-14 font-semibold text-white">수정</span>
-                </button>
-              </Form.Submit>
+      <Dialog.Overlay className="fixed inset-0 z-50 data-[state=open]:bg-black/[0.3]" />
+      <Dialog.Content className="fixed left-1/2 top-1/2 z-50 max-h-[85vh] w-360 -translate-x-1/2 -translate-y-1/2 rounded-20 bg-white p-30 shadow-default focus:outline-none">
+        <Dialog.Title asChild>
+          <Text size={5} className="font-bold">
+            파티 정보 수정
+          </Text>
+        </Dialog.Title>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className="mt-20 flex flex-col space-y-12"
+          >
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="파티 이름을 입력해주세요"
+                      className="text-gray4"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage className="ml-20" />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Textarea
+                      placeholder="파티 설명을 입력해주세요"
+                      className="text-gray4"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage className="ml-20" />
+                </FormItem>
+              )}
+            />
+            <div className="flex w-full justify-between rounded-10 bg-gray9 px-20 py-11">
+              <Text size={3} className="text-gray1">
+                파티장
+              </Text>
+              <Text size={3} className="font-bold">
+                {nickName}
+              </Text>
             </div>
-          </div>
-        </Dialog.Content>
-      </Form.Root>
+            <div className="mt-30 flex w-full gap-x-10">
+              <Dialog.Close asChild>
+                {/** @TODO 디자인이 나오는대로 수정해야한다. */}
+                <Button label="취소" />
+              </Dialog.Close>
+              <Button
+                type="submit"
+                label={`${isLoading ? "수정중..." : "수정"}`}
+                disabled={isLoading}
+              />
+            </div>
+          </form>
+        </Form>
+      </Dialog.Content>
     </>
   );
 }

@@ -45,7 +45,7 @@
     "@toss/utils": "^1.4.4",
     "@uidotdev/usehooks": "^2.2.0",
     "axios": "^1.4.0",
-    "classnames": "^2.5.1",
+    "clsx": "^2.1.0",
     "date-fns": "^2.30.0",
     "env-cmd": "^10.1.0",
     "lodash-es": "^4.17.21",
@@ -57,6 +57,7 @@
     "react-hook-form": "^7.50.0",
     "react-timer-hook": "^3.0.7",
     "sharp": "^0.32.5",
+    "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.21.4",
     "zustand": "^4.4.1"

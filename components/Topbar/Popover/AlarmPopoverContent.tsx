@@ -32,7 +32,7 @@ export default function AlarmPopoverContent() {
   };
 
   return (
-    <PopoverContent className={cn({ "!pt-10": hasAlarm })}>
+    <PopoverContent className={cn({ "pt-10": hasAlarm })}>
       <PopoverClose>
         <CloseIcon />
       </PopoverClose>

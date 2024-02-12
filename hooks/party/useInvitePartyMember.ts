@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { customedAxios } from "hooks/api/customedAxios";
 import { CommonResponse } from "types/common";
@@ -12,6 +12,8 @@ export default function useInvitePartyMember({ partyId }: Params) {
 
   const accessToken = sessionData?.accessToken || "";
 
+  const queryClient = useQueryClient();
+
   const { mutateAsync, isLoading } = useMutation(
     ["invite-party-member", partyId],
     ({ email }: Omit<APIParams, "accessToken" | "partyId">) =>
@@ -21,6 +23,7 @@ export default function useInvitePartyMember({ partyId }: Params) {
         if (data?.data.code !== "S000") {
           alert(data?.data.message);
         }
+        queryClient.invalidateQueries(["invited-party-member", partyId]);
       },
     }
   );
