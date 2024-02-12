@@ -36,7 +36,7 @@ interface GetPartyListResponse {
   parties: Party[];
 }
 
-interface Party {
+export interface Party {
   isLeader: boolean;
   id: number;
   leaderId: number;

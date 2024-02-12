@@ -1,5 +1,5 @@
 import Head from "next/head";
-import PartyListContainer from "components/Party/PartyListContainer";
+import PartyListContainer from "components/Party/List/PartyListContainer";
 import { getPageTitle } from "utils/meta";
 
 export default function PartyListPage() {

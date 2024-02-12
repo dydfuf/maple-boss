@@ -7,7 +7,7 @@ const borderRadius = {};
 const fontSize = {};
 const lineHeight = {};
 
-for (let i = 0; i <= 1000; i++) {
+for (let i = 0; i <= 2000; i++) {
   spacing[i] = `${i}px`;
   borderWidth[i] = `${i}px`;
   borderRadius[i] = `${i}px`;
