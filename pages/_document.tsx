@@ -23,6 +23,7 @@ export default function Document() {
           content="850dfa049911db5ecf128f599eeea8b91c692202"
         />
         <link rel="icon" href="/favicon.ico" sizes="any" />
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
       </Head>
       <body className="bg-gray9">
         <Main />
